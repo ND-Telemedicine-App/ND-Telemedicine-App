@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 class ShadowContainer extends StatelessWidget {
   const ShadowContainer({
     Key? key,
-    required this.title,
-    required this.arrow,
     required this.content,
   }) : super(key:key);
 
-  final String title;
-  final Icon arrow;
   final Widget content;
 
 
@@ -18,7 +14,7 @@ class ShadowContainer extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-        margin: EdgeInsets.only(top: 30),
+        margin: EdgeInsets.only(top: 40),
         padding: EdgeInsets.all(20),
         width: screenWidth * 0.8,
         decoration: BoxDecoration(
@@ -32,12 +28,7 @@ class ShadowContainer extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          children: <Widget> [
-            Text(title),
-            content,
-          ],
-        ),
+        child: content,
     );
   }
 }

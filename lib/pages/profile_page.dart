@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text("Choi Yeonjun",
                     style: TextStyle(
                       fontSize: 26,
-                      color: Color(0xff031011),
+                      color: Color(0xff78CEBB),
                       fontWeight: FontWeight.bold,
                     )),
               ),
@@ -47,22 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Color(0xff031011),
                   )),
               // Info section
-              Container(
-                  margin: EdgeInsets.only(top: 40),
-                  padding: EdgeInsets.all(20),
-                  width: screenWidth * 0.8,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color(0xffFDFFFE),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 40,
-                        offset: Offset(0.5, 1), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(children: const [
+                  ShadowContainer(content: Column(children: const [
                     InfoRow(infoHeader: "Gender", infoContent: "Male"),
                     InfoRow(
                         infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
@@ -72,9 +57,27 @@ class _ProfilePageState extends State<ProfilePage> {
                         infoHeader: "Address",
                         infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
                   ])),
-              ShadowContainer(title: "Allergies", arrow: Icon(Icons.keyboard_arrow_down), content: Text("Ya")),
-                  ShadowContainer(title: "Diseases", arrow: Icon(Icons.keyboard_arrow_down), content: Text("Ya")),
-                  ShadowContainer(title: "Medication", arrow: Icon(Icons.keyboard_arrow_down), content: Text("Ya"))
+              ShadowContainer(content: Column(
+                  children: const [
+                    Text("Allergies"),
+                    Icon(Icons.keyboard_arrow_down),
+                    Text("Ya"),
+                  ],
+                )),
+            ShadowContainer(content: Column(
+                  children: const [
+                  Text("Diseases"),
+                  Icon(Icons.keyboard_arrow_down),
+                  Text("Ya"),
+              ],
+            )),
+            ShadowContainer(content: Column(
+              children: const [
+                Text("Medication"),
+                Icon(Icons.keyboard_arrow_down),
+                Text("Ya"),
+              ],
+            )),
             ]))
         ));
   }
