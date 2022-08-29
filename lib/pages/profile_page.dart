@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/features/info_row.dart';
+import '../widgets/features/page_title.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -7,41 +10,12 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class InfoRow extends StatelessWidget {
-  const InfoRow ({
-    Key? key,
-    required this.infoHeader,
-    required this.infoContent,
-  }) : super(key:key);
-
-  final String infoHeader;
-  final String infoContent;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget> [
-            Flexible(child:
-            Text(infoHeader,
-              style: TextStyle(
-                fontWeight: FontWeight.w600
-              ))
-            ),
-            Flexible(child: Text(infoContent))
-          ],
-        ),
-    );
-  }
-}
-
 class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double heightWidth = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Color(0xffFDFFFE),
@@ -51,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               // profile heading
+              PageTitle(title: "Profile"),
               CircleAvatar(
                 radius: 60,
                 backgroundImage: AssetImage("assets/images/yeonjun.jpg"),
@@ -86,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-
                 child: Column(
                   children: const [
                     InfoRow(infoHeader: "Gender", infoContent: "Male"),
