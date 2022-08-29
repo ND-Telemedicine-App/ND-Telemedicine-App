@@ -7,6 +7,36 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+class InfoRow extends StatelessWidget {
+  const InfoRow ({
+    Key? key,
+    required this.infoHeader,
+    required this.infoContent,
+  }) : super(key:key);
+
+  final String infoHeader;
+  final String infoContent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget> [
+            Flexible(child:
+            Text(infoHeader,
+              style: TextStyle(
+                fontWeight: FontWeight.w600
+              ))
+            ),
+            Flexible(child: Text(infoContent))
+          ],
+        ),
+    );
+  }
+}
+
 class _ProfilePageState extends State<ProfilePage> {
 
   @override
@@ -48,29 +78,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Color(0xffFDFFFE),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 40,
+                      offset: Offset(0.5, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
+
                 child: Column(
-                  children: <Widget>[
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("Male"),
-                          Text("cyj1309@gmail.com")
-                          ]
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("0413939449"),
-                          Text("13/09/1999")
-                        ]
-                    ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("123 Elizabeth St, Melbourne, VIC 3000")
-                        ]
-                    )
+                  children: const [
+                    InfoRow(infoHeader: "Gender", infoContent: "Male"),
+                    InfoRow(infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
+                    InfoRow(infoHeader: "Phone", infoContent: " 0413939449"),
+                    InfoRow(infoHeader: "DOB", infoContent: "13/09/1999"),
+                    InfoRow(infoHeader: "Address", infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
                   ]
               )
               )
