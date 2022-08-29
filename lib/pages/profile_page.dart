@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/widgets/features/shadow_container.dart';
 
 import '../widgets/features/info_row.dart';
 import '../widgets/features/page_title.dart';
@@ -11,19 +12,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double heightWidth = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xffFDFFFE),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+        backgroundColor: Color(0xffFDFFFE),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(vertical: heightWidth * 0.1),
+        child: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
               // profile heading
               PageTitle(title: "Profile"),
               CircleAvatar(
@@ -43,38 +45,37 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(
                     fontSize: 16,
                     color: Color(0xff031011),
-
                   )),
               // Info section
               Container(
-                margin: EdgeInsets.symmetric(vertical: 40),
-                padding: EdgeInsets.all(20),
-                width: screenWidth * 0.8,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Color(0xffFDFFFE),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 40,
-                      offset: Offset(0.5, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: const [
+                  margin: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.all(20),
+                  width: screenWidth * 0.8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xffFDFFFE),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 40,
+                        offset: Offset(0.5, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Column(children: const [
                     InfoRow(infoHeader: "Gender", infoContent: "Male"),
-                    InfoRow(infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
+                    InfoRow(
+                        infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
                     InfoRow(infoHeader: "Phone", infoContent: " 0413939449"),
                     InfoRow(infoHeader: "DOB", infoContent: "13/09/1999"),
-                    InfoRow(infoHeader: "Address", infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
-                  ]
-              )
-              )
-          ]
-        )
-      )
-
-    );
+                    InfoRow(
+                        infoHeader: "Address",
+                        infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
+                  ])),
+              ShadowContainer(title: "Allergies", arrow: Icon(Icons.keyboard_arrow_down), content: Text("Ya")),
+                  ShadowContainer(title: "Diseases", arrow: Icon(Icons.keyboard_arrow_down), content: Text("Ya")),
+                  ShadowContainer(title: "Medication", arrow: Icon(Icons.keyboard_arrow_down), content: Text("Ya"))
+            ]))
+        ));
   }
 }
