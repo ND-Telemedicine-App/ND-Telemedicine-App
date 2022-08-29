@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/pages/SignIn.dart';
+import 'package:nd_telemedicine_app/pages/SignUp.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         fontFamily: 'Poppins',
       ),
-      home: SignInPage(),
+      home: SignUpPage(),
     );
   }
 }
