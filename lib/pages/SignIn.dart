@@ -102,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                     Container(
                       margin: const EdgeInsets.only(top: 25),
                       height: 50,
-                      width: 200,
+                      width: 300,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40),
                           color: Color(0xff38B69A),
