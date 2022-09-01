@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nd_telemedicine_app/pages/PersonalInfo.dart';
-import 'package:nd_telemedicine_app/pages/SignIn.dart';
-import 'package:nd_telemedicine_app/pages/SignUp.dart';
+import 'package:nd_telemedicine_app/pages/medical_info.dart';
+import 'package:nd_telemedicine_app/pages/personal_info.dart';
+import 'package:nd_telemedicine_app/pages/sign_in.dart';
+import 'package:nd_telemedicine_app/pages/sign_up.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         fontFamily: 'Poppins',
       ),
-      home: PersonalInfo(),
+      home: MedicalInfo(),
     );
   }
 }
