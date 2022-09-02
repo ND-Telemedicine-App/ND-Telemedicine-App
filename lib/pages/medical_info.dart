@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 
@@ -36,13 +38,25 @@ class _MedicalInfoState extends State<MedicalInfo> {
     return null;
   }
 
-  List<String> allergies = ["Peanut Butter", "Penicillin", "Aspirin", "Tree nuts", "Diary"];
-  String selectedAllergy = "";
+  final allergies = ["Peanut Butter", "Penicillin", "Aspirin", "Tree nuts", "Diary", "Others"];
+  String? selectedAllergy;
+
+  final diseases = ["Diabetes", "Cardiovascular", "Alzheimer", "Asthma", "Chest Infection", "Others"];
+  String? selectedDisease;
+
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+      value: item,
+      child: Text(item, style: const TextStyle(fontSize: 15),),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 50),
+        child: Center(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -62,34 +76,106 @@ class _MedicalInfoState extends State<MedicalInfo> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(left: 30),
-                      child: const Text("Allergies", style: TextStyle(color: Color(0xff2B8D78), fontFamily: "PoppinsMedium"),),
+                      width: 350,
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: const Text("Allergies", style: TextStyle(color: Color(0xff2B8D78), fontSize: 15, fontFamily: "PoppinsSemiBold"),),
                     ),
-                    // Container(
-                    //   padding: const EdgeInsets.all(2),
-                    //   child: Column(
-                    //     children: <Widget>[
-                    //       Center(
-                    //         child: DropdownButton(
-                    //           hint: const Text('Allergy: '),
-                    //           value: selectedAllergy,
-                    //           onChanged: (newValue) {
-                    //             setState(() {
-                    //               selectedAllergy = newValue;
-                    //             });
-                    //           },
-                    //           items: allergies.map((allergy) {
-                    //             return DropdownMenuItem(
-                    //               value: allergy,
-                    //               child: Text(allergy),
-                    //             );
-                    //           }).toList(),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+                    Container(
+                      padding: const EdgeInsets.all(2),
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: 350,
+                              padding: const EdgeInsets.symmetric(horizontal: 2),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: const Color(0xff2B8D78), width: 3),
+                                borderRadius: BorderRadius.circular(12)
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: selectedAllergy,
+                                  isExpanded: true,
+                                  iconSize: 25,
+                                  icon: const Icon(Icons.arrow_drop_down, color: Colors.black,),
+                                  items: allergies.map(buildMenuItem).toList(),
+                                  onChanged: (value) => setState(() {
+                                    selectedAllergy = value;
+                                  }),
+                          ),
+                              )
+                      )
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 350,
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: const Text("Diseases", style: TextStyle(color: Color(0xff2B8D78), fontSize: 15, fontFamily: "PoppinsSemiBold"),),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(2),
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                              child: Container(
+                                  width: 350,
+                                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: const Color(0xff2B8D78), width: 3),
+                                      borderRadius: BorderRadius.circular(12)
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      value: selectedDisease,
+                                      isExpanded: true,
+                                      iconSize: 25,
+                                      icon: const Icon(Icons.arrow_drop_down, color: Colors.black,),
+                                      items: diseases.map(buildMenuItem).toList(),
+                                      onChanged: (value) => setState(() {
+                                        selectedDisease = value;
+                                      }),
+                                    ),
+                                  )
+                              )
+
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 350,
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: const Text("Medication", style: TextStyle(color: Color(0xff2B8D78), fontSize: 15, fontFamily: "PoppinsSemiBold"),),
+                    ),
+                    SizedBox(
+                      width: 350,
+                      child: TextField(
+                        textAlign: TextAlign.left,
+                        controller: textController,
+                        decoration: InputDecoration(
+                          alignLabelWithHint: true,
+                          filled: true,
+                          fillColor: const Color(0xffEFF0F0),
+                          hintText: "Medication",
+                          hintStyle: TextStyle(
+                              color: Colors.grey[500],fontSize: 15),
+                          contentPadding: const EdgeInsets.only(left: 20, top: 80),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: const BorderSide(
+                              width: 3,
+                              style: BorderStyle.none,
+                            ),
+                          ),),
+                        onChanged: (text) => setState(() => fullName),
+                      ),
+
+                    ),
+
                     const SizedBox(height: 10,),
                     Container(
                       margin: const EdgeInsets.only(top: 25),
@@ -130,6 +216,8 @@ class _MedicalInfoState extends State<MedicalInfo> {
             )
           ]
       ),
-    );
+    )));
+
+
   }
 }
