@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nd_telemedicine_app/pages/medical_info.dart';
-import 'package:nd_telemedicine_app/pages/personal_info.dart';
-import 'package:nd_telemedicine_app/pages/sign_in.dart';
-import 'package:nd_telemedicine_app/pages/sign_up.dart';
+import 'package:nd_telemedicine_app/screens/medical_info.dart';
+import 'package:nd_telemedicine_app/screens/personal_info.dart';
+import 'package:nd_telemedicine_app/screens/sign_in.dart';
+import 'package:nd_telemedicine_app/screens/sign_up.dart';
 
 void main() {
   runApp(const MyApp());
