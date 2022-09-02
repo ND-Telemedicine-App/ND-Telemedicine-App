@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nd_telemedicine_app/screens/profile_page.dart';
+import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
+import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const ProfilePage(),
+      home: const PrescriptionScreen(),
     );
   }
 }

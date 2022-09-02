@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:nd_telemedicine_app/widgets/features/shadow_container.dart';
+import 'package:nd_telemedicine_app/widgets/features/profile/shadow_container.dart';
 
-import '../widgets/features/info_row.dart';
+import '../widgets/features/profile/info_row.dart';
 import '../widgets/features/page_title.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
