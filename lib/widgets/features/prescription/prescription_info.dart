@@ -13,9 +13,17 @@ class PrescriptionInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget> [
-        Text("$infoHeader: "),
-        Text(infoContent)
+        Text("$infoHeader: ",
+        style: TextStyle(
+          fontWeight: FontWeight.w800,
+          height: 1.75,
+          fontSize: 18
+        )),
+        Flexible(
+          child: Text(infoContent, style: TextStyle(height: 1.75, fontSize: 18)),
+        )
       ],
     );
   }

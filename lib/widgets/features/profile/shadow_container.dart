@@ -37,7 +37,7 @@ class ProfileContainer extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(top: 40),
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-        width: screenWidth * 0.8,
+        width: screenWidth * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Color(0xffFDFFFE),

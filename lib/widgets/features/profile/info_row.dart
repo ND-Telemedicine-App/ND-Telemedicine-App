@@ -16,6 +16,7 @@ class InfoRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget> [
           Flexible(child:
           Text(infoHeader,
@@ -23,7 +24,7 @@ class InfoRow extends StatelessWidget {
                   fontWeight: FontWeight.w600
               ))
           ),
-          Flexible(child: Text(infoContent))
+          Flexible(child: Text(infoContent, textAlign: TextAlign.right,))
         ],
       ),
     );

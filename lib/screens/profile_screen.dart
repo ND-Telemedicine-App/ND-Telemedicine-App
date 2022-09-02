@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         margin: EdgeInsets.only(top: 40),
                         padding: EdgeInsets.all(20),
-                        width: screenWidth * 0.8,
+                        width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Color(0xffFDFFFE),

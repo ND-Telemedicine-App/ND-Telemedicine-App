@@ -10,7 +10,7 @@ class PrescriptionContainer extends StatelessWidget {
     required this.dispense,
     required this.refill,
     required this.date,
-    required this.signature
+    required this.doctor
   }) : super(key:key);
 
   final int number;
@@ -19,16 +19,16 @@ class PrescriptionContainer extends StatelessWidget {
   final String dispense;
   final String refill;
   final String date;
-  final String signature;
+  final String doctor;
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-        margin: EdgeInsets.only(top: 40),
-        padding: EdgeInsets.only(top: 15, bottom: 20, left: 25, right: 25),
-        width: screenWidth * 0.8,
+        margin: EdgeInsets.only(top: 20, bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+        width: screenWidth * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Color(0xffFDFFFE),
@@ -48,24 +48,43 @@ class PrescriptionContainer extends StatelessWidget {
             child:
             ExpansionTile(
               iconColor: Color(0xff78CEBB),
-              title: Text("Prescription $number",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      color: Color(0xff78CEBB)
-                  )),
-
+              title:
+              Center(
+                child:
+                  Text("Prescription #$number",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 20,
+                          color: Color(0xff78CEBB)
+                      )),
+              ),
               children: [
-                Column(
-                  crossAxisAlignment :CrossAxisAlignment.stretch,
-                  children: <Widget> [
-                    PrescriptionInfo(infoHeader: "Rx", infoContent: drugName),
-                    PrescriptionInfo(infoHeader: "Sig", infoContent: usage),
-                    PrescriptionInfo(infoHeader: "Disp", infoContent: dispense),
-                    PrescriptionInfo(infoHeader: "Rf", infoContent: refill),
-                  ],
-
+                Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 40),
+                  child:
+                    Column(
+                      crossAxisAlignment :CrossAxisAlignment.stretch,
+                      children: <Widget> [
+                        PrescriptionInfo(infoHeader: "Rx", infoContent: drugName),
+                        PrescriptionInfo(infoHeader: "Sig", infoContent: usage),
+                        PrescriptionInfo(infoHeader: "Disp", infoContent: dispense),
+                        PrescriptionInfo(infoHeader: "Rf", infoContent: refill),
+                      ],
+                    ),
                 ),
+                Text("Doctor's Signature",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                    )),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6),
+                  child: Text(doctor, style: TextStyle(fontSize: 26)),
+                ),
+                Text("Date: $date", style: TextStyle(height: 3.5)),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Text("Neighborhood Doctors Clinic"),
+                )
               ],
             ),
           ),
