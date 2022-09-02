@@ -24,7 +24,10 @@ class ProfileContainer extends StatelessWidget {
         child: Text(elements[i]),
         ));
     }
-    return Wrap(spacing: 10, alignment: WrapAlignment.start, children: items);
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20),
+      child: Wrap(spacing: 10, alignment: WrapAlignment.start, children: items),
+    );
   }
 
   @override
@@ -33,7 +36,7 @@ class ProfileContainer extends StatelessWidget {
 
     return Container(
         margin: EdgeInsets.only(top: 40),
-        padding: EdgeInsets.only(top: 15, bottom: 20, left: 25, right: 25),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
         width: screenWidth * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),

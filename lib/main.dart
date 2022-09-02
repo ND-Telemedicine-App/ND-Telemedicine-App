@@ -14,6 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(boldText: false, textScaleFactor: 1.0),
+        child: child!,
+      ),
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const PrescriptionScreen(),
+      home: const ProfileScreen(),
     );
   }
 }

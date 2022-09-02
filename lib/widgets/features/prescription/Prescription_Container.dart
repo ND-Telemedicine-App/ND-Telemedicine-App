@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/widgets/features/prescription/prescription_info.dart';
 
 class PrescriptionContainer extends StatelessWidget {
   const PrescriptionContainer({
@@ -58,18 +59,10 @@ class PrescriptionContainer extends StatelessWidget {
                 Column(
                   crossAxisAlignment :CrossAxisAlignment.stretch,
                   children: <Widget> [
-                    Row(
-                      children: <Widget> [
-                        Text("Rx: "),
-                        Text(drugName)
-                      ],
-                    ),
-                    Row(
-                      children: <Widget> [
-                        Text("Rx: "),
-                        Text(drugName)
-                      ],
-                    )
+                    PrescriptionInfo(infoHeader: "Rx", infoContent: drugName),
+                    PrescriptionInfo(infoHeader: "Sig", infoContent: usage),
+                    PrescriptionInfo(infoHeader: "Disp", infoContent: dispense),
+                    PrescriptionInfo(infoHeader: "Rf", infoContent: refill),
                   ],
 
                 ),
