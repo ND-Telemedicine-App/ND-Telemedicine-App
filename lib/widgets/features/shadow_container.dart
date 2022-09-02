@@ -33,7 +33,7 @@ class ProfileContainer extends StatelessWidget {
 
     return Container(
         margin: EdgeInsets.only(top: 40),
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.only(top: 15, bottom: 20, left: 25, right: 25),
         width: screenWidth * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -46,21 +46,32 @@ class ProfileContainer extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-            crossAxisAlignment :CrossAxisAlignment.stretch,
-          children: <Widget> [
-            Row(
-              children: <Widget> [
-                Text(title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20
-                )),
-                Icon(Icons.keyboard_arrow_down)
-              ],
-            ),
-            getItemWidgets(content)
-          ],
+        child: ListTileTheme(
+            contentPadding: EdgeInsets.all(0),
+            dense: true,
+          child: Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child:
+              ExpansionTile(
+                iconColor: Color(0xff031011),
+                title: Text(title,
+                    // 38B69A
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                      color: Color(0xff031011)
+                    )),
+
+                children: [
+                      Column(
+                          crossAxisAlignment :CrossAxisAlignment.stretch,
+                        children: <Widget> [
+                          getItemWidgets(content)
+                        ],
+                      ),
+                ],
+              ),
+          ),
         )
     );
   }
