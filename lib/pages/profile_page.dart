@@ -24,61 +24,84 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-              // profile heading
-              PageTitle(title: "Profile"),
-              CircleAvatar(
-                radius: 60,
-                backgroundImage: AssetImage("assets/images/yeonjun.jpg"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 10),
-                child: Text("Choi Yeonjun",
-                    style: TextStyle(
-                      fontSize: 26,
-                      color: Color(0xff78CEBB),
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-              Text("No status",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xff031011),
-                  )),
-              // Info section
-                  ShadowContainer(content: Column(children: const [
-                    InfoRow(infoHeader: "Gender", infoContent: "Male"),
-                    InfoRow(
-                        infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
-                    InfoRow(infoHeader: "Phone", infoContent: " 0413939449"),
-                    InfoRow(infoHeader: "DOB", infoContent: "13/09/1999"),
-                    InfoRow(
-                        infoHeader: "Address",
-                        infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
-                  ])),
-              ShadowContainer(content: Column(
-                  children: const [
-                    Text("Allergies"),
-                    Icon(Icons.keyboard_arrow_down),
-                    Text("Ya"),
-                  ],
-                )),
-            ShadowContainer(content: Column(
-                  children: const [
-                  Text("Diseases"),
-                  Icon(Icons.keyboard_arrow_down),
-                  Text("Ya"),
-              ],
-            )),
-            ShadowContainer(content: Column(
-              children: const [
-                Text("Medication"),
-                Icon(Icons.keyboard_arrow_down),
-                Text("Ya"),
-              ],
-            )),
-            ]))
-        ));
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                  // profile heading
+                  PageTitle(title: "Profile"),
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage("assets/images/yeonjun.jpg"),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 10),
+                    child: Text("Choi Yeonjun",
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Color(0xff78CEBB),
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                  Text("No status",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xff031011),
+                      )),
+                  // Info section
+                      Container(
+                        margin: EdgeInsets.only(top: 40),
+                        padding: EdgeInsets.all(20),
+                        width: screenWidth * 0.8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(0xffFDFFFE),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 40,
+                              offset: Offset(0.5, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: const [
+                            InfoRow(infoHeader: "Gender", infoContent: "Male"),
+                            InfoRow(
+                                infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
+                            InfoRow(infoHeader: "Phone", infoContent: " 0413939449"),
+                            InfoRow(infoHeader: "DOB", infoContent: "13/09/1999"),
+                            InfoRow(
+                                infoHeader: "Address",
+                                infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
+                          ],
+                        ),
+                      ),
+                  ProfileContainer(
+                    title: "Allergies",
+                    content: const ["Peanut Butter", "Aspirin", "Dairy", "Penicillin", "Tree nuts"]
+                  ),
+                  ProfileContainer(
+                    title: "Diseases",
+                    content: const ["Major depression: 5 years", "Diabetes type 2: 10 years"],
+                     ),
+                  ProfileContainer(
+                    title: "Medication",
+                    content: const ["Citalopram", "Insulin"],
+                  ),
+                      // sign out btn
+                      Container(
+                        margin: EdgeInsets.only(top: 50),
+                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Color(0xffBE3050),
+                      ),
+                        child: Text("Sign Out",
+                          style: TextStyle(
+                            color: Color(0xffFDFFFE),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20
+                          )),
+                      )
+                ]))));
   }
 }

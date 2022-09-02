@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ShadowContainer extends StatelessWidget {
-  const ShadowContainer({
+class ProfileContainer extends StatelessWidget {
+  const ProfileContainer({
     Key? key,
-    required this.content,
+    required this.title,
+    required this.content
   }) : super(key:key);
 
-  final Widget content;
+  final String title;
+  final List<String> content;
 
 
   @override
@@ -28,7 +30,21 @@ class ShadowContainer extends StatelessWidget {
             ),
           ],
         ),
-        child: content,
+        child: Column(
+          children: <Widget> [
+            Row(
+              children: <Widget> [
+                Text(title),
+                Icon(Icons.keyboard_arrow_down)
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                for(var i in content) Text(i)
+              ],
+            )
+          ],
+        )
     );
   }
 }
