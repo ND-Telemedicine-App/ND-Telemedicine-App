@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   ProfileContainer(
                     title: "Diseases",
-                    content: const ["Major depression: 5 years", "Diabetes type 2: 10 years"],
+                    content: const ["Major depression", "Diabetes type 2"],
                      ),
                   ProfileContainer(
                     title: "Medication",

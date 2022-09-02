@@ -10,6 +10,22 @@ class ProfileContainer extends StatelessWidget {
   final String title;
   final List<String> content;
 
+  Widget getItemWidgets(List<String> elements)
+  {
+    List<Widget> items = <Widget>[];
+    for (var i = 0; i < elements.length; i++) {
+      items.add(Container(
+        margin: EdgeInsets.only(top: 20),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Color(0xffDDFFF8),
+          ),
+        child: Text(elements[i]),
+        ));
+    }
+    return Wrap(spacing: 10, alignment: WrapAlignment.start, children: items);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +47,19 @@ class ProfileContainer extends StatelessWidget {
           ],
         ),
         child: Column(
+            crossAxisAlignment :CrossAxisAlignment.stretch,
           children: <Widget> [
             Row(
               children: <Widget> [
-                Text(title),
+                Text(title,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20
+                )),
                 Icon(Icons.keyboard_arrow_down)
               ],
             ),
-            Row(
-              children: <Widget>[
-                for(var i in content) Text(i)
-              ],
-            )
+            getItemWidgets(content)
           ],
         )
     );
