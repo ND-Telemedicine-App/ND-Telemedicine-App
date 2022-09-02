@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/medical_info.dart';
 import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         fontFamily: 'Poppins',
       ),
-      home: MedicalInfo(),
+      home: ChatMenu(),
     );
   }
 }
