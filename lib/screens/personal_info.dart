@@ -5,8 +5,6 @@ class PersonalInfo extends StatefulWidget {
 
   @override
   State<PersonalInfo> createState() => _PersonalInfoState();
-
-
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
@@ -14,12 +12,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   var fullName = "";
 
-
   @override
   void dispose() {
     textController.dispose();
     super.dispose();
   }
+
   String? get _errorText {
     // at any time, we can get the text from _controller.value.text
     final text = textController.value.text;
@@ -42,14 +40,22 @@ class _PersonalInfoState extends State<PersonalInfo> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: const <Widget>[
-                  SizedBox(height: 20,),
-                  Text("Personal Information", style: TextStyle(color: Color(0xff2B8D78), fontSize: 25, fontFamily: 'PoppinsBold')),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text("Personal Information",
+                      style: TextStyle(
+                          color: Color(0xff2B8D78),
+                          fontSize: 25,
+                          fontFamily: 'PoppinsBold')),
                 ],
               ),
             ),
@@ -62,28 +68,31 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       width: 130,
                       height: 130,
                       child: Column(
-                        children:  <Widget>[
-                            const CircleAvatar(
-                              backgroundImage: AssetImage("assets/images/Avatar_mock.png"),
-                              radius: 50,
-                              foregroundColor: Colors.green,
-                              backgroundColor: Colors.transparent,
-                            ),
+                        children: <Widget>[
+                          const CircleAvatar(
+                            backgroundImage:
+                                AssetImage("assets/images/Avatar_mock.png"),
+                            radius: 50,
+                            foregroundColor: Colors.green,
+                            backgroundColor: Colors.transparent,
+                          ),
                           Container(
                             padding: const EdgeInsets.only(top: 10),
-                            child: const Text("Upload your avatar", style: TextStyle(fontSize: 13),),
+                            child: const Text(
+                              "Upload your avatar",
+                              style: TextStyle(fontSize: 13),
+                            ),
                           ),
-
                         ],
                       ),
-
                     ),
                     Container(
                       padding: const EdgeInsets.all(5),
                       child: Column(
                         children: <Widget>[
                           Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 8, bottom: 8),
                             child: TextField(
                               controller: textController,
                               decoration: InputDecoration(
@@ -92,100 +101,114 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 fillColor: const Color(0xffEFF0F0),
                                 hintText: "Full name",
                                 hintStyle: TextStyle(
-                                    color: Colors.grey[500],fontSize: 15),
-                                contentPadding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                                    color: Colors.grey[500], fontSize: 15),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, top: 20, bottom: 20),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                   borderSide: const BorderSide(
                                     width: 0,
                                     style: BorderStyle.none,
                                   ),
-                                ),),
+                                ),
+                              ),
                               onChanged: (text) => setState(() => fullName),
                             ),
-
                           ),
-
                           Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                            child:  TextField(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 8, bottom: 8),
+                            child: TextField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
                                 hintText: "Address",
                                 hintStyle: TextStyle(
-                                    color: Colors.grey[500],fontSize: 15),
-                                contentPadding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                                    color: Colors.grey[500], fontSize: 15),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, top: 20, bottom: 20),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                   borderSide: const BorderSide(
                                     width: 0,
                                     style: BorderStyle.none,
                                   ),
-                                ),),
+                                ),
+                              ),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                            child:  TextField(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 8, bottom: 8),
+                            child: TextField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
                                 hintText: "Phone number",
                                 hintStyle: TextStyle(
-                                    color: Colors.grey[500],fontSize: 15),
-                                contentPadding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                                    color: Colors.grey[500], fontSize: 15),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, top: 20, bottom: 20),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                   borderSide: const BorderSide(
                                     width: 0,
                                     style: BorderStyle.none,
                                   ),
-                                ),),
+                                ),
+                              ),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                            child:  TextField(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 8, bottom: 8),
+                            child: TextField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
                                 hintText: "Gender",
                                 hintStyle: TextStyle(
-                                    color: Colors.grey[500],fontSize: 15),
-                                contentPadding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                                    color: Colors.grey[500], fontSize: 15),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, top: 20, bottom: 20),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                   borderSide: const BorderSide(
                                     width: 0,
                                     style: BorderStyle.none,
                                   ),
-                                ),),
+                                ),
+                              ),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
-                            child:  TextField(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 8, bottom: 8),
+                            child: TextField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
                                 hintText: "Date of birth",
                                 hintStyle: TextStyle(
-                                    color: Colors.grey[500],fontSize: 15),
-                                contentPadding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                                    color: Colors.grey[500], fontSize: 15),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, top: 20, bottom: 20),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                   borderSide: const BorderSide(
                                     width: 0,
                                     style: BorderStyle.none,
                                   ),
-                                ),),
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       margin: const EdgeInsets.only(top: 25),
                       height: 50,
@@ -195,18 +218,21 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         color: Color(0xff38B69A),
                       ),
                       child: const Center(
-                        child:Text("Next", style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'PoppinsSemiBold', fontSize: 18),),
+                        child: Text(
+                          "Next",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'PoppinsSemiBold',
+                              fontSize: 18),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 5,),
-
+                    const SizedBox(
+                      height: 5,
+                    ),
                   ],
-                )
-            )
-          ]
-      ),
+                ))
+          ]),
     );
   }
 }
