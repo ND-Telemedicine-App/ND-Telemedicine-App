@@ -10,7 +10,28 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
+
 class _ChatScreenState extends State<ChatScreen> {
+  _sendMessageArea(){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      height: 70,
+      color: Colors.white,
+      child: Row(
+        children: <Widget>[
+          IconButton(onPressed: () {}, icon: Icon(Icons.photo), iconSize: 25, color: Theme.of(context).primaryColor,),
+          const Expanded(
+            child: TextField(
+              decoration: InputDecoration.collapsed(hintText: "Send a message"),
+              textCapitalization: TextCapitalization.sentences,
+            ),
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.send), iconSize: 25, color: Theme.of(context).primaryColor,)
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,22 +147,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                   offset: Offset(0, 3),
                                 )
                               ]),
-                          child: Text("Hello World!", style: TextStyle(color: Colors.white, fontSize: 15),),
+                          child: Text("Hello World!", style: const TextStyle(color: Colors.white, fontSize: 15),),
                         ),
                       ),
-                      Container(
-                        child: Text(
-                          "12:30PM",
-                          style: TextStyle(fontSize: 11, color: Colors.black54),
-                        ),
+                      const Text(
+                        "12:30PM",
+                        style: TextStyle(fontSize: 11, color: Colors.black54),
                       )
                     ],
                   ),
                 ],
               )
             ],
-          )),
-          Text("Send message here")
+          )
+          ),
+    _sendMessageArea(),
         ],
       ),
     );
