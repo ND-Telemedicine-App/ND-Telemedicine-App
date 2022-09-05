@@ -60,6 +60,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   - assets/images/
+  - assets/images/home_med.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -89,6 +90,14 @@ flutter:
     - family: PoppinsSemiBold
       fonts:
           - asset: assets/fonts/Poppins-SemiBold.ttf
+
+    - family: PoppinsMediumItalic
+      fonts:
+          - asset: assets/fonts/Poppins-MediumItalic.ttf
+
+    - family: PoppinsSemiBoldItalic
+      fonts:
+          - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
 
 
 

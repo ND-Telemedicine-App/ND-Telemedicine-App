@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Text(
                       "Hello,",
                       style:
-                          TextStyle(fontFamily: "PoppinsMedium", fontSize: 16),
+                          TextStyle(fontFamily: "PoppinsMediumItalic", fontSize: 16),
                     ),
                     const SizedBox(
                       height: 2,
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Username",
                       style: TextStyle(
                           fontSize: 22,
-                          fontFamily: "PoppinsSemiBold",
+                          fontFamily: "PoppinsSemiBoldItalic",
                           color: Theme.of(context).primaryColor),
                     ),
                   ],
@@ -60,20 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(25.0),
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(12)),
               child: Row(
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width/2,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage("assets/images/home_med.png"),
-                      ),
+                  Expanded(
+                    child: Image.asset(
+                      "assets/images/home_med.png",
                     ),
                   ),
                   SizedBox(
@@ -84,20 +79,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "How do you feel today",
+                          "How do you feel today?",
                           style: TextStyle(
-                              fontFamily: "PoppinsMedium",
-                              fontSize: 15,
+                              fontFamily: "PoppinsSemiBold",
+                              fontSize: 20,
                               color: Colors.white),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Text("Fill out your medical form!",
-                            style: TextStyle(
-                                fontFamily: "PoppinsMedium",
-                                fontSize: 15,
-                                color: Colors.white)),
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.white)),
                         SizedBox(
                           height: 15,
                         ),
@@ -162,10 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Container(
                     child: Row(
-                      children: [
-
-                        Text("Dentist")
-                      ],
+                      children: [Text("Dentist")],
                     ),
                   )
                 ],
