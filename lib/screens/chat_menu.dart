@@ -85,7 +85,7 @@ class _ChatMenuState extends State<ChatMenu> {
                                 Container(
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                          Radius.circular(40)),
+                                          Radius.circular(40),),
                                       border: Border.all(
                                           width: 2,
                                           color:

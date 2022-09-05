@@ -71,7 +71,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         children: <Widget>[
                           const CircleAvatar(
                             backgroundImage:
-                                AssetImage("assets/images/Avatar_mock.png"),
+                                AssetImage("assets/images/mock_avatar.png"),
                             radius: 50,
                             foregroundColor: Colors.green,
                             backgroundColor: Colors.transparent,

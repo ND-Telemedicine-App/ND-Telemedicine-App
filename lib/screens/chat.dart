@@ -15,7 +15,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
 
   _chatBubble(Message message, bool isMe){
-    if(isMe){
+    if(!isMe){
       return Column(
         children: <Widget>[
           Column(
