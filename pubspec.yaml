@@ -99,6 +99,10 @@ flutter:
       fonts:
           - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
 
+    - family: PoppinsItalic
+      fonts:
+          - asset: assets/fonts/Poppins-Italic.ttf
+
 
 
   #   - family: Trajan Pro

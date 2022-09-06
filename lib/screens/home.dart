@@ -20,37 +20,51 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    const Text(
-                      "Hello,",
-                      style:
-                          TextStyle(fontFamily: "PoppinsMediumItalic", fontSize: 16),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Text(
-                      "Username",
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: "PoppinsSemiBoldItalic",
-                          color: Theme.of(context).primaryColor),
+                    Container(
+                        margin: EdgeInsets.only(right: 12),
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                              AssetImage("assets/images/kuri.jpeg"),
+                        )),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Good morning,",
+                          style: TextStyle(
+                              fontFamily: "PoppinsItalic", fontSize: 14),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          "Username",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: "PoppinsSemiBold",
+                              color: Theme.of(context).primaryColor),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.deepPurple[100],
-                  ),
-                  child: const Icon(
-                    Icons.person,
-                    size: 30,
-                  ),
-                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Icon(
+                        Icons.notifications,
+                        color: Colors.black,
+                        size: 28,
+                      ),
+                    ),
+                    Icon(Icons.message_rounded, color: Colors.black)
+                  ],
+                )
               ],
             ),
           ),
