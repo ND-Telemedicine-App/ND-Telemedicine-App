@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/add_prescription.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/forgot_password.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
@@ -49,8 +50,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: buildMaterialColor(const Color(0xff2B8D78)),
         fontFamily: 'Poppins',
+        scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: const ProfileScreen(),
+      home: const AddPrescriptionScreen(),
+
     );
   }
 }

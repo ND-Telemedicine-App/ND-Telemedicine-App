@@ -18,7 +18,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     double heightWidth = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: Color(0xffFDFFFE),
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: heightWidth * 0.1),
         child: Center(

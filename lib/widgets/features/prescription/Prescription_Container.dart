@@ -53,7 +53,7 @@ class PrescriptionContainer extends StatelessWidget {
                 child:
                   Text("Prescription #$number",
                       style: TextStyle(
-                          fontWeight: FontWeight.w800,
+                          fontFamily: "PoppinsSemiBold",
                           fontSize: 20,
                           color: Color(0xff78CEBB)
                       )),
@@ -74,7 +74,7 @@ class PrescriptionContainer extends StatelessWidget {
                 ),
                 Text("Doctor's Signature",
                     style: TextStyle(
-                        fontWeight: FontWeight.w800,
+                        fontFamily: "PoppinsSemiBold",
                     )),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 6),
