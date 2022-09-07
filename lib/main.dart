@@ -6,6 +6,9 @@ import 'package:nd_telemedicine_app/screens/medical_info.dart';
 import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 import 'package:nd_telemedicine_app/screens/sign_up.dart';
+import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
+import 'package:nd_telemedicine_app/screens/profile_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -39,11 +42,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ND-Telemedicine-App',
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(boldText: false, textScaleFactor: 1.0),
+        child: child!,
+      ),
       theme: ThemeData(
         primarySwatch: buildMaterialColor(const Color(0xff2B8D78)),
         fontFamily: 'Poppins',
       ),
-      home: ChatMenu(),
+      home: const ProfileScreen(),
     );
   }
 }
