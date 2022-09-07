@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/utils/category_field.dart';
+import 'package:nd_telemedicine_app/utils/doctor_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             //  App Bar
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
+              padding: EdgeInsets.only(left: 25, right: 25, top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -262,84 +263,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Container(
-                padding: EdgeInsets.all(15),
-                width: MediaQuery.of(context).size.width - 25.0 * 2,
-                height: 150,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.grey[200]),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(right: 20),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          "assets/images/doctor2.jpeg",
-                          height: 120,
-                          width: 120,
-                        ),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: Colors.grey),
-                            ),
-                          ),
-                          child: Text(
-                            "Dr. C Anderson",
-                            style: TextStyle(
-                              fontFamily: "PoppinsBold",
-                              fontSize: 20,
-                              color: Theme.of(context).primaryColor,
-                              overflow: TextOverflow.ellipsis
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.only(bottom: 2),
-                                  child: Text(
-                                    "Cardiologists ",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: "PoppinsSemiBold"),
-                                  )),
-                              Text(
-                                "The Valley Hospital",
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontFamily: "PoppinsSemiBoldItalic"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(Icons.star, size: 20, ),
-                            Container(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Text("4.8")),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            )
+            DoctorCard(doctorImagePath: "assets/images/doctor2.jpeg", doctorName: "Dr. John Smith", doctorSpeciality: "Cardiologist", rating: 4.8),
+            DoctorCard(doctorImagePath: "assets/images/doctor2.jpeg", doctorName: "Dr. Peter Parker", doctorSpeciality: "Cardiologist", rating: 4.8),
+            SizedBox(height: 40,)
           ],
         ),
       ),

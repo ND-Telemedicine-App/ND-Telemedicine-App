@@ -24,7 +24,7 @@ class _SignInPageState extends State<SignInPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Image.asset(
-                    "assets/images/app-icon.png",
+                    "assets/images/main_logo.png",
                     fit: BoxFit.cover,
                     width: 200,
                   ),
