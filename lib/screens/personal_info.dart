@@ -37,6 +37,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -221,7 +223,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           child: Container(
                             margin: const EdgeInsets.only(top: 25),
                             height: 50,
-                            width: 300,
+                            width: screenWidth * 0.7,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
                               color: Color(0xff38B69A),
@@ -248,10 +250,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           child: Container(
                             margin: const EdgeInsets.only(top: 10),
                             height: 50,
-                            width: 300,
+                            width: screenWidth * 0.7,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
-                                color: Colors.white,
+                                color: Colors.transparent,
                                 border: Border.all(
                                     color: Color(0xff38B69A), width: 3)),
                             child: const Center(

@@ -122,6 +122,42 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 ),
               ),
               SizedBox(height: 30,),
+              Container(
+                margin: EdgeInsets.only(top: 30),
+                width: screenWidth * 0.7,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: Color(0xff38B69A),
+                ),
+                child: Center(
+                  child: Text("Submit",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xffFDFFFE),
+                          fontFamily: "PoppinsSemiBold",
+                        fontSize: 18
+                      )),
+                ),
+              ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            width: screenWidth * 0.7,
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: Colors.transparent,
+                border: Border.all(
+                    color: Color(0xff38B69A), width: 3)),
+            child: const Center(
+              child: Text(
+                "Reset",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'PoppinsSemiBold',
+                    fontSize: 18),
+              ),
+            ),)
   ],
         ),
     ),
