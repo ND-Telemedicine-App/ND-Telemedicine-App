@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
+import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(boldText: false, textScaleFactor: 1.0),
+        child: child!,
+      ),
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const ProfileScreen(),
     );
   }
 }
