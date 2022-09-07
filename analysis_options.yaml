@@ -22,7 +22,16 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    always_declare_return_types: false
+    use_key_in_widget_constructors: false
+    unused_element: false
+    unused_local_variable: true
+    unused_import: false
+    avoid_print: false
     prefer_const_constructors: false
+    require_trailing_commas: true
+    always_use_package_imports: false
+
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
