@@ -103,32 +103,30 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   Container(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.5,
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: const Color(0xff38B69A),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                            bottomRight: Radius.zero,
-                            bottomLeft: Radius.circular(20.0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
-                            )
-                          ]),
-                      child: Text(message.text, style: const TextStyle(color: Colors.white, fontSize: 15),),
+                    alignment: Alignment.topRight,
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
                     ),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: const Color(0xff38B69A),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                          bottomRight: Radius.zero,
+                          bottomLeft: Radius.circular(20.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
+                          )
+                        ]),
+                    child: Text(message.text, style: const TextStyle(color: Colors.white, fontSize: 15),),
                   ),
                    Text(
                     message.time,

@@ -15,57 +15,33 @@ class User {
 // YOU - current user
 final User currentUser = User(
   id: 0,
-  name: 'Nick Fury',
-  imageUrl: 'assets/images/chats/nick-fury.jpg',
+  name: 'ND Medicine',
+  imageUrl: 'assets/images/doctor2.jpeg',
   isOnline: true,
 );
 
 // USERS
-final User ironMan = User(
+final User user1 = User(
   id: 1,
-  name: 'Iron Man',
-  imageUrl: 'assets/images/chats/ironman.jpeg',
+  name: 'Azubuike Siegfried',
+  imageUrl: 'assets/images/doctor2.jpeg',
   isOnline: true,
 );
-final User captainAmerica = User(
+final User user2= User(
   id: 2,
-  name: 'Captain America',
-  imageUrl: 'assets/images/chats/captain-america.jpg',
+  name: 'Medrod Klara',
+  imageUrl: 'assets/images/doctor2.jpeg',
   isOnline: true,
 );
-final User hulk = User(
+final User user3 = User(
   id: 3,
-  name: 'Hulk',
-  imageUrl: 'assets/images/chats/hulk.jpg',
+  name: 'Nina Raginmund',
+  imageUrl: 'assets/images/doctor2.jpeg',
   isOnline: false,
 );
-final User scarletWitch = User(
+final User user4= User(
   id: 4,
-  name: 'Scarlet Witch',
-  imageUrl: 'assets/images/chats/scarlet-witch.jpg',
-  isOnline: false,
-);
-final User spiderMan = User(
-  id: 5,
-  name: 'Spider Man',
-  imageUrl: 'assets/images/chats/spiderman.jpg',
-  isOnline: true,
-);
-final User blackWindow = User(
-  id: 6,
-  name: 'Black Widow',
-  imageUrl: 'assets/images/chats/black-widow.jpg',
-  isOnline: false,
-);
-final User thor = User(
-  id: 7,
-  name: 'Thor',
-  imageUrl: 'assets/images/chats/thor.png',
-  isOnline: false,
-);
-final User captainMarvel = User(
-  id: 8,
-  name: 'Captain Marvel',
-  imageUrl: 'assets/images/chats/captain-marvel.jpg',
+  name: 'Shahrzad Abdüllatif',
+  imageUrl: 'assets/images/doctor2.jpeg',
   isOnline: false,
 );

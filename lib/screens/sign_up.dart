@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/sign_in.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -27,9 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     "assets/images/main_logo.png",
                     fit: BoxFit.cover,
                     width: 200,
-                  ),
-                  const SizedBox(
-                    height: 20,
                   ),
                   const Text("Create your account",
                       style: TextStyle(
@@ -128,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               TextStyle(color: Colors.grey[600], fontSize: 15),
                         ),
                         TextButton(
-                          child: const Text(
+                          child: Text(
                             'Sign In',
                             style: TextStyle(
                               color: Color(0xffBE3050),
@@ -137,7 +135,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           onPressed: () {
-                            //signup screen
+                            Navigator.pushReplacement(
+                              context,MaterialPageRoute(builder: (context) => SignInPage()),);
                           },
                         ),
                       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/sign_in.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -108,22 +109,28 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     const SizedBox(
                       height: 5,
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 25),
-                      height: 50,
-                      width: 300,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Color(0xff38B69A), width: 3)),
-                      child: const Center(
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'PoppinsSemiBold',
-                              fontSize: 18),
+                    GestureDetector(
+                      onTap:  () {
+                        Navigator.pushReplacement(
+                          context,MaterialPageRoute(builder: (context) => SignInPage()),);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 25),
+                        height: 50,
+                        width: 300,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Color(0xff38B69A), width: 3)),
+                        child: const Center(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'PoppinsSemiBold',
+                                fontSize: 18),
+                          ),
                         ),
                       ),
                     ),

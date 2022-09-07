@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/forgot_password.dart';
+import 'package:nd_telemedicine_app/screens/home.dart';
+import 'package:nd_telemedicine_app/screens/personal_info.dart';
+import 'package:nd_telemedicine_app/screens/sign_up.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -106,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                               TextStyle(color: Colors.grey[600], fontSize: 15),
                         ),
                         TextButton(
-                          child: const Text(
+                          child: Text(
                             'Sign Up',
                             style: TextStyle(
                               color: Color(0xffBE3050),
@@ -115,29 +119,37 @@ class _SignInPageState extends State<SignInPage> {
                             ),
                           ),
                           onPressed: () {
-                            //signup screen
+                            Navigator.pushReplacement(
+                              context,MaterialPageRoute(builder: (context) => SignUpPage()),);
                           },
                         ),
                       ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 25),
-                      height: 50,
-                      width: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Color(0xff38B69A),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'PoppinsSemiBold',
-                              fontSize: 18),
+                    GestureDetector(
+                      onTap:  () {
+                        Navigator.pushReplacement(
+                          context,MaterialPageRoute(builder: (context) => PersonalInfo()),);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 25),
+                        height: 50,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          color: Color(0xff38B69A),
+                        ),
+                        child:  Center(
+                            child: Text(
+                              "Sign In",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'PoppinsSemiBold',
+                                  fontSize: 18),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+
                     const SizedBox(
                       height: 5,
                     ),
@@ -150,8 +162,9 @@ class _SignInPageState extends State<SignInPage> {
                           decoration: TextDecoration.underline,
                         ),
                       ),
-                      onPressed: () {
-                        //signup screen
+                      onPressed:  () {
+                        Navigator.pushReplacement(
+                          context,MaterialPageRoute(builder: (context) => ForgotPassword()),);
                       },
                     )
                   ],
