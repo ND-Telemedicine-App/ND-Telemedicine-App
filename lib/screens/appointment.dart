@@ -48,13 +48,18 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         endTime: newBooking.bookingEnd.toString());
     // print('${newBooking.toJson()} has been uploaded');
     var body = json.encode(newAppointment.toJson());
+    insertAppointment(body);
     print(body);
   }
 
   Future<Appointment> insertAppointment(String body) async {
     const api = 'http://localhost:8080/createAppointment';
-    var response = await http.post(Uri.parse(api));
-    print(response.body);
+    var response = await http.post(Uri.parse(api),
+        body: body, headers: {'Content-Type': 'application/json'});
+    if (response.statusCode == 200) {
+      return Appointment.fromJson(json.decode(response.body));
+    }
+
     throw Exception("API noob");
   }
 
