@@ -19,6 +19,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     // DateTime.now().startOfDay
     // DateTime.now().endOfDay
     mockBookingService = BookingService(
+      serviceId: "15",
+        userId: "16",
         serviceName: 'Mock Service',
         serviceDuration: 30,
         bookingEnd: DateTime(now.year, now.month, now.day, 17, 0),
@@ -44,12 +46,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     ///here you can parse the streamresult and convert to [List<DateTimeRange>]
     DateTime first = now;
     DateTime second = now.add(const Duration(minutes: 30));
-    DateTime third = now.add(const Duration(minutes: 180));
+    DateTime third = now.subtract(const Duration(minutes: 90));
     DateTime fourth = now.add(const Duration(minutes: 240));
     converted.add(
         DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
     converted.add(DateTimeRange(
-        start: second, end: second.add(const Duration(minutes: 23))));
+        start: now, end: second.add(const Duration(minutes: 23))));
     converted.add(DateTimeRange(
         start: third, end: third.add(const Duration(minutes: 15))));
     converted.add(DateTimeRange(
@@ -76,9 +78,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             getBookingStream: getBookingStreamMock,
             uploadBooking: uploadBookingMock,
             pauseSlots: generatePauseSlots(),
-            //pauseSlotText: 'Break',
+            pauseSlotText: 'Break',
             hideBreakTime: false,
-            loadingWidget: const Text('Fetching data...'),
+            loadingWidget: const Text("Getting doctor's schedule..."),
             uploadingWidget: const CircularProgressIndicator(),
             locale: 'en_US',
             startingDayOfWeek: StartingDayOfWeek.monday,
