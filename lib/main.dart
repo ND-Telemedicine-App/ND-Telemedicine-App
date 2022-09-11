@@ -10,7 +10,6 @@ import 'package:nd_telemedicine_app/screens/sign_up.dart';
 import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -44,7 +43,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ND-Telemedicine-App',
       builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(boldText: false, textScaleFactor: 1.0),
+        data: MediaQuery.of(context)
+            .copyWith(boldText: false, textScaleFactor: 1.0),
         child: child!,
       ),
       theme: ThemeData(
@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
       home: const AddPrescriptionScreen(),
-
     );
   }
 }
