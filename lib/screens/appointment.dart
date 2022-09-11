@@ -93,19 +93,23 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: BookingCalendar(
-          bookingService: mockBookingService,
-          convertStreamResultToDateTimeRanges: convertStreamResultMock,
-          getBookingStream: getBookingStreamMock,
-          uploadBooking: uploadBookingMock,
-          pauseSlots: generatePauseSlots(),
-          pauseSlotText: 'Break',
-          hideBreakTime: false,
-          loadingWidget: const Text("Getting doctor's schedule..."),
-          uploadingWidget: const CircularProgressIndicator(),
-          locale: 'en_US',
-          startingDayOfWeek: StartingDayOfWeek.monday,
+        body: SafeArea (
+          child:
+            BookingCalendar(
+            bookingService: mockBookingService,
+            convertStreamResultToDateTimeRanges: convertStreamResultMock,
+            getBookingStream: getBookingStreamMock,
+            uploadBooking: uploadBookingMock,
+            bookedSlotColor: Color(0xffBE3050),
+            availableSlotColor: Color(0xff38B69A),
+            selectedSlotColor: Color(0xffDDFFF8),
+            pauseSlots: generatePauseSlots(),
+              pauseSlotText: 'Break',
+            hideBreakTime: false,
+            loadingWidget: const Text("Getting doctor's schedule..."),
+            uploadingWidget: const CircularProgressIndicator(),
+            locale: 'en_US',
+            startingDayOfWeek: StartingDayOfWeek.monday,
         ),
       ),
     );
