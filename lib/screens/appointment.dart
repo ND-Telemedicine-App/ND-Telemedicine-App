@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../services/models/appointment_model.dart';
 
@@ -33,6 +34,26 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   Stream<dynamic>? getBookingStreamMock(
       {required DateTime end, required DateTime start}) {
     return Stream.value([]);
+  }
+
+  Future<List<Appointment>> getAppointments(int doctorId) async {
+    var api = 'http://localhost:8080/appointment/doctor/$doctorId';
+    Response res = await get(Uri.parse(api));
+
+    if (res.statusCode == 200) {
+      final json = jsonDecode(res.body);
+      print(json);
+      List<Appointment> appointments = <Appointment>[];
+
+      for (int i = 0; i < json.length; i++) {
+        Appointment appointment = Appointment.fromJson(json[i]);
+        appointments.add(appointment);
+      }
+
+      return appointments;
+    } else {
+      throw "Cannot get appointment data";
+    }
   }
 
   Future<dynamic> uploadBookingMock(
