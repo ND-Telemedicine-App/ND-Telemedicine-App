@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../services/models/appointment_model.dart';
 
 class AppointmentScreen extends StatefulWidget {
   const AppointmentScreen({Key? key}) : super(key: key);
@@ -9,7 +13,6 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
-
   final now = DateTime.now();
   late BookingService mockBookingService;
 
@@ -19,7 +22,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     // DateTime.now().startOfDay
     // DateTime.now().endOfDay
     mockBookingService = BookingService(
-      serviceId: "15",
+        serviceId: "15",
         userId: "16",
         serviceName: 'Mock Service',
         serviceDuration: 30,
@@ -37,7 +40,22 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     await Future.delayed(const Duration(seconds: 1));
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    print('${newBooking.toJson()} has been uploaded');
+    Appointment newAppointment = Appointment(
+        id: null,
+        patientId: 1,
+        doctorId: 2,
+        startTime: newBooking.bookingStart.toString(),
+        endTime: newBooking.bookingEnd.toString());
+    // print('${newBooking.toJson()} has been uploaded');
+    var body = json.encode(newAppointment.toJson());
+    print(body);
+  }
+
+  Future<Appointment> insertAppointment(String body) async {
+    const api = 'http://localhost:8080/createAppointment';
+    var response = await http.post(Uri.parse(api));
+    print(response.body);
+    throw Exception("API noob");
   }
 
   List<DateTimeRange> converted = [];
@@ -70,22 +88,21 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea (
-          child:
-            BookingCalendar(
-            bookingService: mockBookingService,
-            convertStreamResultToDateTimeRanges: convertStreamResultMock,
-            getBookingStream: getBookingStreamMock,
-            uploadBooking: uploadBookingMock,
-            pauseSlots: generatePauseSlots(),
-            pauseSlotText: 'Break',
-            hideBreakTime: false,
-            loadingWidget: const Text("Getting doctor's schedule..."),
-            uploadingWidget: const CircularProgressIndicator(),
-            locale: 'en_US',
-            startingDayOfWeek: StartingDayOfWeek.monday,
+      body: SafeArea(
+        child: BookingCalendar(
+          bookingService: mockBookingService,
+          convertStreamResultToDateTimeRanges: convertStreamResultMock,
+          getBookingStream: getBookingStreamMock,
+          uploadBooking: uploadBookingMock,
+          pauseSlots: generatePauseSlots(),
+          pauseSlotText: 'Break',
+          hideBreakTime: false,
+          loadingWidget: const Text("Getting doctor's schedule..."),
+          uploadingWidget: const CircularProgressIndicator(),
+          locale: 'en_US',
+          startingDayOfWeek: StartingDayOfWeek.monday,
         ),
-        ),
+      ),
     );
   }
 }
