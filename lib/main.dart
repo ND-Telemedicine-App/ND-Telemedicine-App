@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: buildMaterialColor(const Color(0xff2B8D78)),
         fontFamily: 'Poppins',
       ),
-      home: const PrescriptionScreen(),
+      home: const DoctorAppointmentScreen(),
     );
   }
 }
