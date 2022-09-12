@@ -1,6 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:nd_telemedicine_app/widgets/features/prescription/Prescription_Container.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/prescription.dart';
+
+Future<Prescription> fetchPrescription() async {
+  final response =
+      await http.get(Uri.parse('http://10.0.2.2:8080/prescription/1'));
+
+  if (response.statusCode == 200) {
+    return Prescription.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load prescription');
+  }
+}
 
 class PrescriptionScreen extends StatefulWidget {
   const PrescriptionScreen({Key? key}) : super(key: key);
@@ -10,6 +26,14 @@ class PrescriptionScreen extends StatefulWidget {
 }
 
 class _PrescriptionScreenState extends State<PrescriptionScreen> {
+  late Future<Prescription> futurePrescription;
+
+  @override
+  void initState() {
+    super.initState();
+    futurePrescription = fetchPrescription();
+  }
+
   @override
   Widget build(BuildContext context) {
     double heightWidth = MediaQuery.of(context).size.height;
@@ -21,17 +45,26 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
+                    children: [
                   // profile heading
                   PageTitle(title: "Prescription"),
-                  PrescriptionContainer(
-                      number: 1,
-                      drugName: "ABC",
-                      usage: "1 tablet - 30 minutes after each meal everyday",
-                      dispense: "28 tablets",
-                      refill: "1",
-                      date: "13/03/2021",
-                      doctor: "Choi Beomgyu"),
+                  FutureBuilder<Prescription>(
+                      future: futurePrescription,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return PrescriptionContainer(
+                              number: 1,
+                              drugName: snapshot.data!.medicineName,
+                              usage: snapshot.data!.dosageInstructions,
+                              dispense: snapshot.data!.dispenseAmount,
+                              refill: snapshot.data!.medicineRefill,
+                              date: "13/03/2021",
+                              doctor: "Choi Beomgyu");
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return const CircularProgressIndicator();
+                      }),
                   PrescriptionContainer(
                       number: 2,
                       drugName: "PH liquid med",

@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: const AddPrescriptionScreen(),
+      home: const PrescriptionScreen(),
     );
   }
 }

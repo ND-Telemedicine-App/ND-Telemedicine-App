@@ -4,6 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:http/http.dart' as http;
 
+// Converts the text fields into JSON and Posts to /createPrescription
+Future<http.Response> createPrescription(
+  String patientName,
+  String medicineName,
+  String dosageInstructions,
+  String dispenseAmount,
+  String medicineRefill,
+) {
+  return http.post(
+    Uri.parse('http://10.0.2.2:8080/createPrescription'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: jsonEncode(<String, String>{
+      'patientId': patientName,
+      'doctorId': '1234',
+      'medicineName': medicineName,
+      'prescriptionDosage': dosageInstructions,
+      'prescriptionDispense': dispenseAmount,
+      'prescriptionRefill': medicineRefill,
+    }),
+  );
+}
+
 class AddPrescriptionScreen extends StatefulWidget {
   const AddPrescriptionScreen({Key? key}) : super(key: key);
 
@@ -18,24 +42,6 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
   final dosageInstructionsController = TextEditingController();
   final dispenseAmountController = TextEditingController();
   final medicineRefillController = TextEditingController();
-
-  // Converts the text fields into JSON and Posts to /createPrescription
-  Future<http.Response> createAlbum(String patientName, String medicineName,
-      String dosageInstructions, String dispenseAmount, String medicineRefill) {
-    return http.post(
-      Uri.parse('http://10.0.2.2:8080/createPrescription'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(<String, String>{
-        'patientId': patientName,
-        'medicineName': medicineName,
-        'prescriptionDosage': dosageInstructions,
-        'prescriptionDispense': dispenseAmount,
-        'prescriptionRefill': medicineRefill,
-      }),
-    );
-  }
 
   // Clean up the controllers when the widget is disposed.
   @override
@@ -211,7 +217,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                     ),
                   ),
                   onTap: () {
-                    createAlbum(
+                    createPrescription(
                         patientNameController.text,
                         medicineNameController.text,
                         dosageInstructionsController.text,
