@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:nd_telemedicine_app/widgets/features/prescription/Prescription_Container.dart';
@@ -7,15 +8,19 @@ import 'package:http/http.dart' as http;
 
 import '../models/prescription.dart';
 
-Future<Prescription> fetchPrescription() async {
-  final response =
-      await http.get(Uri.parse('http://10.0.2.2:8080/prescription/1'));
+Future<List<Prescription>> fetchPrescriptions(http.Client client) async {
+  final response = await client
+      .get(Uri.parse('http://10.0.2.2:8080/prescription/patient/1111'));
 
-  if (response.statusCode == 200) {
-    return Prescription.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load prescription');
-  }
+  return compute(parsePrescriptions, response.body);
+}
+
+List<Prescription> parsePrescriptions(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+  return parsed
+      .map<Prescription>((json) => Prescription.fromJson(json))
+      .toList();
 }
 
 class PrescriptionScreen extends StatefulWidget {
@@ -27,12 +32,6 @@ class PrescriptionScreen extends StatefulWidget {
 
 class _PrescriptionScreenState extends State<PrescriptionScreen> {
   late Future<Prescription> futurePrescription;
-
-  @override
-  void initState() {
-    super.initState();
-    futurePrescription = fetchPrescription();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,24 +47,21 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                     children: [
                   // profile heading
                   PageTitle(title: "Prescription"),
-                  FutureBuilder<Prescription>(
-                      future: futurePrescription,
+                  FutureBuilder<List<Prescription>>(
+                      future: fetchPrescriptions(http.Client()),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return PrescriptionContainer(
-                              number: 1,
-                              drugName: snapshot.data!.medicineName,
-                              usage: snapshot.data!.dosageInstructions,
-                              dispense: snapshot.data!.dispenseAmount,
-                              refill: snapshot.data!.medicineRefill,
-                              date: "13/03/2021",
-                              doctor: "Choi Beomgyu");
+                              prescriptions: snapshot.data!);
                         } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
+                          return const Center(
+                            child: Text('An error has occurred!'),
+                          );
                         }
-                        return const CircularProgressIndicator();
+                        return const Center(child: CircularProgressIndicator());
                       }),
-                  PrescriptionContainer(
+
+                  /*PrescriptionContainer(
                       number: 2,
                       drugName: "PH liquid med",
                       usage: "20ml before bed",
@@ -80,7 +76,26 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                       dispense: "1 bottle - 60 pills",
                       refill: "None",
                       date: "01/04/2021",
-                      doctor: "Han Sooyoung"),
+                      doctor: "Han Sooyoung"),*/
                 ]))));
   }
 }
+
+/*class PrescriptionsList extends StatelessWidget {
+  const PrescriptionsList({super.key, required this.prescriptions});
+
+  final List<Prescription> prescriptions;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemCount: prescriptions.length,
+      itemBuilder: (context, index) {
+        return Text(prescriptions[index].medicineName);
+      },
+    );
+  }
+}*/
