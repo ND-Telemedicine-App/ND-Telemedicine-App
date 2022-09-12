@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/widgets/features/doctor/doctor_booking_card.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
+import '../models/doctor_model.dart';
+
 class DoctorAppointmentScreen extends StatefulWidget {
   const DoctorAppointmentScreen({Key? key}) : super(key: key);
 
@@ -47,7 +49,17 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                     ),
                   ),
                 SizedBox(height: 40,),
-                DoctorBookingCard(doctorImagePath: "assets/images/hansooyoung.jpg", doctorName: "Han Sooyoung", doctorSpeciality: "Neurologist")
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: doctors.length,
+                    itemBuilder: (BuildContext context, int index) {
+                    final Doctor doctor = doctors[index];
+                    return DoctorBookingCard(
+                        doctorImagePath: doctor.imagePath,
+                        doctorName: doctor.name,
+                        doctorSpeciality: doctor.speciality);
+                    },)
               ],
             ),
           )
