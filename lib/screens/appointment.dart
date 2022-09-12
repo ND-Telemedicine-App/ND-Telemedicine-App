@@ -33,7 +33,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   Stream<dynamic>? getBookingStreamMock(
       {required DateTime end, required DateTime start}) {
-    return Stream.value([]);
+    getAppointments(1202).then((appointments) => Stream.fromIterable(appointments));
   }
 
   Future<List<Appointment>> getAppointments(int doctorId) async {
@@ -42,7 +42,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
-      print(json);
       List<Appointment> appointments = <Appointment>[];
 
       for (int i = 0; i < json.length; i++) {
@@ -55,6 +54,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       throw "Cannot get appointment data";
     }
   }
+
+  // List<Appointment> getAppointmentStream() {
+  //   getAppointments(doctorId)
+  // }
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
@@ -88,18 +91,23 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
     ///here you can parse the streamresult and convert to [List<DateTimeRange>]
-    DateTime first = now;
-    DateTime second = now.add(const Duration(minutes: 30));
-    DateTime third = now.subtract(const Duration(minutes: 90));
-    DateTime fourth = now.add(const Duration(minutes: 240));
-    converted.add(
-        DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
-    converted.add(DateTimeRange(
-        start: now, end: second.add(const Duration(minutes: 23))));
-    converted.add(DateTimeRange(
-        start: third, end: third.add(const Duration(minutes: 15))));
-    converted.add(DateTimeRange(
-        start: fourth, end: fourth.add(const Duration(minutes: 15))));
+    print(streamResult);
+    for (dynamic appointment in streamResult) {
+      converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
+    }
+    // DateTime first = now;
+    // DateTime second = now.add(const Duration(minutes: 30));
+    // DateTime third = now.subtract(const Duration(minutes: 90));
+    // DateTime fourth = now.add(const Duration(minutes: 240));
+    // converted.add(
+    //     DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
+    // converted.add(DateTimeRange(
+    //     start: now, end: second.add(const Duration(minutes: 23))));
+    // converted.add(DateTimeRange(
+    //     start: third, end: third.add(const Duration(minutes: 15))));
+    // converted.add(DateTimeRange(
+    //     start: fourth, end: fourth.add(const Duration(minutes: 15))));
+    print(converted);
     return converted;
   }
 
@@ -125,7 +133,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             availableSlotColor: Color(0xff38B69A),
             selectedSlotColor: Color(0xffDDFFF8),
             pauseSlots: generatePauseSlots(),
-              pauseSlotText: 'Break',
+            pauseSlotText: 'Break',
             hideBreakTime: false,
             loadingWidget: const Text("Getting doctor's schedule..."),
             uploadingWidget: const CircularProgressIndicator(),
