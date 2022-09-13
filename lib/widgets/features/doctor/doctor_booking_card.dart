@@ -51,10 +51,12 @@ class DoctorBookingCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(bottom: 5),
-                      child: Expanded(
+                      child: Container(
+                        width: 150,
                         child:
                           Text(
                             "Dr. $doctorName",
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Color(0xff78CEBB),
                               fontFamily: "PoppinsSemiBold",
