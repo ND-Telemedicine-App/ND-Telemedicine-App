@@ -6,6 +6,7 @@ class Prescription {
   final String dosageInstructions;
   final String dispenseAmount;
   final String medicineRefill;
+  final String prescriptionDate;
 
   const Prescription({
     required this.id,
@@ -15,6 +16,7 @@ class Prescription {
     required this.dosageInstructions,
     required this.dispenseAmount,
     required this.medicineRefill,
+    required this.prescriptionDate,
   });
 
   factory Prescription.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Prescription {
       dosageInstructions: json['prescriptionDosage'] as String,
       dispenseAmount: json['prescriptionDispense'] as String,
       medicineRefill: json['prescriptionRefill'] as String,
+      prescriptionDate: json['prescriptionDate'] as String,
     );
   }
 }
