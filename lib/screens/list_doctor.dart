@@ -100,6 +100,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                                     fullName: snapshot.data?[index]['fullName'],
                                     speciality: snapshot.data?[index]
                                         ['speciality'],
+                                    email: snapshot.data?[index]['email'],
                                     address: snapshot.data?[index]['address'],
                                     phoneNumber: snapshot.data?[index]
                                         ['phoneNumber'],

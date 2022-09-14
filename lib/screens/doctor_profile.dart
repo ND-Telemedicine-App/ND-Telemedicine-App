@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
 class DoctorProfile extends StatefulWidget {
-  const DoctorProfile({Key? key, required this.avatar, required this.fullName, required this.speciality, required this.address, required this.phoneNumber, required this.bio}) : super(key: key);
+  const DoctorProfile({Key? key, required this.avatar, required this.fullName, required this.speciality, required this.address, required this.phoneNumber, required this.bio, required this.email}) : super(key: key);
   final String avatar;
   final String fullName;
   final String speciality;
+  final String email;
   final String address;
   final String phoneNumber;
   final String bio;
@@ -38,7 +39,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
           centerTitle: true,
           title: Text(
             "Profile",
-            style: const TextStyle(fontFamily: "PoppinsBold"),
+            style: const TextStyle(fontFamily: "PoppinsBold", fontSize: 23),
           ),
         ),
         body: SingleChildScrollView(
@@ -91,6 +92,24 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       ),
                       Text(
                         widget.speciality,
+                        style: TextStyle(
+                            fontFamily: "PoppinsMediumItalic",
+                            color: Colors.grey[600],
+                            fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Email",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "PoppinsBold",
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        widget.email,
                         style: TextStyle(
                             fontFamily: "PoppinsMediumItalic",
                             color: Colors.grey[600],
