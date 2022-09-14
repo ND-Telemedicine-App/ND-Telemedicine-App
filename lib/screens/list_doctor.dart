@@ -80,17 +80,6 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             SizedBox(
               height: 40,
             ),
-            // ListView.builder(
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //   itemCount: doctors.length,
-            //     itemBuilder: (BuildContext context, int index) {
-            //     final Doctor doctor = doctors[index];
-            //     return DoctorBookingCard(
-            //         doctorImagePath: doctor.imagePath,
-            //         doctorName: doctor.name,
-            //         doctorSpeciality: doctor.speciality);
-            //     },)
 
             FutureBuilder<List>(
               future: getUsers(),
