@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
@@ -16,6 +18,8 @@ class AppointmentScreen extends StatefulWidget {
 class _AppointmentScreenState extends State<AppointmentScreen> {
   final now = DateTime.now();
   late BookingService mockBookingService;
+  late List appointments;
+
 
   @override
   void initState() {
@@ -29,35 +33,43 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         serviceDuration: 30,
         bookingEnd: DateTime(now.year, now.month, now.day, 17, 0),
         bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
+
+    convertFutureListToList();
   }
 
   Stream<dynamic>? getBookingStreamMock(
       {required DateTime end, required DateTime start}) {
-    getAppointments(1202).then((appointments) => Stream.fromIterable(appointments));
+    return Stream.value([]);
   }
 
-  Future<List<Appointment>> getAppointments(int doctorId) async {
-    var api = 'http://localhost:8080/appointment/doctor/$doctorId';
+  Future<List> getAppointments() async {
+    var api = 'http://localhost:8080/appointment/all';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
-      List<Appointment> appointments = <Appointment>[];
-
-      for (int i = 0; i < json.length; i++) {
-        Appointment appointment = Appointment.fromJson(json[i]);
-        appointments.add(appointment);
-      }
-
-      return appointments;
+      return json;
     } else {
       throw "Cannot get appointment data";
     }
   }
 
-  // List<Appointment> getAppointmentStream() {
-  //   getAppointments(doctorId)
-  // }
+  void convertFutureListToList() async {
+    Future<List> futureOfList = getAppointments();
+    appointments= await futureOfList ;
+    for (dynamic appointment in appointments) {
+      setState(() {
+        converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
+      });
+
+    }
+
+
+    print(appointments);
+
+
+  }
+
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
@@ -90,23 +102,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   List<DateTimeRange> converted = [];
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-    ///here you can parse the streamresult and convert to [List<DateTimeRange>]
     print(streamResult);
-    for (dynamic appointment in streamResult) {
-      converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
-    }
-    // DateTime first = now;
-    // DateTime second = now.add(const Duration(minutes: 30));
-    // DateTime third = now.subtract(const Duration(minutes: 90));
-    // DateTime fourth = now.add(const Duration(minutes: 240));
-    // converted.add(
-    //     DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
-    // converted.add(DateTimeRange(
-    //     start: now, end: second.add(const Duration(minutes: 23))));
-    // converted.add(DateTimeRange(
-    //     start: third, end: third.add(const Duration(minutes: 15))));
-    // converted.add(DateTimeRange(
-    //     start: fourth, end: fourth.add(const Duration(minutes: 15))));
+    // for (dynamic appointment in appointments) {
+    //   converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
+    // }
+
+    print("Converted: ");
     print(converted);
     return converted;
   }
