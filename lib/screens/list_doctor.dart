@@ -5,8 +5,7 @@ import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/widgets/features/doctor/doctor_booking_card.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
-import '../services/models/user_model.dart';
-import '../models/doctor_model.dart';
+import 'doctor_profile.dart';
 
 class DoctorAppointmentScreen extends StatefulWidget {
   const DoctorAppointmentScreen({Key? key}) : super(key: key);
@@ -96,23 +95,41 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             FutureBuilder<List>(
               future: getUsers(),
               builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  print(snapshot.error);
-                } else if (snapshot.hasData) {
+                if (snapshot.hasData) {
                   return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
-                          return DoctorBookingCard(
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DoctorProfile(
+                                    avatar: snapshot.data?[index]['avatar'],
+                                    fullName: snapshot.data?[index]['fullName'],
+                                    speciality: snapshot.data?[index]
+                                        ['speciality'],
+                                    address: snapshot.data?[index]['address'],
+                                    phoneNumber: snapshot.data?[index]
+                                        ['phoneNumber'],
+                                    bio: snapshot.data?[index]['bio'],
+                                  ),
+                                ));
+                          },
+                          child: DoctorBookingCard(
                               doctorImagePath: snapshot.data?[index]['avatar'],
                               doctorName: snapshot.data?[index]["fullName"],
-                              doctorSpeciality: snapshot.data?[index]["speciality"]);
+                              doctorSpeciality: snapshot.data?[index]
+                                  ["speciality"]),
+                        );
                       }
                       // },
                       );
+                } else {
+                  return CircularProgressIndicator();
                 }
-                throw Exception("No data");
               },
             )
           ],

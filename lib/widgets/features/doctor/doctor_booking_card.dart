@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DoctorBookingCard extends StatelessWidget {
-  final doctorImagePath;
+  final String doctorImagePath;
   final String doctorName;
   final String doctorSpeciality;
 
