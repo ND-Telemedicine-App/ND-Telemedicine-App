@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
@@ -43,7 +41,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<List> getAppointments() async {
-    var api = 'http://localhost:8080/appointment/all';
+    var api = 'http://localhost:8080/appointment/doctor/2';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
