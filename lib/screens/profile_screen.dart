@@ -90,15 +90,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                   ProfileContainer(
                     title: "Allergies",
-                    content: const ["Peanut Butter", "Aspirin", "Dairy", "Penicillin", "Tree nuts"]
+                    content: widget.allergies.split(',')
                   ),
                   ProfileContainer(
                     title: "Diseases",
-                    content: const ["Major depression", "Diabetes type 2"],
+                    content: widget.diseases.split(',')
                      ),
                   ProfileContainer(
                     title: "Medication",
-                    content: const ["Citalopram", "Insulin"],
+                    content: widget.medication.split(',')
                   ),
                       // sign out btn
                       Container(
