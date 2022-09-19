@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+
 import 'package:nd_telemedicine_app/screens/add_prescription.dart';
+
+import 'package:nd_telemedicine_app/screens/appointment.dart';
+
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/forgot_password.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
+import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 import 'package:nd_telemedicine_app/screens/medical_info.dart';
 import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 import 'package:nd_telemedicine_app/screens/sign_up.dart';
 import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(const MyApp());
+  initializeDateFormatting()
+      .then((_) => runApp(const MyApp()));
 }
+
+// void main() {
+//   runApp(const MyApp());
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -52,7 +63,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: const PrescriptionScreen(),
+
+
+      home: const AppointmentScreen(),
+
     );
   }
 }

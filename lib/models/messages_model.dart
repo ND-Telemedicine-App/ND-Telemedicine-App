@@ -1,4 +1,4 @@
-import 'package:nd_telemedicine_app/models/user_model.dart';
+import 'package:nd_telemedicine_app/models/chatuser_model.dart';
 
 class Message {
   final User sender;
