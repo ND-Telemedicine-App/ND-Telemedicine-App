@@ -17,7 +17,7 @@ class DoctorAppointmentScreen extends StatefulWidget {
 
 class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
   Future<List> getUsers() async {
-    Response res = await get(Uri.parse("http://localhost:8080/users"));
+    Response res = await get(Uri.parse("http://localhost:8080/user/doctors"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
