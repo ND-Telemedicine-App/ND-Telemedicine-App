@@ -10,6 +10,7 @@ import 'package:nd_telemedicine_app/screens/sign_up.dart';
 import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:nd_telemedicine_app/widgets/navigation/bottom_navigation.dart';
 
 
 void main() {
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: buildMaterialColor(const Color(0xff2B8D78)),
         fontFamily: 'Poppins',
       ),
-      home: const MyHomePage(title: "Baek Dohwa"),
+      home: const HomeScreen(),
     );
   }
 }
@@ -81,7 +82,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -95,17 +95,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-    });
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
     });
   }
 

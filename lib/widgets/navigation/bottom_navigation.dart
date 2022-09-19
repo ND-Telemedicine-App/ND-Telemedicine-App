@@ -1,41 +1,18 @@
 import 'package:flutter/material.dart';
 
-class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key}) : super(key: key);
+// class BottomNav extends StatelessWidget {
+//   const BottomNav ({
+//     Key? key,
+//     required this.selectedIndex,
+//     required this.onItemTapped,
+//   }) : super(key:key);
+//
+//   final int selectedIndex;
+//   final void onItemTapped;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//   }
+// }
 
-  @override
-  State<BottomNav> createState() => _BottomNavState();
-}
 
-class _BottomNavState extends State<BottomNav> {
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_today_outlined),
-          label: 'Appointment',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.note_add_outlined),
-          label: 'Prescription',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.chat_bubble_outline_rounded),
-          label: 'Chat',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline_rounded),
-          label: 'Profile',
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Colors.amber[800],
-      onTap: _onItemTapped,
-    );
-  }
-}
