@@ -5,7 +5,20 @@ import '../widgets/features/profile/info_row.dart';
 import '../widgets/features/page_title.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key, required this.avatar, required this.fullName, required this.gender, required this.email, required this.phoneNumber, required this.dateOfBirth, required this.address, required this.allergies, required this.diseases, required this.medication}) : super(key: key);
+
+  final String avatar;
+  final String fullName;
+  final String gender;
+  final String email;
+  final String phoneNumber;
+  final String dateOfBirth;
+  final String address;
+  final String allergies;
+  final String diseases;
+  final String medication;
+
+
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -30,11 +43,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   PageTitle(title: "Profile"),
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage("assets/images/yeonjun.jpg"),
+                    backgroundImage: AssetImage(widget.avatar),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 20, bottom: 10),
-                    child: Text("Choi Yeonjun",
+                    child: Text(widget.fullName,
                         style: TextStyle(
                           fontSize: 26,
                           color: Color(0xff78CEBB),
@@ -63,29 +76,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                         child: Column(
-                          children: const [
-                            InfoRow(infoHeader: "Gender", infoContent: "Male"),
+                          children: [
+                            InfoRow(infoHeader: "Gender", infoContent: widget.gender),
                             InfoRow(
-                                infoHeader: "Email", infoContent: "cyj1309@gmail.com"),
-                            InfoRow(infoHeader: "Phone", infoContent: " 0413939449"),
-                            InfoRow(infoHeader: "DOB", infoContent: "13/09/1999"),
+                                infoHeader: "Email", infoContent: widget.email),
+                            InfoRow(infoHeader: "Phone", infoContent: widget.phoneNumber),
+                            InfoRow(infoHeader: "DOB", infoContent: widget.dateOfBirth),
                             InfoRow(
                                 infoHeader: "Address",
-                                infoContent: " 123 Elizabeth St, Melbourne, VIC 3000")
+                                infoContent: widget.address)
                           ],
                         ),
                       ),
                   ProfileContainer(
                     title: "Allergies",
-                    content: const ["Peanut Butter", "Aspirin", "Dairy", "Penicillin", "Tree nuts"]
+                    content: widget.allergies.split(',')
                   ),
                   ProfileContainer(
                     title: "Diseases",
-                    content: const ["Major depression", "Diabetes type 2"],
+                    content: widget.diseases.split(',')
                      ),
                   ProfileContainer(
                     title: "Medication",
-                    content: const ["Citalopram", "Insulin"],
+                    content: widget.medication.split(',')
                   ),
                       // sign out btn
                       Container(

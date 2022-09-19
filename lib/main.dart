@@ -3,6 +3,7 @@ import 'package:nd_telemedicine_app/screens/appointment.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/forgot_password.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
+import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 import 'package:nd_telemedicine_app/screens/medical_info.dart';
 import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
@@ -57,7 +58,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: buildMaterialColor(const Color(0xff2B8D78)),
         fontFamily: 'Poppins',
       ),
-      home: const AppointmentScreen(),
+
+      home: const SignInPage(),
+
+
     );
   }
 }
