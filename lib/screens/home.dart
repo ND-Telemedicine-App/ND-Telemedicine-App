@@ -3,10 +3,6 @@ import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/utils/category_field.dart';
 import 'package:nd_telemedicine_app/utils/doctor_card.dart';
 
-import 'appointment.dart';
-import 'prescription_screen.dart';
-import 'profile_screen.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -15,52 +11,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    AppointmentScreen(),
-    PrescriptionScreen(),
-    ChatMenu(),
-    ProfileScreen()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined),
-            label: 'Appointment',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.note_add_outlined),
-            label: 'Prescription',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline_rounded),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline_rounded),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SafeArea(
