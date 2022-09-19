@@ -10,7 +10,7 @@ import '../models/prescription.dart';
 
 Future<List<Prescription>> fetchPrescriptions(http.Client client) async {
   final response = await client
-      .get(Uri.parse('http://10.0.2.2:8080/prescription/patient/1111'));
+      .get(Uri.parse('http://localhost:8080/prescription/patient/1111'));
 
   return compute(parsePrescriptions, response.body);
 }

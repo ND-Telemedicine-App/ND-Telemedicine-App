@@ -13,7 +13,7 @@ Future<http.Response> createPrescription(
   String medicineRefill,
 ) {
   return http.post(
-    Uri.parse('http://10.0.2.2:8080/createPrescription'),
+    Uri.parse('http://localhost:8080/createPrescription'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },

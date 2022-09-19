@@ -19,7 +19,7 @@ class PrescriptionContainer extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return Container(
-              margin: EdgeInsets.only(top: 20, bottom: 10),
+              margin: EdgeInsets.only(top: 20, bottom: 10, right: 15, left: 15),
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
               width: screenWidth * 0.9,
               decoration: BoxDecoration(
