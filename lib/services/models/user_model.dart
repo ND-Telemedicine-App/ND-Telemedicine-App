@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 class User {
-  Long? id;
+  int? id;
   String? role;
   String? email;
   String? password;
