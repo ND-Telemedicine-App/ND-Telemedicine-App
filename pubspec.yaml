@@ -39,7 +39,6 @@ dependencies:
   booking_calendar: ^1.1.5
   intl: ^0.17.0
 
-  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
