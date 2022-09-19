@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: buildMaterialColor(const Color(0xff2B8D78)),
         fontFamily: 'Poppins',
       ),
-      home: const AppointmentScreen(),
+      home: const MyHomePage(title: "Baek Dohwa"),
     );
   }
 }
@@ -82,6 +82,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    AppointmentScreen(),
+    PrescriptionScreen(),
+    ChatMenu(),
+    ProfileScreen()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -128,21 +143,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            _widgetOptions.elementAt(_selectedIndex),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
