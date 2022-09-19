@@ -90,29 +90,37 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home_outlined, size: 27,),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_outlined),
-            label: 'Appointment',
+            label: 'Booking',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.note_add_outlined),
-            label: 'Prescription',
+            icon: Icon(Icons.note_add_outlined, size: 26,),
+            label: 'Medicine',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline_rounded),
+            icon: Icon(Icons.chat_bubble_outline_rounded, size: 26,),
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline_rounded),
+            icon: Icon(Icons.person_outline_rounded, size: 27),
             label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Color(0xff031011),
+        unselectedLabelStyle: const TextStyle(color: Color(0xff031011), fontSize: 12),
+        selectedLabelStyle: const TextStyle(color: Color(0xff78CEBB), fontSize: 14),
+        showUnselectedLabels: true,
+        selectedIconTheme: IconThemeData(
+          size: 30,
+        ),
+        selectedItemColor: Color(0xff78CEBB),
         onTap: _onItemTapped,
+
       ),
     );
   }
