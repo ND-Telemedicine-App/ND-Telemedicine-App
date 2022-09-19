@@ -10,6 +10,8 @@ class User {
     required this.imageUrl,
     required this.isOnline,
   });
+
+
 }
 
 // YOU - current user

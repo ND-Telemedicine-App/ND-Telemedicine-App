@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/models/messages_model.dart';
 
-import '../models/user_model.dart';
+import '../models/chatuser_model.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key, required this.user}) : super(key: key);

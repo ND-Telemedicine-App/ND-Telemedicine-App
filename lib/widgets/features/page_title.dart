@@ -15,7 +15,7 @@ class PageTitle extends StatelessWidget {
       child: Text(title,
           style: TextStyle(
               color: Color(0xff2B8D78),
-              fontWeight: FontWeight.w700,
+              fontFamily: 'PoppinsBold',
               fontSize: 35
           )),
     );
