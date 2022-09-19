@@ -17,7 +17,7 @@ class PrescriptionInfo extends StatelessWidget {
       children: <Widget> [
         Text("$infoHeader: ",
         style: TextStyle(
-          fontWeight: FontWeight.w800,
+          fontFamily: "PoppinsSemiBold",
           height: 1.75,
           fontSize: 18
         )),
