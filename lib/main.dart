@@ -17,8 +17,7 @@ import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  initializeDateFormatting()
-      .then((_) => runApp(const MyApp()));
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 
 // void main() {
@@ -63,10 +62,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-
-
-      home: const AppointmentScreen(),
-
+      home: const PersonalInfo(),
     );
   }
 }

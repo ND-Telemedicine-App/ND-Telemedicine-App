@@ -10,19 +10,27 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
-  final textController = TextEditingController();
+  final fullNameController = TextEditingController();
+  final addressController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final genderController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
 
   var fullName = "";
 
   @override
   void dispose() {
-    textController.dispose();
+    fullNameController.dispose();
+    addressController.dispose();
+    phoneNumberController.dispose();
+    genderController.dispose();
+    dateOfBirthController.dispose();
     super.dispose();
   }
 
   String? get _errorText {
     // at any time, we can get the text from _controller.value.text
-    final text = textController.value.text;
+    final text = fullNameController.value.text;
     // Note: you can do your own custom validation here
     // Move this logic this outside the widget for more testable code
     if (text.isEmpty) {
@@ -100,7 +108,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
                                 child: TextField(
-                                  controller: textController,
+                                  controller: fullNameController,
                                   decoration: InputDecoration(
                                     errorText: _errorText,
                                     filled: true,
@@ -125,6 +133,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
                                 child: TextField(
+                                  controller: addressController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
@@ -147,6 +156,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
                                 child: TextField(
+                                  controller: phoneNumberController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
@@ -169,6 +179,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
                                 child: TextField(
+                                  controller: genderController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
@@ -191,6 +202,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
                                 child: TextField(
+                                  controller: dateOfBirthController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
@@ -218,7 +230,20 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         GestureDetector(
                           onTap: () {
                             Navigator.pushReplacement(
-                              context,MaterialPageRoute(builder: (context) => MedicalInfo()),);
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MedicalInfo(
+                                    role: 'PATIENT',
+                                    email: 's3722961@student.rmit.edu.au',
+                                    password: 'password',
+                                    fullName: fullNameController.text,
+                                    avatar: 'test.png',
+                                    address: addressController.text,
+                                    phoneNumber: phoneNumberController.text,
+                                    gender: genderController.text,
+                                    dateOfBirth: dateOfBirthController.text,
+                                  ),
+                                ));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 25),
@@ -243,9 +268,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           height: 5,
                         ),
                         GestureDetector(
-                          onTap:  () {
+                          onTap: () {
                             Navigator.pushReplacement(
-                              context,MaterialPageRoute(builder: (context) => SignInPage()),);
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInPage()),
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 10),
