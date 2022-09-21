@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: MyStatefulWidget(),
+      home: SignUpPage(),
 
     );
   }
@@ -84,7 +84,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     AppointmentScreen(),
     PrescriptionScreen(),
     ChatMenu(),
-    ProfileScreen()
+    //ProfileScreen(),
+    AddPrescriptionScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -119,6 +120,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded, size: 27),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_email, size: 27),
             label: 'Profile',
           ),
         ],
