@@ -21,6 +21,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +63,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               children: <Widget>[
                                 Center(
                                     child: Container(
-                                        width: 350,
+                                      width: screenWidth * 0.85,
+                                        margin: const EdgeInsets.only(
+                                        bottom: 10),
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2),
                                         decoration: BoxDecoration(
@@ -72,28 +76,32 @@ class _SignUpPageState extends State<SignUpPage> {
                                             borderRadius:
                                             BorderRadius.circular(12)),
                                         child: DropdownButtonHideUnderline(
-                                          child: DropdownButton<String>(
-                                            value: selectedRole,
-                                            isExpanded: true,
-                                            iconSize: 25,
-                                            icon: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Colors.black,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: DropdownButton<String>(
+                                              value: selectedRole,
+                                              hint: Text("Are you a..."),
+                                              isExpanded: true,
+                                              iconSize: 25,
+                                              icon: const Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Colors.black,
+                                              ),
+                                              items: ["PATIENT", "DOCTOR"]
+                                                  .map(buildMenuItem)
+                                                  .toList(),
+                                              onChanged: (value) => setState(() {
+                                                selectedRole = value;
+                                              }),
                                             ),
-                                            items: ["PATIENT", "DOCTOR"]
-                                                .map(buildMenuItem)
-                                                .toList(),
-                                            onChanged: (value) => setState(() {
-                                              selectedRole = value;
-                                            }),
                                           ),
                                         ))),
                               ],
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 8, bottom: 8),
+                            width: screenWidth * 0.85,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             child: TextFormField(
                               decoration: InputDecoration(
                                 filled: true,
@@ -114,8 +122,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 8, bottom: 8),
+                            width: screenWidth * 0.85,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             child: TextFormField(
                               decoration: InputDecoration(
                                 filled: true,
@@ -136,8 +144,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 8, bottom: 8),
+                            width: screenWidth * 0.85,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             child: TextFormField(
                               decoration: InputDecoration(
                                 filled: true,
