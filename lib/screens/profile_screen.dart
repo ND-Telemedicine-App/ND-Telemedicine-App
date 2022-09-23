@@ -12,7 +12,7 @@ import '../widgets/global/globals.dart' as globals;
 import '../services/models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({
+  const ProfileScreen({
     Key? key,
   }) : super(key: key);
 
@@ -22,32 +22,34 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   User? currentUser;
+  bool isLoadingData = true;
 
-  Future<List> getCurrentUser() async {
+  Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
         Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+      );
       setState(() {
-        User thisUser = User(
-          id: obj['id'],
-          role: obj['role'],
-          email: obj['email'],
-          password: obj['password'],
-          fullName: obj['fullName'],
-          avatar: obj['avatar'],
-          address: obj['address'],
-          phoneNumber: obj['phoneNumber'],
-          gender: obj['gender'],
-          dateOfBirth: obj['dateOfBirth'],
-          allergies: obj['allergies'],
-          diseases: obj['diseases'],
-          medication: obj['medication'],
-          bio: obj['bio'],
-          speciality: obj['speciality'],
-        );
         currentUser = thisUser;
+        isLoadingData = false;
       });
       return obj;
     } else {
@@ -68,7 +70,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     double heightWidth = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: isLoadingData ? Center(child: CircularProgressIndicator()) : 
+      SingleChildScrollView(
           padding: EdgeInsets.symmetric(vertical: heightWidth * 0.1),
           child: Center(
               child: Column(
