@@ -18,17 +18,28 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: heightWidth * 0.05, horizontal: screenWidth * 0.05),
+          padding: EdgeInsets.only(top: heightWidth * 0.05, left: screenWidth * 0.05, right: screenWidth * 0.05),
           child: Center(
-            child: Column(
-                  children: [
-                    PageTitle(title: "Appointments"),
-                    SfCalendar(view: CalendarView.month,),
-                  ],
-                ),
+              child: SfCalendar(
+                        view: CalendarView.month,
+                        showNavigationArrow: true,
+                        showDatePickerButton: true,
+                        headerStyle: CalendarHeaderStyle(
+                            textStyle: TextStyle(
+                              color: Color(0xff38B69A),
+                              fontSize: 18,
+                              fontFamily: "PoppinsSemiBold",
+                            )),
+                        viewHeaderStyle: ViewHeaderStyle(
+                          backgroundColor: Color(0xff2B8D78),
+                            dayTextStyle: TextStyle(
+                                color: Color(0xffFDFFFE),
+                            fontFamily: "PoppinsMedium")),
+                        monthViewSettings: MonthViewSettings(
+                            showAgenda: true,),),
+            )
           ),
         ),
-      ),
-    );
+      );
   }
 }
