@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/models/appointment.dart';
-import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DoctorSchedule extends StatefulWidget {
@@ -51,12 +50,16 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
     DateTime(today.year, today.month, today.day + 1, 15, 0, 0);
     final DateTime endTime = startTime.add(const Duration(hours: 2));
     slots.add(TimeSlot(
-        'Busy', startTime, endTime, const Color(0xFFBE3050)));
+        'Busy', startTime, endTime, const Color(0xFFEFCCD4)));
     slots.add(TimeSlot(
-        'Busy', start2, start2.add(const Duration(hours: 1)), const Color(0xFFBE3050)));
+        'Busy', start2, start2.add(const Duration(hours: 1)), const Color(0xFFEFCCD4)));
     slots.add(TimeSlot(
-        'Patient Baek Dohwa', start3, start3.add(const Duration(minutes: 30)), const Color(0xFF2B8D78)));
+        'Patient Baek Dohwa', start3, start3.add(const Duration(minutes: 30)), const Color(0xFF78CEBB)));
     return slots;
+  }
+
+  _showAddDialog() async {
+    print("Baek Dohwa");
   }
 
   @override
@@ -65,6 +68,23 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
     double heightWidth = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Color(0xffFDFFFE),
+        elevation: 0,
+        title: Text(
+          "Appointments",
+          style: const TextStyle(
+              fontFamily: "PoppinsBold",
+              color: Color(0xff2B8D78),
+              fontSize: 30),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff2B8D78),
+        onPressed: _showAddDialog,
+        child: Icon(Icons.add),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: heightWidth * 0.05, left: screenWidth * 0.05, right: screenWidth * 0.05),
@@ -93,6 +113,7 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
                             agendaStyle: AgendaStyle(
                               appointmentTextStyle: TextStyle(
                                   fontSize: 16,
+                                color: Color(0xff031011),
                                   fontFamily: "PoppinsRegular",),
                               dateTextStyle: TextStyle(
                                   color: Color(0xff031011),
