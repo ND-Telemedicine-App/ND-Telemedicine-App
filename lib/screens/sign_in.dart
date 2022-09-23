@@ -9,6 +9,8 @@ import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/screens/sign_up.dart';
 import 'package:nd_telemedicine_app/services/models/user_model.dart';
 
+import '../widgets/global/globals.dart' as globals;
+
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -67,7 +69,6 @@ class _SignInPageState extends State<SignInPage> {
         });
       }
     }
-    // print(patients);
   }
 
   bool checkEmailAndPassword() {
@@ -78,6 +79,7 @@ class _SignInPageState extends State<SignInPage> {
       if (patient.email == userEmail && patient.password == userPassword) {
         setState(() {
           currentUser = patient;
+          globals.currentUserId = currentUser.id!;
         });
         return true;
       }
@@ -146,7 +148,7 @@ class _SignInPageState extends State<SignInPage> {
                                 Container(
                                   padding: const EdgeInsets.only(
                                       left: 15, right: 15, top: 8, bottom: 8),
-                                  child: TextField(
+                                  child: TextFormField(
                                     controller: emailController,
                                     onChanged: (email) {
                                       userEmail = email;
@@ -154,8 +156,8 @@ class _SignInPageState extends State<SignInPage> {
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: const Color(0xffEFF0F0),
-                                      hintText: "Email",
-                                      hintStyle: TextStyle(
+                                      labelText: "Email",
+                                      labelStyle: TextStyle(
                                           color: Colors.grey[500],
                                           fontSize: 15),
                                       contentPadding: const EdgeInsets.only(
@@ -174,7 +176,7 @@ class _SignInPageState extends State<SignInPage> {
                                 Container(
                                   padding: const EdgeInsets.only(
                                       left: 15, right: 15, top: 8, bottom: 8),
-                                  child: TextField(
+                                  child: TextFormField(
                                     controller: passwordController,
                                     onChanged: (password) {
                                       userPassword = password;
@@ -183,8 +185,8 @@ class _SignInPageState extends State<SignInPage> {
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: const Color(0xffEFF0F0),
-                                      hintText: "Password",
-                                      hintStyle: TextStyle(
+                                      labelText: "Password",
+                                      labelStyle: TextStyle(
                                           color: Colors.grey[500],
                                           fontSize: 15),
                                       contentPadding: const EdgeInsets.only(
@@ -260,10 +262,7 @@ class _SignInPageState extends State<SignInPage> {
                                   Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ProfileScreen(avatar: currentUser.avatar??"", fullName: currentUser.fullName??"",
-                                            gender: currentUser.gender??"", email: currentUser.email??"", phoneNumber: currentUser.phoneNumber??"",
-                                            dateOfBirth: currentUser.dateOfBirth??"", address: currentUser.address??"", allergies: currentUser.allergies??"",
-                                            diseases: currentUser.diseases??"", medication: currentUser.medication??"",),),
+                                            builder: (context) => ProfileScreen(),),
                                       );
                                 } else {
                                   setState(() {
