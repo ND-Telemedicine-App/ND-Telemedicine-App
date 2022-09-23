@@ -141,7 +141,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                               Container(
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
-                                child: TextField(
+                                child: TextFormField(
                                   controller: bioController,
                                   minLines: 4,
                                   keyboardType: TextInputType.multiline,
@@ -149,7 +149,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
-                                    hintText: "Tell us about yourself...",
+                                    labelText: "Tell us about yourself...",
                                     hintStyle: TextStyle(
                                         color: Colors.grey[500], fontSize: 15),
                                     contentPadding: const EdgeInsets.all(20),
