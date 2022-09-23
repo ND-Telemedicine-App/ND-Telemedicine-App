@@ -8,8 +8,10 @@ import 'package:nd_telemedicine_app/utils/category_field.dart';
 import 'package:nd_telemedicine_app/utils/doctor_card.dart';
 
 
+import '../widgets/features/doctor/doctor_booking_card.dart';
 import '../widgets/global/globals.dart' as globals;
 import '../services/models/user_model.dart';
+import 'doctor_profile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -56,11 +58,24 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<List> getDoctors() async {
+    Response res = await get(Uri.parse("http://localhost:8080/user/doctors"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
+    getDoctors();
   }
 
   @override
@@ -329,17 +344,49 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: 20,),
 
-              DoctorCard(
-                  doctorImagePath: "assets/images/doctor2.jpeg",
-                  doctorName: "Dr. John Smith",
-                  doctorSpeciality: "Cardiologist",
-                  rating: 4.8),
-              DoctorCard(
-                  doctorImagePath: "assets/images/doctor2.jpeg",
-                  doctorName: "Dr. Peter Parker",
-                  doctorSpeciality: "Cardiologist",
-                  rating: 4.8),
+              FutureBuilder<List>(
+                future: getDoctors(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DoctorProfile(
+                                      avatar: snapshot.data?[index]['avatar'],
+                                      fullName: snapshot.data?[index]['fullName'],
+                                      speciality: snapshot.data?[index]
+                                      ['speciality'],
+                                      email: snapshot.data?[index]['email'],
+                                      address: snapshot.data?[index]['address'],
+                                      phoneNumber: snapshot.data?[index]
+                                      ['phoneNumber'],
+                                      bio: snapshot.data?[index]['bio'],
+                                    ),
+                                  ));
+                            },
+                            child: DoctorBookingCard(
+                                doctorImagePath: snapshot.data?[index]['avatar'],
+                                doctorName: snapshot.data?[index]["fullName"],
+                                doctorSpeciality: snapshot.data?[index]
+                                ["speciality"]),
+                          );
+                        }
+                      // },
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
               SizedBox(
                 height: 40,
               )
