@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/models/appointment.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -9,7 +10,35 @@ class DoctorSchedule extends StatefulWidget {
   State<DoctorSchedule> createState() => _DoctorScheduleState();
 }
 
+class TimeslotDataSource extends CalendarDataSource {
+  TimeslotDataSource(List<TimeSlot> source) {
+    appointments = source;
+  }
+
+  @override
+  DateTime getStartTime(int index) {
+    return appointments![index].start;
+  }
+
+  @override
+  DateTime getEndTime(int index) {
+    return appointments![index].end;
+  }
+
+  @override
+  String getSubject(int index) {
+    return appointments![index].name;
+  }
+
+  @override
+  Color getColor(int index) {
+    return appointments![index].background;
+  }
+}
+
+
 class _DoctorScheduleState extends State<DoctorSchedule> {
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -24,19 +53,24 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
                         view: CalendarView.month,
                         showNavigationArrow: true,
                         showDatePickerButton: true,
+                        //cellBorderColor:  Color(0xff38b69a),
+                        appointmentTextStyle: TextStyle(fontFamily: "PoppinsRegular"),
                         headerStyle: CalendarHeaderStyle(
                             textStyle: TextStyle(
-                              color: Color(0xff38B69A),
+                              color: Color(0xff2B8D78),
                               fontSize: 18,
                               fontFamily: "PoppinsSemiBold",
                             )),
                         viewHeaderStyle: ViewHeaderStyle(
-                          backgroundColor: Color(0xff2B8D78),
+                          backgroundColor: Color(0xffddfff8),
                             dayTextStyle: TextStyle(
-                                color: Color(0xffFDFFFE),
-                            fontFamily: "PoppinsMedium")),
+                              color: Color(0xff031011),
+                                fontFamily: "PoppinsMedium"),
+                        ),
                         monthViewSettings: MonthViewSettings(
-                            showAgenda: true,),),
+                            showAgenda: true,
+                        ),
+              ),
             )
           ),
         ),
