@@ -341,7 +341,8 @@ class _SignInPageState extends State<SignInPage> {
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Color(0xff2B8D78)),
           ),
-        ))
+        )
+        )
     ]);
   }
 }
