@@ -87,8 +87,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     AppointmentScreen(),
     PrescriptionScreen(),
     ChatMenu(),
-    //ProfileScreen(),
-    AddPrescriptionScreen()
+    ProfileScreen(),
 
   ];
 
@@ -105,6 +104,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined, size: 27,),
@@ -124,10 +124,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded, size: 27),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.attach_email, size: 27),
             label: 'Profile',
           ),
         ],

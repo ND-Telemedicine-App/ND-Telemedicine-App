@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/main.dart';
 import 'package:nd_telemedicine_app/screens/forgot_password.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
 import 'package:nd_telemedicine_app/screens/personal_info.dart';
@@ -247,7 +248,7 @@ class _SignInPageState extends State<SignInPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => HomeScreen(),
+                                  builder: (context) => MyStatefulWidget(),
                                 ),
                               );
                             } else {
