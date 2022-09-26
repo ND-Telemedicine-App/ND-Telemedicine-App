@@ -63,9 +63,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     }
 
 
-    print(appointments);
-
-
   }
 
 
@@ -80,10 +77,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         doctorId: 2,
         startTime: newBooking.bookingStart.toString(),
         endTime: newBooking.bookingEnd.toString());
-    // print('${newBooking.toJson()} has been uploaded');
     var body = json.encode(newAppointment.toJson());
     insertAppointment(body);
-    print(body);
   }
 
   Future<Appointment> insertAppointment(String body) async {
@@ -100,11 +95,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   List<DateTimeRange> converted = [];
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-    print(streamResult);
     // for (dynamic appointment in appointments) {
     //   converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
     // }
-
     print("Converted: ");
     print(converted);
     return converted;
