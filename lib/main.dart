@@ -5,6 +5,7 @@ import 'package:nd_telemedicine_app/screens/add_prescription.dart';
 import 'package:nd_telemedicine_app/screens/appointment.dart';
 
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
+import 'package:nd_telemedicine_app/screens/doctor_info.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
 
 import 'package:nd_telemedicine_app/screens/list_doctor.dart';
@@ -63,7 +64,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
+
       home: SignInPage(),
+
 
     );
   }
@@ -84,7 +87,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     AppointmentScreen(),
     PrescriptionScreen(),
     ChatMenu(),
-    // ProfileScreen()
+    //ProfileScreen(),
+    AddPrescriptionScreen()
+
   ];
 
   void _onItemTapped(int index) {
@@ -119,6 +124,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded, size: 27),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_email, size: 27),
             label: 'Profile',
           ),
         ],

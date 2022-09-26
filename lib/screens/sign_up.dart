@@ -9,8 +9,20 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  String? selectedRole;
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+    value: item,
+    child: Text(
+      item,
+      style: const TextStyle(fontSize: 15),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -46,13 +58,77 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Column(
                         children: <Widget>[
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 8, bottom: 8),
-                            child: TextField(
+                            padding: const EdgeInsets.all(2),
+                            child: Column(
+                              children: <Widget>[
+                                Center(
+                                    child: Container(
+                                      width: screenWidth * 0.85,
+                                        margin: const EdgeInsets.only(
+                                        bottom: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: const Color(0xff2B8D78),
+                                                width: 3),
+                                            borderRadius:
+                                            BorderRadius.circular(12)),
+                                        child: DropdownButtonHideUnderline(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: DropdownButton<String>(
+                                              value: selectedRole,
+                                              hint: Text("Are you a..."),
+                                              isExpanded: true,
+                                              iconSize: 25,
+                                              icon: const Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Colors.black,
+                                              ),
+                                              items: ["PATIENT", "DOCTOR"]
+                                                  .map(buildMenuItem)
+                                                  .toList(),
+                                              onChanged: (value) => setState(() {
+                                                selectedRole = value;
+                                              }),
+                                            ),
+                                          ),
+                                        ))),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: screenWidth * 0.85,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: TextFormField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
-                                hintText: "Email",
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[500], fontSize: 15),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 20, top: 20, bottom: 20),
+                                labelText: 'Email',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide: const BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: screenWidth * 0.85,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: const Color(0xffEFF0F0),
+                                labelText: 'Password',
                                 hintStyle: TextStyle(
                                     color: Colors.grey[500], fontSize: 15),
                                 contentPadding: const EdgeInsets.only(
@@ -68,35 +144,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 8, bottom: 8),
-                            child: TextField(
+                            width: screenWidth * 0.85,
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: TextFormField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
-                                hintText: "Password",
-                                hintStyle: TextStyle(
-                                    color: Colors.grey[500], fontSize: 15),
-                                contentPadding: const EdgeInsets.only(
-                                    left: 20, top: 20, bottom: 20),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  borderSide: const BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 8, bottom: 8),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: const Color(0xffEFF0F0),
-                                hintText: "Confirm Password",
+                                labelText: "Confirm Password",
                                 hintStyle: TextStyle(
                                     color: Colors.grey[500], fontSize: 15),
                                 contentPadding: const EdgeInsets.only(
