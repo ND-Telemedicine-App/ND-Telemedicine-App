@@ -1,46 +1,38 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/screens/medical_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
+import 'package:nd_telemedicine_app/screens/sign_up.dart';
 
 class PersonalInfo extends StatefulWidget {
-  const PersonalInfo({Key? key}) : super(key: key);
+  const PersonalInfo(
+      {Key? key,
+      required this.role,
+      required this.email,
+      required this.password})
+      : super(key: key);
+
+  final String role;
+  final String email;
+  final String password;
 
   @override
   State<PersonalInfo> createState() => _PersonalInfoState();
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
-  final fullNameController = TextEditingController();
-  final addressController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final genderController = TextEditingController();
-  final dateOfBirthController = TextEditingController();
+  String fullName = "";
+  String address = "";
+  String phoneNumber = "";
+  String gender = "";
+  String dateOfBirth = "";
 
-  var fullName = "";
-
-  @override
-  void dispose() {
-    fullNameController.dispose();
-    addressController.dispose();
-    phoneNumberController.dispose();
-    genderController.dispose();
-    dateOfBirthController.dispose();
-    super.dispose();
-  }
-
-  String? get _errorText {
-    // at any time, we can get the text from _controller.value.text
-    final text = fullNameController.value.text;
-    // Note: you can do your own custom validation here
-    // Move this logic this outside the widget for more testable code
-    if (text.isEmpty) {
-      return 'Can\'t be empty';
+  bool checkInfo() {
+    if(fullName != "" && address != "" && phoneNumber != "" && gender != "" && dateOfBirth != ""){
+      return true;
     }
-    if (text.length < 4) {
-      return 'Too short';
-    }
-    // return null if the text is valid
-    return null;
+    return false;
   }
 
   @override
@@ -107,39 +99,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               Container(
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
-                                child: TextField(
-                                  controller: fullNameController,
-                                  decoration: InputDecoration(
-                                    errorText: _errorText,
-                                    filled: true,
-                                    fillColor: const Color(0xffEFF0F0),
-                                    hintText: "Full name",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey[500], fontSize: 15),
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 20, top: 20, bottom: 20),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      borderSide: const BorderSide(
-                                        width: 0,
-                                        style: BorderStyle.none,
-                                      ),
-                                    ),
-                                  ),
-                                  onChanged: (text) => setState(() => fullName),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, top: 8, bottom: 8),
-                                child: TextField(
-                                  controller: addressController,
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    fullName = value;
+                                  },
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
-                                    hintText: "Address",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey[500], fontSize: 15),
+                                    labelText: "Full name",
                                     contentPadding: const EdgeInsets.only(
                                         left: 20, top: 20, bottom: 20),
                                     border: OutlineInputBorder(
@@ -155,14 +122,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               Container(
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
-                                child: TextField(
-                                  controller: phoneNumberController,
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    address = value;
+                                  },
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
-                                    hintText: "Phone number",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey[500], fontSize: 15),
+                                    labelText: "Address",
                                     contentPadding: const EdgeInsets.only(
                                         left: 20, top: 20, bottom: 20),
                                     border: OutlineInputBorder(
@@ -178,14 +145,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               Container(
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
-                                child: TextField(
-                                  controller: genderController,
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
-                                    hintText: "Gender",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey[500], fontSize: 15),
+                                    labelText: "Phone number",
                                     contentPadding: const EdgeInsets.only(
                                         left: 20, top: 20, bottom: 20),
                                     border: OutlineInputBorder(
@@ -201,14 +168,37 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               Container(
                                 padding: const EdgeInsets.only(
                                     left: 15, right: 15, top: 8, bottom: 8),
-                                child: TextField(
-                                  controller: dateOfBirthController,
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    gender = value;
+                                  },
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: const Color(0xffEFF0F0),
-                                    hintText: "Date of birth",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey[500], fontSize: 15),
+                                    labelText: "Gender",
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 20, top: 20, bottom: 20),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      borderSide: const BorderSide(
+                                        width: 0,
+                                        style: BorderStyle.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 8, bottom: 8),
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    dateOfBirth = value;
+                                  },
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: const Color(0xffEFF0F0),
+                                    labelText: "Date of birth",
                                     contentPadding: const EdgeInsets.only(
                                         left: 20, top: 20, bottom: 20),
                                     border: OutlineInputBorder(
@@ -227,74 +217,55 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         const SizedBox(
                           height: 10,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MedicalInfo(
-                                    role: 'PATIENT',
-                                    email: 's3722961@student.rmit.edu.au',
-                                    password: 'password',
-                                    fullName: fullNameController.text,
-                                    avatar: 'test.png',
-                                    address: addressController.text,
-                                    phoneNumber: phoneNumberController.text,
-                                    gender: genderController.text,
-                                    dateOfBirth: dateOfBirthController.text,
-                                  ),
-                                ));
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 25),
-                            height: 50,
-                            width: screenWidth * 0.7,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Color(0xff38B69A),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              minimumSize: Size(300, 50),
                             ),
-                            child: const Center(
-                              child: Text(
-                                "Next",
+                            onPressed: () {
+                              if(checkInfo()){
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MedicalInfo(role: widget.role, email: widget.email, password: widget.password,
+                                        avatar: 'assets/images/mock_avatar.png',
+                                        fullName: fullName, address: address, phoneNumber: phoneNumber,
+                                        gender: gender,dateOfBirth: dateOfBirth,)),
+                                );
+                              }
+                            },
+                            child: Text('Next',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily: 'PoppinsSemiBold',
-                                    fontSize: 18),
-                              ),
-                            ),
-                          ),
-                        ),
+                                    fontFamily: "PoppinsSemiBold",
+                                    fontSize: 18))),
                         const SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignInPage()),
-                            );
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            height: 50,
-                            width: screenWidth * 0.7,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                color: Colors.transparent,
-                                border: Border.all(
-                                    color: Color(0xff38B69A), width: 3)),
-                            child: const Center(
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'PoppinsSemiBold',
-                                    fontSize: 18),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              side: BorderSide(
+                                  width: 2, color: Color(0xff38B69A)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
                               ),
+                              minimumSize: Size(300, 50),
+                              backgroundColor: Colors.white,
                             ),
-                          ),
-                        ),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUpPage()),
+                              );
+                            },
+                            child: Text('Cancel',
+                                style: TextStyle(
+                                    color: Color(0xff38B69A),
+                                    fontFamily: "PoppinsSemiBold",
+                                    fontSize: 18,),),),
                       ],
                     ))
               ]),

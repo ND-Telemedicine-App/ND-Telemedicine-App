@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -10,18 +11,32 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   String? selectedRole;
+  String signUpEmail = "";
+  String signUpPass = "";
+  String signUpCfPass = "";
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-    value: item,
-    child: Text(
-      item,
-      style: const TextStyle(fontSize: 15),
-    ),
-  );
+        value: item,
+        child: Text(
+          item,
+          style: const TextStyle(fontSize: 15),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
+    bool checkSignUp() {
+      if (signUpEmail != "" &&
+          signUpPass != "" &&
+          signUpCfPass != "" &&
+          signUpPass == signUpCfPass &&
+          signUpEmail.contains('@')) {
+        return true;
+      }
+      return false;
+    }
 
     return Scaffold(
       body: Column(
@@ -63,9 +78,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               children: <Widget>[
                                 Center(
                                     child: Container(
-                                      width: screenWidth * 0.85,
-                                        margin: const EdgeInsets.only(
-                                        bottom: 10),
+                                        width: screenWidth * 0.85,
+                                        margin:
+                                            const EdgeInsets.only(bottom: 10),
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 2),
                                         decoration: BoxDecoration(
@@ -74,10 +89,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                                 color: const Color(0xff2B8D78),
                                                 width: 3),
                                             borderRadius:
-                                            BorderRadius.circular(12)),
+                                                BorderRadius.circular(12)),
                                         child: DropdownButtonHideUnderline(
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
                                             child: DropdownButton<String>(
                                               value: selectedRole,
                                               hint: Text("Are you a..."),
@@ -90,7 +106,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                               items: ["PATIENT", "DOCTOR"]
                                                   .map(buildMenuItem)
                                                   .toList(),
-                                              onChanged: (value) => setState(() {
+                                              onChanged: (value) =>
+                                                  setState(() {
                                                 selectedRole = value;
                                               }),
                                             ),
@@ -103,6 +120,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             width: screenWidth * 0.85,
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: TextFormField(
+                              onChanged: (email) {
+                                signUpEmail = email;
+                              },
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
@@ -125,6 +145,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             width: screenWidth * 0.85,
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: TextFormField(
+                              onChanged: (password) {
+                                signUpPass = password;
+                              },
+                              obscureText: true,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
@@ -147,6 +171,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             width: screenWidth * 0.85,
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: TextFormField(
+                              onChanged: (password) {
+                                signUpCfPass = password;
+                              },
+                              obscureText: true,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
@@ -190,30 +218,68 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           onPressed: () {
                             Navigator.pushReplacement(
-                              context,MaterialPageRoute(builder: (context) => SignInPage()),);
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInPage()),
+                            );
                           },
                         ),
                       ],
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 25),
-                      height: 50,
-                      width: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: const Color(0xff38B69A),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'PoppinsSemiBold',
-                              fontSize: 18),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          minimumSize: Size(300, 50),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
+                        onPressed: () {
+                          if (checkSignUp()) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PersonalInfo(role: selectedRole??"", email: signUpEmail, password: signUpPass,)),
+                            );
+                          }else{
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Center(
+                                    child: Text(
+                                      'Alert',
+                                      style: TextStyle(
+                                          color: Color(0xff38B69A),
+                                          fontFamily: "PoppinsBold",
+                                          fontSize: 20),
+                                    )),
+                                content: Text(
+                                  'Please check your email and password again!',
+                                  style:
+                                  TextStyle(fontFamily: "PoppinsMedium"),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context,
+                                          rootNavigator: true)
+                                          .pop(); // dismisses only the dialog and returns nothing
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        },
+                        child: Text('Sign Up',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "PoppinsSemiBold",
+                                fontSize: 18))),
+                    SizedBox(
                       height: 5,
                     ),
                   ],
