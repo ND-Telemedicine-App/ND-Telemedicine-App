@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/doctor_info.dart';
 import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 
@@ -37,6 +38,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
       return false;
     }
+
+
 
     return Scaffold(
       body: Column(
@@ -235,11 +238,25 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         onPressed: () {
                           if (checkSignUp()) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PersonalInfo(role: selectedRole??"", email: signUpEmail, password: signUpPass,)),
-                            );
+                            if(selectedRole == "PATIENT") {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PersonalInfo(role: selectedRole ?? "",
+                                          email: signUpEmail,
+                                          password: signUpPass,)),
+                              );
+                            }else if(selectedRole == "DOCTOR"){
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DoctorInfo(role: selectedRole ?? "",
+                                          email: signUpEmail,
+                                          password: signUpPass,)),
+                              );
+                            }
                           }else{
                             showDialog(
                               context: context,
