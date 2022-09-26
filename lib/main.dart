@@ -64,7 +64,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: DoctorInfo(),
+
+      home: SignInPage(),
+
 
     );
   }
@@ -87,6 +89,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ChatMenu(),
     //ProfileScreen(),
     AddPrescriptionScreen()
+
   ];
 
   void _onItemTapped(int index) {

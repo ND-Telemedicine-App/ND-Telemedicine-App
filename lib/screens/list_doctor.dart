@@ -21,7 +21,6 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
-
       return obj;
     } else {
       throw "Unable to retrieve users data.";
