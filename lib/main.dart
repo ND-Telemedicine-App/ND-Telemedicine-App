@@ -88,7 +88,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     PrescriptionScreen(),
     ChatMenu(),
     ProfileScreen(),
-
   ];
 
   void _onItemTapped(int index) {

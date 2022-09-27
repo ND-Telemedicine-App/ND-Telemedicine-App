@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 import 'package:nd_telemedicine_app/widgets/features/profile/shadow_container.dart';
 
+import '../main.dart';
 import '../widgets/features/profile/info_row.dart';
 import '../widgets/features/page_title.dart';
 
@@ -92,10 +93,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   // profile heading
-                  PageTitle(title: "Profile"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 40, left: 20),
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyStatefulWidget(),
+                                ),
+                              );
+                            },
+                            child: Icon(Icons.arrow_back, size: 30,)),
+                      ),
+                      PageTitle(title: "Profile"),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 40, right: 20),
+                        child: Icon(Icons.edit_rounded),
+                      )
+                    ],
+                  ),
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage(currentUser?.avatar ?? "assets/images/mock_avatar.png"),
+                    backgroundImage: AssetImage(
+                        currentUser?.avatar ?? "assets/images/mock_avatar.png"),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 20, bottom: 10),
