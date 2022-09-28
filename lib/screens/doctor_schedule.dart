@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nd_telemedicine_app/models/appointment.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:http/http.dart' as http;
+
+import '../services/models/busy_time_model.dart';
 
 class DoctorSchedule extends StatefulWidget {
   const DoctorSchedule({Key? key}) : super(key: key);
@@ -36,23 +42,49 @@ class TimeslotDataSource extends CalendarDataSource {
 }
 
 class _DoctorScheduleState extends State<DoctorSchedule> {
+  // get busyTimeLists of a doctor
   List<TimeSlot> _getDataSource() {
     final List<TimeSlot> slots = <TimeSlot>[];
     final DateTime today = DateTime.now();
+    final List<BusyTime> busyTimes = <BusyTime>[];
 
-    final DateTime startTime =
-        DateTime(today.year, today.month, today.day + 1, 9, 0, 0);
+    final dateFormat = DateFormat("hh:mm");
+
+    for(var i=0; i<busyTimes.length; i++){
+      DateTime startTime = dateFormat.parse(busyTimes[i].getBusyTime() ?? "");
+      slots.add(TimeSlot('Busy',
+          startTime,
+          startTime.add(Duration(hours: busyTimes[i].getDuration() ?? 0)),
+          const Color(0xFFEFCCD4)));
+    }
+
     final DateTime start2 =
-        DateTime(today.year, today.month, today.day + 1, 13, 0, 0);
+    DateTime(today.year, today.month, today.day + 1, 13, 0, 0);
     final DateTime start3 =
-        DateTime(today.year, today.month, today.day + 1, 15, 0, 0);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
-    slots.add(TimeSlot('Busy', startTime, endTime, const Color(0xFFEFCCD4)));
+    DateTime(today.year, today.month, today.day + 1, 15, 0, 0);
+    // final DateTime endTime = startTime.add(const Duration(hours: 2));
+    // slots.add(TimeSlot('Busy', startTime, endTime, const Color(0xFFEFCCD4)));
     slots.add(TimeSlot('Busy', start2, start2.add(const Duration(hours: 1)),
         const Color(0xFFEFCCD4)));
     slots.add(TimeSlot('Patient Baek Dohwa', start3,
         start3.add(const Duration(minutes: 30)), const Color(0xFF78CEBB)));
     return slots;
+  }
+
+  Future<List<BusyTime>> getBusyTimes(var doctorId)async{
+    var data = await http.get(Uri.parse("http://localhost:8080/busyTime/$doctorId"));
+    var jsonData = json.decode(data.body);
+
+    List<BusyTime> busyTimes = [];
+    for(var time in jsonData){
+      BusyTime busyTime = new BusyTime();
+      busyTime.id = time["id"];
+      busyTime.doctorId = time["doctorId"];
+      busyTime.busyTime = time["busyTime"];
+      busyTime.duration = time["duration"];
+      busyTimes.add(busyTime);
+    }
+    return busyTimes;
   }
 
   @override
