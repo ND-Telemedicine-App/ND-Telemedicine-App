@@ -74,14 +74,8 @@ Future<TimeslotDataSource> _getDataSource() async {
         const Color(0xFFEFCCD4)));
   }
 
-  // final DateTime start2 =
-  // DateTime(today.year, today.month, today.day + 1, 13, 0, 0);
   final DateTime start3 =
   DateTime(today.year, today.month, today.day + 1, 15, 0, 0);
-  // final DateTime endTime = startTime.add(const Duration(hours: 2));
-  // slots.add(TimeSlot('Busy', startTime, endTime, const Color(0xFFEFCCD4)));
-  // slots.add(TimeSlot('Busy', start2, start2.add(const Duration(hours: 1)),
-  //     const Color(0xFFEFCCD4)));
   slots.add(TimeSlot('Patient Baek Dohwa', start3,
       start3.add(const Duration(minutes: 30)), const Color(0xFF78CEBB)));
   return TimeslotDataSource(slots);
@@ -94,9 +88,6 @@ class _DoctorScheduleState extends State<DoctorSchedule>{
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text("Doctor's busy time: "),
-          ),
           body: FutureBuilder <TimeslotDataSource>(
             future: _getDataSource(),
             builder: (context, snapshot){
