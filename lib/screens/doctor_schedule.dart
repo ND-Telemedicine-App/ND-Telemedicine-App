@@ -84,6 +84,7 @@ Future<TimeslotDataSource> _getDataSource() async {
 class _DoctorScheduleState extends State<DoctorSchedule> {
   late Future<TimeslotDataSource> timeslotDataSource;
   final CalendarController _controller = CalendarController();
+  final durationController = TextEditingController();
 
   TimeOfDay _time =
       TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
@@ -133,35 +134,64 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
     } else {
       showDialog<String>(
         context: context,
-        builder: (BuildContext context) =>
-            AlertDialog(
-              title: const Text('Add Busy Time', style: TextStyle(
-                fontFamily: "PoppinsSemiBold",
-              ),),
-              content: ElevatedButton(
-                onPressed: _selectTime,
-                child: Text('SELECT TIME'),
-                style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    textStyle: TextStyle(fontSize: 18, fontFamily: "PoppinsMedium")),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                  child: Text('Cancel', style: TextStyle(
-                      fontFamily: "PoppinsMedium",
-                      fontSize: 16),),
+        builder: (BuildContext context) {
+          double heightWidth = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+
+          return AlertDialog(
+            title: const Text('Add Busy Time', style: TextStyle(
+              fontFamily: "PoppinsSemiBold",
+            ),),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // button to go to timepicker
+                SizedBox(
+                  width: screenWidth,
+                  child: ElevatedButton(
+                    onPressed: _selectTime,
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        textStyle: TextStyle(
+                            fontSize: 18, fontFamily: "PoppinsMedium")),
+                    child: Text('SELECT TIME'),
+                  ),
                 ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, 'Save'),
-                  child: const Text('Save', style: TextStyle(
-                      fontFamily: "PoppinsMedium",
-                      fontSize: 16),),
+                // field to enter busy duration
+                SizedBox(height: 20,),
+                SizedBox(
+                  width: screenWidth,
+                  child: ElevatedButton(
+                    onPressed: _selectTime,
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        textStyle: TextStyle(
+                            fontSize: 18, fontFamily: "PoppinsMedium")),
+                    child: Text('SELECT DURATION'),
+                  ),
                 ),
               ],
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: Text('Cancel', style: TextStyle(
+                    fontFamily: "PoppinsMedium",
+                    fontSize: 16),),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Save'),
+                child: const Text('Save', style: TextStyle(
+                    fontFamily: "PoppinsMedium",
+                    fontSize: 16),),
+              ),
+            ],
+          );
+        }
       );
     }
   }
