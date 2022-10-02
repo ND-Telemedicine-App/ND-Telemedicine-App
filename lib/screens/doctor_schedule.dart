@@ -90,6 +90,27 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
   String _dateSelected = "";
 
   void _selectTime() async {
+      // display time picker
+      final TimeOfDay? newTime = await showTimePicker(
+        context: context,
+        initialTime: _time,
+        helpText: "CHOOSE YOUR BUSY TIME",
+
+      );
+      if (newTime != null) {
+        setState(() {
+          _time = newTime;
+        });
+
+    }
+  }
+
+  void selectionChanged(CalendarSelectionDetails details) {
+      _dateSelected = DateFormat('dd-MM-yy').format(details.date!).toString();
+      print(_dateSelected);
+  }
+
+  _showAddDialog() async {
     // cannot select time if date is not selected
     // display alert to let user know
     if (_dateSelected == "") {
@@ -100,7 +121,7 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
               title: Text("No date selected", style: TextStyle(fontFamily: "PoppinsSemiBold"),),
               content: Text("You haven't selected your busy day yet. Please press on your desired date on the calendar to choose a day."),
               actions: <Widget>[
-                 TextButton(
+                TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -108,23 +129,41 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
               ],
             );
           });
+      // display alert where user can choose a time
     } else {
-      // display time picker
-      final TimeOfDay? newTime = await showTimePicker(
+      showDialog<String>(
         context: context,
-        initialTime: _time,
+        builder: (BuildContext context) =>
+            AlertDialog(
+              title: const Text('Add Busy Time', style: TextStyle(
+                fontFamily: "PoppinsSemiBold",
+              ),),
+              content: ElevatedButton(
+                onPressed: _selectTime,
+                child: Text('SELECT TIME'),
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                    textStyle: TextStyle(fontSize: 18, fontFamily: "PoppinsMedium")),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: Text('Cancel', style: TextStyle(
+                      fontFamily: "PoppinsMedium",
+                      fontSize: 16),),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Save'),
+                  child: const Text('Save', style: TextStyle(
+                      fontFamily: "PoppinsMedium",
+                      fontSize: 16),),
+                ),
+              ],
+            ),
       );
-      if (newTime != null) {
-        setState(() {
-          _time = newTime;
-        });
-      }
     }
-  }
-
-  void selectionChanged(CalendarSelectionDetails details) {
-      _dateSelected = DateFormat('dd-MM-yy').format(details.date!).toString();
-      print(_dateSelected);
   }
 
   // get busyTimeLists of a doctor
@@ -162,7 +201,7 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
                 ),
                 floatingActionButton: FloatingActionButton(
                   backgroundColor: Color(0xff2B8D78),
-                  onPressed: _selectTime,
+                  onPressed: _showAddDialog,
                   child: Icon(Icons.add),
                 ),
                 body: SafeArea(
