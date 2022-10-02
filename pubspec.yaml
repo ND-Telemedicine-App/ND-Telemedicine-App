@@ -39,6 +39,7 @@ dependencies:
   booking_calendar: ^1.1.5
   intl: ^0.17.0
   syncfusion_flutter_calendar: ^20.2.50
+  duration_picker: ^1.0.1
 
 
 dev_dependencies:

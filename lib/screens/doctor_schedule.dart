@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:nd_telemedicine_app/models/appointment.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
+import 'package:duration_picker/duration_picker.dart';
 
 import '../models/busyTime.dart';
 
@@ -96,14 +97,19 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
         context: context,
         initialTime: _time,
         helpText: "CHOOSE YOUR BUSY TIME",
-
       );
       if (newTime != null) {
         setState(() {
           _time = newTime;
         });
-
     }
+  }
+
+  void _selectDuration() async {
+    var resultingDuration = await showDurationPicker(
+      context: context,
+      initialTime: Duration(minutes: 30),
+    );
   }
 
   void selectionChanged(CalendarSelectionDetails details) {
@@ -135,7 +141,6 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) {
-          double heightWidth = MediaQuery.of(context).size.height;
           double screenWidth = MediaQuery.of(context).size.width;
 
           return AlertDialog(
@@ -159,12 +164,12 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
                     child: Text('SELECT TIME'),
                   ),
                 ),
-                // field to enter busy duration
+                // duration picker for choosing duration
                 SizedBox(height: 20,),
                 SizedBox(
                   width: screenWidth,
                   child: ElevatedButton(
-                    onPressed: _selectTime,
+                    onPressed: _selectDuration,
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         shape: RoundedRectangleBorder(
@@ -177,12 +182,14 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
               ],
             ),
             actions: <Widget>[
+              // Cancel btn
               TextButton(
                 onPressed: () => Navigator.pop(context, 'Cancel'),
                 child: Text('Cancel', style: TextStyle(
                     fontFamily: "PoppinsMedium",
                     fontSize: 16),),
               ),
+              // Save btn
               TextButton(
                 onPressed: () => Navigator.pop(context, 'Save'),
                 child: const Text('Save', style: TextStyle(
