@@ -44,7 +44,7 @@ class TimeslotDataSource extends CalendarDataSource {
 
 //fetch busy time data from database using API
 Future<List<BusyTime>> getBusyTimes(http.Client client, int doctorId)async{
-  final response = await client.get(Uri.parse("http://10.0.2.2:8080/busyTime/$doctorId"));
+  final response = await client.get(Uri.parse("http://localhost:8080/busyTime/$doctorId"));
 
   return compute(parseBusyTime, response.body);
 }
@@ -83,6 +83,21 @@ Future<TimeslotDataSource> _getDataSource() async {
 
 class _DoctorScheduleState extends State<DoctorSchedule>{
   late Future<TimeslotDataSource> timeslotDataSource;
+
+  TimeOfDay _time = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+
+  void _selectTime() async {
+    final TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+      });
+    }
+  }
+
   // get busyTimeLists of a doctor
   @override
   Widget build(BuildContext context) {
@@ -101,7 +116,7 @@ class _DoctorScheduleState extends State<DoctorSchedule>{
                       )
                     );
                   }else if(snapshot.hasData){
-                  return DoctorSchedulePage(timeslotDataSource: snapshot.data!);
+                  return DoctorSchedulePage(timeslotDataSource: snapshot.data!, selectTime: _selectTime,);
                 }
               }
               return Center(
@@ -115,56 +130,34 @@ class _DoctorScheduleState extends State<DoctorSchedule>{
 }
 
 class DoctorSchedulePage extends StatelessWidget{
-  const DoctorSchedulePage({Key? key, required this.timeslotDataSource}):super(key: key);
+  const DoctorSchedulePage({Key? key, required this.timeslotDataSource, required this.selectTime}):super(key: key);
 
   final TimeslotDataSource timeslotDataSource;
+  final Function()? selectTime;
+
+
     @override
     Widget build(BuildContext context) {
-      double screenWidth = MediaQuery.of(context).size.width;
       double heightWidth = MediaQuery.of(context).size.height;
-
-      _showAddDialog() async {
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text('Add Busy Time', style: TextStyle(
-              fontFamily: "PoppinsSemiBold",
-            ),),
-            content: Text("Choose a time"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: Text('Cancel', style: TextStyle(
-                    fontFamily: "PoppinsMedium",
-                    fontSize: 16),),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Save'),
-                child: const Text('Save', style: TextStyle(
-                    fontFamily: "PoppinsMedium",
-                    fontSize: 16),),
-              ),
-            ],
-          ),
-        );
-      }
+      double screenWidth = MediaQuery.of(context).size.width;
 
         return Scaffold(
           appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Color(0xffFDFFFE),
-            elevation: 0,
-            title: Text(
-              "Appointments",
-              style: const TextStyle(
-                  fontFamily: "PoppinsBold",
-                  color: Color(0xff2B8D78),
-                  fontSize: 30),
-            ),
-          ),
+                centerTitle: true,
+                toolbarHeight: 50,
+                backgroundColor: Color(0xffFDFFFE),
+                elevation: 0,
+                title: Text(
+                    "Appointments",
+                    style: const TextStyle(
+                        fontFamily: "PoppinsBold",
+                        color: Color(0xff2B8D78),
+                        fontSize: 30),
+                  ),
+              ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: Color(0xff2B8D78),
-            onPressed: _showAddDialog,
+            onPressed: selectTime,
             child: Icon(Icons.add),
           ),
           body: SafeArea(
