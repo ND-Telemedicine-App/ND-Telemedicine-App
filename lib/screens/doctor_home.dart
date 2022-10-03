@@ -9,6 +9,7 @@ import 'package:nd_telemedicine_app/widgets/features/home/article_card.dart';
 
 import '../services/models/user_model.dart';
 import '../widgets/features/doctor/doctor_booking_card.dart';
+import '../widgets/global/globals.dart' as globals;
 
 class DoctorHomeScreen extends StatefulWidget {
   const DoctorHomeScreen({Key? key}) : super(key: key);
@@ -22,8 +23,41 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   User? currentUser;
   bool isLoadingData = true;
 
-  Future<List> getDoctors() async {
-    Response res = await get(Uri.parse("http://localhost:8080/user/doctors"));
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+      );
+      setState(() {
+        currentUser = thisUser;
+        isLoadingData = false;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
+  Future<List> getPatients() async {
+    Response res = await get(Uri.parse("http://localhost:8080/user/patients"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -31,6 +65,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     } else {
       throw "Unable to retrieve users data.";
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+    getPatients();
   }
 
   @override
@@ -67,7 +109,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                                   radius: 30,
                                   backgroundColor: Colors.transparent,
                                   backgroundImage:
-                                  AssetImage(currentUser?.avatar??""),
+                                  AssetImage(currentUser?.avatar??"assets/images/mock_avatar.png"),
                                 )),
                           ),
                           Column(
@@ -254,7 +296,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 SizedBox(height: 20,),
 
                 FutureBuilder<List>(
-                  future: getDoctors(),
+                  future: getPatients(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(

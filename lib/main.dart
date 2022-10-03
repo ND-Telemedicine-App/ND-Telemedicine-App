@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
 
-      home: DoctorHomeScreen(),
+      home: SignInPage(),
     );
   }
 }
@@ -76,6 +76,7 @@ class MyStatefulWidget extends StatefulWidget {
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
@@ -83,6 +84,77 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
+    AppointmentScreen(),
+    PrescriptionScreen(),
+    ChatMenu(),
+    ProfileScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined, size: 27,),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_outlined),
+            label: 'Booking',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.note_add_outlined, size: 26,),
+            label: 'Medicine',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline_rounded, size: 26,),
+            label: 'Chat',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline_rounded, size: 27),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        unselectedItemColor: Color(0xff031011),
+        unselectedLabelStyle: const TextStyle(color: Color(0xff031011), fontSize: 12),
+        selectedLabelStyle: const TextStyle(color: Color(0xff78CEBB), fontSize: 14),
+        showUnselectedLabels: true,
+        selectedIconTheme: IconThemeData(
+          size: 30,
+        ),
+        selectedItemColor: Color(0xff78CEBB),
+        onTap: _onItemTapped,
+
+      ),
+    );
+  }
+}
+
+class DoctorNavBar extends StatefulWidget {
+  const DoctorNavBar({super.key});
+
+  @override
+  State<DoctorNavBar> createState() => _DoctorNavBarState();
+
+}
+
+class _DoctorNavBarState extends State<DoctorNavBar> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    DoctorHomeScreen(),
     AppointmentScreen(),
     PrescriptionScreen(),
     ChatMenu(),
