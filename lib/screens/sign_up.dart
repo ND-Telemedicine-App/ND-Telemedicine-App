@@ -229,6 +229,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
