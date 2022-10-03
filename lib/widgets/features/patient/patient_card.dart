@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/add_prescription.dart';
+import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 
 class PatientCard extends StatelessWidget {
   final String patientImagePath;
@@ -66,15 +68,26 @@ class PatientCard extends StatelessWidget {
                     ),
                     Text(patientStatus, style: TextStyle(fontStyle: FontStyle.italic),),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(top: 20, right: 10),
-                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                          width: 170,
+                          margin: const EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
                             color: Color(0xff38B69A),
                           ),
-                          child: const Center(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => AddPrescriptionScreen()
+                              ));
+                            },
+                            child: Center(
                             child: Text(
                               "PRESCRIBE",
                               style: TextStyle(
@@ -83,25 +96,35 @@ class PatientCard extends StatelessWidget {
                                   fontSize: 14),
                             ),
                           ),
+                          )
                         ),
-                        SizedBox(height: 10,),
                         Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                          width: 170,
+                          margin: const EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.symmetric(vertical: 5),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(40),
                               color: Colors.transparent,
                               border: Border.all(
                                   color: Color(0xff38B69A), width: 3)),
-                          child: const Center(
-                            child: Text(
-                              "CHAT",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'PoppinsSemiBold',
-                                  fontSize: 14),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatMenu()
+                                  ));
+                            },
+                            child: Center(
+                              child: Text(
+                                "CHAT",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'PoppinsSemiBold',
+                                    fontSize: 14),
+                              ),
                             ),
-                          ),
+                          )
                         ),
                       ],
                     ),
