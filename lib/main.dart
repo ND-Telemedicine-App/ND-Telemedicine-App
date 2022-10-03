@@ -5,6 +5,7 @@ import 'package:nd_telemedicine_app/screens/add_prescription.dart';
 import 'package:nd_telemedicine_app/screens/appointment.dart';
 
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
+import 'package:nd_telemedicine_app/screens/doctor_home.dart';
 import 'package:nd_telemedicine_app/screens/doctor_info.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
 
@@ -65,9 +66,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
 
-      home: SignInPage(),
-
-
+      home: DoctorHomeScreen(),
     );
   }
 }
