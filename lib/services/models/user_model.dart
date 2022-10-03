@@ -16,6 +16,7 @@ class User {
   String? medication;
   String? bio;
   String? speciality;
+  String? status;
 
   User(
       {this.id,
@@ -32,7 +33,8 @@ class User {
         this.diseases,
         this.medication,
         this.bio,
-        this.speciality});
+        this.speciality,
+        this.status});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,6 +52,7 @@ class User {
     medication = json['medication'];
     bio = json['bio'];
     speciality = json['speciality'];
+    status = json['userStatus'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,6 +72,7 @@ class User {
     data['medication'] = this.medication;
     data['bio'] = this.bio;
     data['speciality'] = this.speciality;
+    data['userStatus'] = this.status;
     return data;
   }
 }
