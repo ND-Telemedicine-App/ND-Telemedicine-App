@@ -6,6 +6,7 @@ import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/doctor_profile.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/widgets/features/home/article_card.dart';
+import 'package:nd_telemedicine_app/widgets/features/patient/patient_card.dart';
 
 import '../services/models/user_model.dart';
 import '../widgets/features/doctor/doctor_booking_card.dart';
@@ -69,7 +70,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUser();
     getPatients();
@@ -322,11 +322,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                                       ),
                                     ));
                               },
-                              child: DoctorBookingCard(
-                                  doctorImagePath: snapshot.data?[index]['avatar'],
-                                  doctorName: snapshot.data?[index]["fullName"],
-                                  doctorSpeciality: snapshot.data?[index]
-                                  ["speciality"]),
+                              child: PatientCard(
+                                  patientImagePath: snapshot.data?[index]['avatar'],
+                                  patientName: snapshot.data?[index]["fullName"],
+                                  patientStatus: snapshot.data?[index]
+                                  ["userStatus"]),
                             );
                           }
                         // },
