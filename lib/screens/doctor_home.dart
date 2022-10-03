@@ -8,7 +8,6 @@ import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/widgets/features/home/article_card.dart';
 
 import '../services/models/user_model.dart';
-import '../widgets/global/globals.dart' as globals;
 import '../widgets/features/doctor/doctor_booking_card.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
@@ -183,22 +182,27 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                               SizedBox(
                                 height: 15,
                               ),
-                              Container(
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Message",
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsMedium",
-                                        fontSize: 15,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              )
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                      context,MaterialPageRoute(builder: (context) => ChatMenu()),);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Message",
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsMedium",
+                                            fontSize: 15,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ))
                             ],
                           ),
                         )
@@ -213,12 +217,12 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        "Articles",
+                        "Quick Tips",
                         style:
                         TextStyle(fontFamily: "PoppinsBold", fontSize: 20),
                       ),
                       SizedBox(height: 20,),
-                      ArticleCard(title: "How to calm a patient with anxiety", content: "Drink water, fresh juice. Dr. Baek Dohwa, who used to work with anxiety patients, recommend us to work out."),
+                      ArticleCard(title: "Dealing with anxiety?", content: "Drink water, fresh juice. Dr. Baek Dohwa, who used to work with anxiety patients, recommend us to work out. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."),
                       SizedBox(height: 20,),
                     ],
                   ),

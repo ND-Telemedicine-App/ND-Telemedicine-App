@@ -15,8 +15,7 @@ class ArticleCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       elevation: 10,
       child: Container(
-        width: screenWidth * 0.5,
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         //margin: EdgeInsets.only(bottom: 40),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -43,7 +42,8 @@ class ArticleCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
                 ReadMoreText("$content ",
-                  trimLines: 3,
+                  textAlign: TextAlign.justify,
+                  trimLines: 2,
                   trimMode: TrimMode.Line,
                   trimCollapsedText: 'Show more',
                   trimExpandedText: 'Show less',
