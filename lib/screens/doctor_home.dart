@@ -209,16 +209,17 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 25.0),
-                  child: Column(
+                  child: Column (
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
                       Text(
                         "Articles",
                         style:
                         TextStyle(fontFamily: "PoppinsBold", fontSize: 20),
                       ),
-                      ArticleCard(title: "How to calm a patient with anxiety", content: "Drink water, fresh juice. Dr. Baek Dohwa, who used to work with anxiety patients, recommend us to work out")
+                      SizedBox(height: 20,),
+                      ArticleCard(title: "How to calm a patient with anxiety", content: "Drink water, fresh juice. Dr. Baek Dohwa, who used to work with anxiety patients, recommend us to work out."),
+                      SizedBox(height: 20,),
                     ],
                   ),
                 ),
