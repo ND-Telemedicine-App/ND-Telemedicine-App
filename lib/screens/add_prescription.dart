@@ -13,7 +13,7 @@ Future<http.Response> createPrescription(
   String medicineRefill,
 ) {
   return http.post(
-    Uri.parse('http://localhost:8080/createPrescription'),
+    Uri.parse('http://localhost:8082/createPrescription'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -99,7 +99,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: patientNameController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -122,7 +122,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: medicineNameController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 maxLines: null,
@@ -149,7 +149,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: dosageInstructionsController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -172,7 +172,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: dispenseAmountController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -195,7 +195,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: medicineRefillController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               InkWell(
                   // Makes container tappable

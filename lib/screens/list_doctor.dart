@@ -16,7 +16,7 @@ class DoctorAppointmentScreen extends StatefulWidget {
 }
 
 class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
-  Future<List> getUsers() async {
+  Future<List> getDoctors() async {
     Response res = await get(Uri.parse("http://localhost:8080/user/doctors"));
 
     if (res.statusCode == 200) {
@@ -29,9 +29,8 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getUsers();
+    getDoctors();
   }
 
   @override
@@ -81,7 +80,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             ),
 
             FutureBuilder<List>(
-              future: getUsers(),
+              future: getDoctors(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
