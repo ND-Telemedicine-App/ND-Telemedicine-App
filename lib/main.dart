@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:nd_telemedicine_app/screens/add_prescription.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/doctor_home.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
 import 'package:nd_telemedicine_app/screens/list_doctor.dart';
+import 'package:nd_telemedicine_app/screens/list_patient.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
@@ -70,6 +70,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 }
 
+// Bottom Nav for Patients
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
 
@@ -133,6 +134,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 }
 
+// Bottom nav for Doctors
 class DoctorNavBar extends StatefulWidget {
   const DoctorNavBar({super.key});
 
@@ -147,7 +149,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     DoctorHomeScreen(),
     DoctorAppointmentScreen(),
-    AddPrescriptionScreen(),
+    ALlPatientsScreen(),
     ChatMenu(),
     ProfileScreen(),
   ];

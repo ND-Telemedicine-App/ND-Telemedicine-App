@@ -43,7 +43,7 @@ class _AllPatientsScreenState extends State<ALlPatientsScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                PageTitle(title: "Appointment"),
+                PageTitle(title: "Prescription"),
                 // search bar
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

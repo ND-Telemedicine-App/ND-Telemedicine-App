@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/list_patient.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:http/http.dart' as http;
 
@@ -68,7 +69,30 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              PageTitle(title: "Prescription"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 40),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              // if (user['role'] == "PATIENT")
+                                builder: (context) => ALlPatientsScreen()),
+                          );
+                        },
+                        child: Icon(Icons.arrow_back, color: Colors.black, size: 25,)),
+                  ),
+                  PageTitle(title: "Prescription"),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 40),
+                    child: Icon(Icons.settings_outlined, color: Colors.black,),
+                  )
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 25),
                 child: Text(
@@ -82,7 +106,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+                      Radius.circular(50),
                     ),
                     borderSide: BorderSide(
                       width: 0,
