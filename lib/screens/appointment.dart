@@ -3,6 +3,7 @@ import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 
 import '../services/models/appointment_model.dart';
 import '../services/models/user_model.dart';
@@ -81,7 +82,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<List> getAppointments() async {
-    var api = 'http://localhost:8081/appointment/doctor/2';
+    var api = 'http://localhost:8081/appointment/doctor/${widget.doctorId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -101,10 +102,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       });
 
     }
-
-
   }
-
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
@@ -129,7 +127,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       return Appointment.fromJson(json.decode(response.body));
     }
 
-    throw Exception("API noob");
+    throw Exception("Cannot get data");
   }
 
   List<DateTimeRange> converted = [];
@@ -154,24 +152,42 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DoctorAppointmentScreen()));
+          },
+        ),
+      centerTitle: true,
+      title: Text(
+        "Appointment",
+        style: const TextStyle(fontFamily: "PoppinsBold"),
+      ),
+    ),
         body: SafeArea (
           child:
-            BookingCalendar(
-            bookingService: mockBookingService,
-            convertStreamResultToDateTimeRanges: convertStreamResultMock,
-            getBookingStream: getBookingStreamMock,
-            uploadBooking: uploadBookingMock,
-            bookedSlotColor: Color(0xffBE3050),
-            availableSlotColor: Color(0xff38B69A),
-            selectedSlotColor: Color(0xffDDFFF8),
-            pauseSlots: generatePauseSlots(),
-            pauseSlotText: 'Break',
-            hideBreakTime: false,
-            loadingWidget: const Text("Getting doctor's schedule..."),
-            uploadingWidget: const Center(child: CircularProgressIndicator()),
-            locale: 'en_US',
-            startingDayOfWeek: StartingDayOfWeek.monday,
+            Flexible(
+              child: BookingCalendar(
+              bookingService: mockBookingService,
+              convertStreamResultToDateTimeRanges: convertStreamResultMock,
+              getBookingStream: getBookingStreamMock,
+              uploadBooking: uploadBookingMock,
+              bookedSlotColor: Color(0xffBE3050),
+              availableSlotColor: Color(0xff38B69A),
+              selectedSlotColor: Color(0xffDDFFF8),
+              pauseSlots: generatePauseSlots(),
+              pauseSlotText: 'Break',
+              hideBreakTime: false,
+              loadingWidget: const Text("Getting doctor's schedule..."),
+              uploadingWidget: const Center(child: CircularProgressIndicator()),
+              locale: 'en_US',
+              startingDayOfWeek: StartingDayOfWeek.monday,
         ),
+            ),
       ),
     );
   }
