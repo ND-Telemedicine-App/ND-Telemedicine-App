@@ -78,7 +78,7 @@ class PrescriptionContainer extends StatelessWidget {
                           )),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 6),
-                        child: Text(prescriptions[index].doctorId.toString(),
+                        child: Text("Alicia Nguyen",
                             style: TextStyle(fontSize: 26)),
                       ),
                       Text(
