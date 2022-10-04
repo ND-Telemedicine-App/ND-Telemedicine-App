@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:nd_telemedicine_app/screens/add_prescription.dart';
-
-import 'package:nd_telemedicine_app/screens/appointment.dart';
-
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/doctor_home.dart';
-import 'package:nd_telemedicine_app/screens/doctor_info.dart';
 import 'package:nd_telemedicine_app/screens/home.dart';
-
 import 'package:nd_telemedicine_app/screens/list_doctor.dart';
-import 'package:nd_telemedicine_app/screens/medical_info.dart';
-import 'package:nd_telemedicine_app/screens/personal_info.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
-import 'package:nd_telemedicine_app/screens/sign_up.dart';
-
 import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -155,7 +146,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     DoctorHomeScreen(),
-    AppointmentScreen(),
+    DoctorAppointmentScreen(),
     AddPrescriptionScreen(),
     ChatMenu(),
     ProfileScreen(),

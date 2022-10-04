@@ -10,7 +10,9 @@ import '../services/models/user_model.dart';
 import '../widgets/global/globals.dart' as globals;
 
 class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen({Key? key}) : super(key: key);
+  const AppointmentScreen({Key? key, required this.doctorId}) : super(key: key);
+
+  final int doctorId;
 
   @override
   State<AppointmentScreen> createState() => _AppointmentScreenState();
@@ -112,7 +114,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     Appointment newAppointment = Appointment(
         id: null,
         patientId: currentUser?.id,
-        doctorId: 2,
+        doctorId: widget.doctorId,
         startTime: newBooking.bookingStart.toString(),
         endTime: newBooking.bookingEnd.toString());
     var body = json.encode(newAppointment.toJson());
@@ -166,7 +168,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             pauseSlotText: 'Break',
             hideBreakTime: false,
             loadingWidget: const Text("Getting doctor's schedule..."),
-            uploadingWidget: const CircularProgressIndicator(),
+            uploadingWidget: const Center(child: CircularProgressIndicator()),
             locale: 'en_US',
             startingDayOfWeek: StartingDayOfWeek.monday,
         ),

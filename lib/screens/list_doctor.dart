@@ -111,7 +111,8 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                               doctorImagePath: snapshot.data?[index]['avatar'],
                               doctorName: snapshot.data?[index]["fullName"],
                               doctorSpeciality: snapshot.data?[index]
-                                  ["speciality"]),
+                                  ["speciality"],
+                              doctorId: snapshot.data?[index]["id"],),
                         );
                       }
                       // },

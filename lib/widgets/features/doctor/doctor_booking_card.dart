@@ -6,11 +6,13 @@ class DoctorBookingCard extends StatelessWidget {
   final String doctorImagePath;
   final String doctorName;
   final String doctorSpeciality;
+  final int doctorId;
 
   const DoctorBookingCard(
       {required this.doctorImagePath,
         required this.doctorName,
-        required this.doctorSpeciality});
+        required this.doctorSpeciality,
+        required this.doctorId});
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class DoctorBookingCard extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AppointmentScreen()));
+                                      builder: (context) => AppointmentScreen(doctorId: doctorId,)));
                             },
                             child: Text('BOOK',
                                 style: TextStyle(
