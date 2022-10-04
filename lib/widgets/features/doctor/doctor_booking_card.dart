@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/appointment.dart';
+import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 
 class DoctorBookingCard extends StatelessWidget {
   final String doctorImagePath;
@@ -66,43 +68,50 @@ class DoctorBookingCard extends StatelessWidget {
                       ),
                     ),
                     Text(doctorSpeciality),
+                    SizedBox(height: 10,),
                     Row(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 20, right: 10),
-                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            color: Color(0xff38B69A),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "BOOK",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'PoppinsSemiBold',
-                                  fontSize: 14),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              minimumSize: Size(70, 35),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.transparent,
-                              border: Border.all(
-                                  color: Color(0xff38B69A), width: 3)),
-                          child: const Center(
-                            child: Text(
-                              "CHAT",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'PoppinsSemiBold',
-                                  fontSize: 14),
+                            onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AppointmentScreen()));
+                            },
+                            child: Text('BOOK',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "PoppinsSemiBold",
+                                    fontSize: 14))),
+                        SizedBox(width: 10,),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            side: BorderSide(
+                                width: 2, color: Color(0xff38B69A)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
                             ),
+                            minimumSize: Size(70, 35),
+                            primary: Colors.white,
                           ),
-                        ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatMenu()),
+                            );
+                          },
+                          child: Text('CHAT',
+                            style: TextStyle(
+                              color: Color(0xff38B69A),
+                              fontFamily: "PoppinsSemiBold",
+                              fontSize: 14,),),),
                       ],
                     ),
                   ],

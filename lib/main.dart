@@ -84,7 +84,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    AppointmentScreen(),
+    DoctorAppointmentScreen(),
     PrescriptionScreen(),
     ChatMenu(),
     ProfileScreen(),

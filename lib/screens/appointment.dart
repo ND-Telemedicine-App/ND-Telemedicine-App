@@ -5,6 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 import '../services/models/appointment_model.dart';
+import '../services/models/user_model.dart';
+
+import '../widgets/global/globals.dart' as globals;
 
 class AppointmentScreen extends StatefulWidget {
   const AppointmentScreen({Key? key}) : super(key: key);
@@ -18,15 +21,50 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   late BookingService mockBookingService;
   late List appointments;
 
+  User? currentUser;
+  bool isLoadingData = true;
+
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+      );
+      setState(() {
+        currentUser = thisUser;
+        isLoadingData = false;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
 
   @override
   void initState() {
     super.initState();
-    // DateTime.now().startOfDay
-    // DateTime.now().endOfDay
+    getCurrentUser();
     mockBookingService = BookingService(
         serviceId: "15",
-        userId: "16",
+        userId: currentUser?.id.toString(),
         serviceName: 'Mock Service',
         serviceDuration: 30,
         bookingEnd: DateTime(now.year, now.month, now.day, 17, 0),
@@ -41,7 +79,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<List> getAppointments() async {
-    var api = 'http://localhost:8080/appointment/doctor/2';
+    var api = 'http://localhost:8081/appointment/doctor/2';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -73,7 +111,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
     Appointment newAppointment = Appointment(
         id: null,
-        patientId: 1,
+        patientId: currentUser?.id,
         doctorId: 2,
         startTime: newBooking.bookingStart.toString(),
         endTime: newBooking.bookingEnd.toString());
@@ -82,7 +120,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<Appointment> insertAppointment(String body) async {
-    const api = 'http://localhost:8080/createAppointment';
+    const api = 'http://localhost:8081/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
