@@ -6,11 +6,13 @@ class PatientCard extends StatelessWidget {
   final String patientImagePath;
   final String patientName;
   final String patientStatus;
+  final int patientId;
 
   const PatientCard(
       {required this.patientImagePath,
         required this.patientName,
-        required this.patientStatus});
+        required this.patientStatus,
+        required this.patientId});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class PatientCard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                builder: (context) => AddPrescriptionScreen()
+                                builder: (context) => AddPrescriptionScreen(patientId: patientId,)
                               ));
                             },
                             child: Center(

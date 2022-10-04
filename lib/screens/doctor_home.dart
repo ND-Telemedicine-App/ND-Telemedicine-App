@@ -9,7 +9,6 @@ import 'package:nd_telemedicine_app/widgets/features/home/article_card.dart';
 import 'package:nd_telemedicine_app/widgets/features/patient/patient_card.dart';
 
 import '../services/models/user_model.dart';
-import '../widgets/features/doctor/doctor_booking_card.dart';
 import '../widgets/global/globals.dart' as globals;
 
 class DoctorHomeScreen extends StatefulWidget {
@@ -323,6 +322,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                                     ));
                               },
                               child: PatientCard(
+                                  patientId: snapshot.data?[index]['id'],
                                   patientImagePath: snapshot.data?[index]['avatar'],
                                   patientName: snapshot.data?[index]["fullName"],
                                   patientStatus: snapshot.data?[index]

@@ -107,6 +107,7 @@ class _AllPatientsScreenState extends State<ALlPatientsScreen> {
                                     ));
                               },
                               child: PatientCard(
+                                patientId: snapshot.data?[index]['id'],
                                 patientImagePath: snapshot.data?[index]['avatar'],
                                 patientName: snapshot.data?[index]["fullName"],
                                 patientStatus: snapshot.data?[index]
