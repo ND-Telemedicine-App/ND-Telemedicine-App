@@ -109,7 +109,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     await Future.delayed(const Duration(seconds: 1));
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    Appointment newAppointment = Appointment(
+    AppointmentModel newAppointment = AppointmentModel(
         id: null,
         patientId: currentUser?.id,
         doctorId: widget.doctorId,
@@ -124,7 +124,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      return Appointment.fromJson(json.decode(response.body));
+      return AppointmentModel.fromJson(json.decode(response.body));
     }
 
     throw Exception("Cannot get data");

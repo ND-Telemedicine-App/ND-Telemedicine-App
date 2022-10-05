@@ -1,14 +1,14 @@
-class Appointment {
+class AppointmentModel {
   int? id;
   int? patientId;
   int? doctorId;
   String? startTime;
   String? endTime;
 
-  Appointment(
+  AppointmentModel(
       {this.id, this.patientId, this.doctorId, this.startTime, this.endTime});
 
-  Appointment.fromJson(Map<String, dynamic> json) {
+AppointmentModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     patientId = json['patientId'];
     doctorId = json['doctorId'];
@@ -25,4 +25,8 @@ class Appointment {
     data['endTime'] = this.endTime;
     return data;
   }
+
+  int? getPatientId() => patientId;
+  String? getStartTime() => startTime;
+  String? getEndTime() => endTime;
 }
