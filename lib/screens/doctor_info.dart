@@ -372,7 +372,7 @@ class _DoctorInfoState extends State<DoctorInfo> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 minimumSize: Size(300, 50),
-                                backgroundColor: Colors.white,
+                                primary: Colors.white,
                               ),
                               onPressed: () {
                                 Navigator.pushReplacement(

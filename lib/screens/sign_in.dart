@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/main.dart';
 import 'package:nd_telemedicine_app/screens/forgot_password.dart';
-import 'package:nd_telemedicine_app/screens/home.dart';
-import 'package:nd_telemedicine_app/screens/personal_info.dart';
-import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/screens/sign_up.dart';
 import 'package:nd_telemedicine_app/services/models/user_model.dart';
 
@@ -22,6 +19,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   late List users;
   List patients = [];
+  List doctors = [];
   late User currentUser;
   String userEmail = "";
   String userPassword = "";
@@ -69,6 +67,28 @@ class _SignInPageState extends State<SignInPage> {
           patients.add(newPatient);
         });
       }
+      else if(user['role'] == "DOCTOR"){
+        User newDoctor = User(
+            id: user['id'],
+            role: user['role'],
+            email: user['email'],
+            password: user['password'],
+            fullName: user['fullName'],
+            avatar: user['avatar'],
+            address: user['address'],
+            phoneNumber: user['phoneNumber'],
+            gender: user['gender'],
+            dateOfBirth: user['dateOfBirth'],
+            allergies: user['allergies'],
+            diseases: user['diseases'],
+            medication: user['medication'],
+            bio: user['bio'],
+            speciality: user['speciality']);
+
+        setState(() {
+          doctors.add(newDoctor);
+        });
+      }
     }
   }
 
@@ -80,6 +100,15 @@ class _SignInPageState extends State<SignInPage> {
       if (patient.email == userEmail && patient.password == userPassword) {
         setState(() {
           currentUser = patient;
+          globals.currentUserId = currentUser.id!;
+        });
+        return true;
+      }
+    }
+    for (dynamic doctor in doctors) {
+      if (doctor.email == userEmail && doctor.password == userPassword) {
+        setState(() {
+          currentUser = doctor;
           globals.currentUserId = currentUser.id!;
         });
         return true;
@@ -231,13 +260,6 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         child: InkWell(
                           onTap: () async {
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => PersonalInfo()),
-                            // );
-                            // print(userEmail);
-                            // cyj1309@gmail.com password
                             if (checkEmailAndPassword()) {
                               print("User exists");
                               setState(() {
@@ -245,12 +267,24 @@ class _SignInPageState extends State<SignInPage> {
                               });
                               await Future.delayed(Duration(seconds: 3));
                               // ignore: use_build_context_synchronously
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyStatefulWidget(),
-                                ),
-                              );
+                              if(currentUser.role == "PATIENT") {
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyStatefulWidget(),
+                                  ),
+                                );
+                              }else if(currentUser.role == "DOCTOR"){
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DoctorNavBar(),
+                                  ),
+                                );
+                              }
+
                             } else {
                               setState(() {
                                 isDone = true;
@@ -268,7 +302,7 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         color: Color(0xff38B69A),
                                         fontFamily: "PoppinsBold",
-                                        fontSize: 20),
+                                        fontSize: 20,),
                                   )),
                                   content: Text(
                                     'Email or password is incorrect.',

@@ -5,9 +5,6 @@ import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/utils/category_field.dart';
-import 'package:nd_telemedicine_app/utils/doctor_card.dart';
-
-
 import '../widgets/features/doctor/doctor_booking_card.dart';
 import '../widgets/global/globals.dart' as globals;
 import '../services/models/user_model.dart';
@@ -377,7 +374,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 doctorImagePath: snapshot.data?[index]['avatar'],
                                 doctorName: snapshot.data?[index]["fullName"],
                                 doctorSpeciality: snapshot.data?[index]
-                                ["speciality"]),
+                                ["speciality"],
+                                doctorId: snapshot.data?[index]["id"],
+                            ),
                           );
                         }
                       // },

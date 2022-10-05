@@ -38,6 +38,7 @@ dependencies:
 
   booking_calendar: ^1.1.5
   intl: ^0.17.0
+  readmore: ^2.2.0
 
 
 dev_dependencies:
