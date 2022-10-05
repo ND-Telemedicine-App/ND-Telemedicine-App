@@ -74,7 +74,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     await Future.delayed(const Duration(seconds: 1));
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    Appointment newAppointment = Appointment(
+    AppointmentModel newAppointment = AppointmentModel(
         id: null,
         patientId: 1,
         doctorId: 2,
@@ -86,12 +86,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     print(body);
   }
 
-  Future<Appointment> insertAppointment(String body) async {
+  Future<AppointmentModel> insertAppointment(String body) async {
     const api = 'http://localhost:8080/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      return Appointment.fromJson(json.decode(response.body));
+      return AppointmentModel.fromJson(json.decode(response.body));
     }
 
     throw Exception("API noob");

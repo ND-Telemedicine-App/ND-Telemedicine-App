@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nd_telemedicine_app/models/appointment.dart';
+import 'package:nd_telemedicine_app/services/models/appointment_model.dart';
+import 'package:nd_telemedicine_app/services/models/user_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:duration_picker/duration_picker.dart';
@@ -46,7 +48,7 @@ class TimeslotDataSource extends CalendarDataSource {
 //fetch busy time data from database using API
 Future<List<BusyTime>> getBusyTimes(http.Client client, int doctorId) async {
   final response =
-      await client.get(Uri.parse("http://localhost:8080/busyTime/$doctorId"));
+      await client.get(Uri.parse("http://10.0.2.2:8080/busyTime/$doctorId"));
 
   return compute(parseBusyTime, response.body);
 }
@@ -57,12 +59,56 @@ List<BusyTime> parseBusyTime(String response) {
   return parsed.map<BusyTime>((json) => BusyTime.fromJson(json)).toList();
 }
 
+//fetch appointment with a doctor data from database using API
+Future<List<AppointmentModel>> getAppointmentModel(http.Client client, int doctorId)async{
+  final response = await client.get(Uri.parse("http://10.0.2.2:8090/appointment/doctor/$doctorId"));
+
+  return compute(parseAppointmentModel, response.body);
+}
+
+//parse appointment data from json to list
+List<AppointmentModel> parseAppointmentModel(String response){
+  final parsed = jsonDecode(response).cast<Map<String, dynamic>>();
+
+  return parsed
+      .map<AppointmentModel>((json) => AppointmentModel.fromJson(json))
+      .toList();
+}
+
+//fetch userinfo data from database using API
+Future<List<User>> getUser(http.Client client)async{
+  final response = await client.get(Uri.parse("http://10.0.2.2:8080/user/patients"));
+
+  return compute(parseUser, response.body);
+}
+
+//parse user data from json to list
+List<User> parseUser(String response){
+  final parsed = jsonDecode(response).cast<Map<String, dynamic>>();
+
+  return parsed
+      .map<User>((json) => User.fromJson(json))
+      .toList();
+}
+
+//find the patient by patientId
+User findPatient(int patientId, List<User> patients){
+  for(int i=0; i<patients.length; i++){
+    if(patients[i].getPatientId() == patientId){
+      return patients[i];
+    }
+  }
+  throw Exception("No patient");
+}
+
 //convert to Timeslot data source
 Future<TimeslotDataSource> _getDataSource() async {
   final List<TimeSlot> slots = <TimeSlot>[];
   final DateTime today = DateTime.now();
 
   var busyTimes = await getBusyTimes(http.Client(), 1);
+  var appointments = await getAppointmentModel(http.Client(), 1);
+  var patients = await getUser(http.Client());
 
   final dateFormat = DateFormat("dd-MM-yy HH:mm");
 
@@ -75,10 +121,21 @@ Future<TimeslotDataSource> _getDataSource() async {
         const Color(0xFFEFCCD4)));
   }
 
-  final DateTime start3 =
-      DateTime(today.year, today.month, today.day + 1, 15, 0, 0);
-  slots.add(TimeSlot('Patient Baek Dohwa', start3,
-      start3.add(const Duration(minutes: 30)), const Color(0xFF78CEBB)));
+  for(var i=0; i<appointments.length; i++){
+    int? patientId = appointments[i].getPatientId();
+    User patient = findPatient(patientId!, patients);
+    DateTime startTime = dateFormat.parse(appointments[i].getStartTime()!);
+    DateTime endTime = dateFormat.parse(appointments[i].getEndTime()!);
+    slots.add(TimeSlot(patient.getFullname()!,
+        startTime,
+        endTime,
+        const Color(0xFF78CEBB)));
+  }
+
+  // final DateTime start3 =
+  // DateTime(today.year, today.month, today.day + 1, 15, 0, 0);
+  // slots.add(TimeSlot('Patient Baek Dohwa', start3,
+  //     start3.add(const Duration(minutes: 30)), const Color(0xFF78CEBB)));
   return TimeslotDataSource(slots);
 }
 
@@ -113,7 +170,7 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
   }
 
   void selectionChanged(CalendarSelectionDetails details) {
-      _dateSelected = DateFormat('dd-MM-yy').format(details.date!).toString();
+      _dateSelected = DateFormat('dd-MM-yyyy').format(details.date!).toString();
       print(_dateSelected);
   }
 
@@ -301,99 +358,5 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
       ),
     ));
   }
-}
 
-// class DoctorSchedulePage extends StatelessWidget {
-//   DoctorSchedulePage(
-//       {Key? key, required this.timeslotDataSource, required this.selectTime,})
-//       : super(key: key);
-//
-//   final TimeslotDataSource timeslotDataSource;
-//   final Function()? selectTime;
-//   final CalendarController _controller = CalendarController();
-//   // final Function(CalendarSelectionDetails)? selectionChanged;
-//   // final String dateSelected;
-//
-//   set selectedDate(DateTime? date) {
-//     dateSelected = date;
-//     print(date);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     double heightWidth = MediaQuery.of(context).size.height;
-//     double screenWidth = MediaQuery.of(context).size.width;
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         centerTitle: true,
-//         toolbarHeight: 50,
-//         backgroundColor: Color(0xffFDFFFE),
-//         elevation: 0,
-//         title: Text(
-//           "Appointments",
-//           style: const TextStyle(
-//               fontFamily: "PoppinsBold",
-//               color: Color(0xff2B8D78),
-//               fontSize: 30),
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         backgroundColor: Color(0xff2B8D78),
-//         onPressed: selectTime,
-//         child: Icon(Icons.add),
-//       ),
-//       body: SafeArea(
-//         child: Padding(
-//             padding: EdgeInsets.only(
-//                 top: heightWidth * 0.05,
-//                 left: screenWidth * 0.05,
-//                 right: screenWidth * 0.05),
-//             child: Center(
-//               child: SfCalendar(
-//                 controller: _controller,
-//                 //onSelectionChanged: selectionChanged,
-//
-//                 view: CalendarView.month,
-//                 showNavigationArrow: true,
-//                 showDatePickerButton: true,
-//                 //cellBorderColor:  Color(0xff38b69a),
-//                 appointmentTextStyle: TextStyle(fontFamily: "PoppinsRegular"),
-//                 headerStyle: CalendarHeaderStyle(
-//                     textStyle: TextStyle(
-//                   color: Color(0xff2B8D78),
-//                   fontSize: 18,
-//                   fontFamily: "PoppinsSemiBold",
-//                 )),
-//                 viewHeaderStyle: ViewHeaderStyle(
-//                   backgroundColor: Color(0xffddfff8),
-//                   dayTextStyle: TextStyle(
-//                       color: Color(0xff031011), fontFamily: "PoppinsMedium"),
-//                 ),
-//                 monthViewSettings: MonthViewSettings(
-//                   showAgenda: true,
-//                   agendaItemHeight: 60,
-//                   agendaStyle: AgendaStyle(
-//                     appointmentTextStyle: TextStyle(
-//                       fontSize: 16,
-//                       color: Color(0xff031011),
-//                       fontFamily: "PoppinsRegular",
-//                     ),
-//                     dateTextStyle: TextStyle(
-//                         color: Color(0xff031011),
-//                         fontSize: 20,
-//                         fontFamily: "PoppinsItalic"),
-//                     dayTextStyle: TextStyle(
-//                       color: Color(0xff031011),
-//                       fontSize: 20,
-//                       fontFamily: "PoppinsSemiBold",
-//                     ),
-//                   ),
-//                 ),
-//                 dataSource: timeslotDataSource,
-//               ),
-//             )),
-//       ),
-//     );
-//   }
-// }
+}
