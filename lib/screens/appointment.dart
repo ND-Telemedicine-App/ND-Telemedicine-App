@@ -3,11 +3,17 @@ import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 
 import '../services/models/appointment_model.dart';
+import '../services/models/user_model.dart';
+
+import '../widgets/global/globals.dart' as globals;
 
 class AppointmentScreen extends StatefulWidget {
-  const AppointmentScreen({Key? key}) : super(key: key);
+  const AppointmentScreen({Key? key, required this.doctorId}) : super(key: key);
+
+  final int doctorId;
 
   @override
   State<AppointmentScreen> createState() => _AppointmentScreenState();
@@ -18,15 +24,50 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   late BookingService mockBookingService;
   late List appointments;
 
+  User? currentUser;
+  bool isLoadingData = true;
+
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+      );
+      setState(() {
+        currentUser = thisUser;
+        isLoadingData = false;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
 
   @override
   void initState() {
     super.initState();
-    // DateTime.now().startOfDay
-    // DateTime.now().endOfDay
+    getCurrentUser();
     mockBookingService = BookingService(
         serviceId: "15",
-        userId: "16",
+        userId: currentUser?.id.toString(),
         serviceName: 'Mock Service',
         serviceDuration: 30,
         bookingEnd: DateTime(now.year, now.month, now.day, 17, 0),
@@ -41,7 +82,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<List> getAppointments() async {
-    var api = 'http://localhost:8080/appointment/doctor/2';
+    var api = 'http://localhost:8081/appointment/doctor/${widget.doctorId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -61,13 +102,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       });
 
     }
-
-
-    print(appointments);
-
-
   }
-
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
@@ -76,35 +111,31 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
     AppointmentModel newAppointment = AppointmentModel(
         id: null,
-        patientId: 1,
-        doctorId: 2,
+        patientId: currentUser?.id,
+        doctorId: widget.doctorId,
         startTime: newBooking.bookingStart.toString(),
         endTime: newBooking.bookingEnd.toString());
-    // print('${newBooking.toJson()} has been uploaded');
     var body = json.encode(newAppointment.toJson());
     insertAppointment(body);
-    print(body);
   }
 
-  Future<AppointmentModel> insertAppointment(String body) async {
-    const api = 'http://localhost:8080/createAppointment';
+  Future<Appointment> insertAppointment(String body) async {
+    const api = 'http://localhost:8081/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
       return AppointmentModel.fromJson(json.decode(response.body));
     }
 
-    throw Exception("API noob");
+    throw Exception("Cannot get data");
   }
 
   List<DateTimeRange> converted = [];
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-    print(streamResult);
     // for (dynamic appointment in appointments) {
     //   converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
     // }
-
     print("Converted: ");
     print(converted);
     return converted;
@@ -121,24 +152,42 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DoctorAppointmentScreen()));
+          },
+        ),
+      centerTitle: true,
+      title: Text(
+        "Appointment",
+        style: const TextStyle(fontFamily: "PoppinsBold"),
+      ),
+    ),
         body: SafeArea (
           child:
-            BookingCalendar(
-            bookingService: mockBookingService,
-            convertStreamResultToDateTimeRanges: convertStreamResultMock,
-            getBookingStream: getBookingStreamMock,
-            uploadBooking: uploadBookingMock,
-            bookedSlotColor: Color(0xffBE3050),
-            availableSlotColor: Color(0xff38B69A),
-            selectedSlotColor: Color(0xffDDFFF8),
-            pauseSlots: generatePauseSlots(),
-            pauseSlotText: 'Break',
-            hideBreakTime: false,
-            loadingWidget: const Text("Getting doctor's schedule..."),
-            uploadingWidget: const CircularProgressIndicator(),
-            locale: 'en_US',
-            startingDayOfWeek: StartingDayOfWeek.monday,
+            Flexible(
+              child: BookingCalendar(
+              bookingService: mockBookingService,
+              convertStreamResultToDateTimeRanges: convertStreamResultMock,
+              getBookingStream: getBookingStreamMock,
+              uploadBooking: uploadBookingMock,
+              bookedSlotColor: Color(0xffBE3050),
+              availableSlotColor: Color(0xff38B69A),
+              selectedSlotColor: Color(0xffDDFFF8),
+              pauseSlots: generatePauseSlots(),
+              pauseSlotText: 'Break',
+              hideBreakTime: false,
+              loadingWidget: const Text("Getting doctor's schedule..."),
+              uploadingWidget: const Center(child: CircularProgressIndicator()),
+              locale: 'en_US',
+              startingDayOfWeek: StartingDayOfWeek.monday,
         ),
+            ),
       ),
     );
   }

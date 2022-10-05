@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/otp.dart';
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -43,7 +44,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Text(
-                        "Enter your email and follow the steps to reset your password",
+                        "Enter your email and verify OTP to reset your password",
                         style:
                             TextStyle(fontFamily: "PoppinsMedium", fontSize: 15),
                       ),
@@ -63,13 +64,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           Container(
                             padding: const EdgeInsets.only(
                                 left: 15, right: 15, top: 8, bottom: 8),
-                            child: TextField(
+                            child: TextFormField(
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: const Color(0xffEFF0F0),
-                                hintText: "Email",
-                                hintStyle: TextStyle(
-                                    color: Colors.grey[500], fontSize: 15),
+                                labelText: "Email",
+
                                 contentPadding: const EdgeInsets.only(
                                     left: 20, top: 20, bottom: 20),
                                 border: OutlineInputBorder(
@@ -86,54 +86,47 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 25),
-                      height: 50,
-                      width: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Color(0xff38B69A),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'PoppinsSemiBold',
-                              fontSize: 18),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          minimumSize: Size(300, 50),
                         ),
-                      ),
-                    ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,MaterialPageRoute(builder: (context) => Otp()),);
+                        },
+                        child: Text('Get Code',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "PoppinsSemiBold",
+                                fontSize: 18))),
                     const SizedBox(
-                      height: 5,
+                      height: 15,
                     ),
-                    GestureDetector(
-                      onTap:  () {
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        side: BorderSide(
+                            width: 2, color: Color(0xff38B69A)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        minimumSize: Size(300, 50),
+                        primary: Colors.white,
+                      ),
+                      onPressed: () {
                         Navigator.pushReplacement(
                           context,MaterialPageRoute(builder: (context) => SignInPage()),);
                       },
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 25),
-                        height: 50,
-                        width: 300,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Color(0xff38B69A), width: 3)),
-                        child: const Center(
-                          child: Text(
-                            "Cancel",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'PoppinsSemiBold',
-                                fontSize: 18),
-                          ),
-                        ),
-                      ),
-                    ),
+                      child: Text('Cancel',
+                        style: TextStyle(
+                          color: Color(0xff38B69A),
+                          fontFamily: "PoppinsSemiBold",
+                          fontSize: 18,),),),
+
                   ],
                 ))
           ]),
