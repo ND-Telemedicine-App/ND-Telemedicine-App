@@ -157,54 +157,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 200,
-                        child: TextFormField(
-                          enabled: buttonEnabled,
-                          onChanged: (value) => {
-                            if (value == "") {
-                              userStatus = "No Status"
-                            } else {
-                              userStatus=value}
-                            },
-                          minLines: 1,
-                          maxLines: 20,
-                          maxLength: 50,
-                          initialValue: currentUser?.status ?? "No Status",
-                          textAlign: TextAlign.center,
-                          textAlignVertical: TextAlignVertical.bottom,
-                          decoration: InputDecoration(
-                              //makes a border around the textfield box
-                              // border: OutlineInputBorder(),
+                  Stack(
 
-                              //changes padding of text in field
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 9)),
-                        ),
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 200,
+                            child: TextFormField(
+                              enabled: buttonEnabled,
+                              onChanged: (value) => {
+                                if (value == "") {
+                                  userStatus = "No Status"
+                                } else {
+                                  userStatus=value}
+                                },
+                              minLines: 1,
+                              maxLines: 20,
+                              maxLength: 50,
+                              key: Key(currentUser?.status??"No Status"),
+                              initialValue: currentUser?.status ?? "No Status",
+                              textAlign: TextAlign.center,
+                              textAlignVertical: TextAlignVertical.bottom,
+                              decoration: InputDecoration(
+                                  //makes a border around the textfield box
+                                  // border: OutlineInputBorder(),
+
+                                  //changes padding of text in field
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 9)),
+                            ),
+                          ),
+                          // Align(
+                          //   alignment: FractionalOffset.bottomCenter,
+                          // ),
+                          Container(
+                            child: IconButton(
+                                icon: Icon(iconData),
+                                alignment: Alignment.topCenter,
+                                onPressed: () {
+                                  buttonClick = !buttonClick;
+                                  setState(() {
+                                    if (iconData == Icons.save) {
+                                      buttonEnabled = false;
+                                      iconData = Icons.edit;
+                                      updateUserStatus(userStatus);
+                                    } else {
+                                      buttonEnabled = true;
+                                      iconData = Icons.save;
+                                    }
+                                  });
+                                }),
+                          ),
+                        ],
                       ),
-                      Align(
-                        alignment: FractionalOffset.bottomCenter,
-                      ),
-                      IconButton(
-                          icon: Icon(iconData),
-                          alignment: Alignment.topCenter,
-                          onPressed: () {
-                            buttonClick = !buttonClick;
-                            setState(() {
-                              if (iconData == Icons.save) {
-                                buttonEnabled = false;
-                                iconData = Icons.edit;
-                                updateUserStatus(userStatus);
-                              } else {
-                                buttonEnabled = true;
-                                iconData = Icons.save;
-                              }
-                            });
-                          }),
                     ],
                   ),
                   Container(
