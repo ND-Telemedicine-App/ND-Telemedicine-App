@@ -170,23 +170,26 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     ),
         body: SafeArea (
           child:
-            Flexible(
-              child: BookingCalendar(
-              bookingService: mockBookingService,
-              convertStreamResultToDateTimeRanges: convertStreamResultMock,
-              getBookingStream: getBookingStreamMock,
-              uploadBooking: uploadBookingMock,
-              bookedSlotColor: Color(0xffBE3050),
-              availableSlotColor: Color(0xff38B69A),
-              selectedSlotColor: Color(0xffDDFFF8),
-              pauseSlots: generatePauseSlots(),
-              pauseSlotText: 'Break',
-              hideBreakTime: false,
-              loadingWidget: const Text("Getting doctor's schedule..."),
-              uploadingWidget: const Center(child: CircularProgressIndicator()),
-              locale: 'en_US',
-              startingDayOfWeek: StartingDayOfWeek.monday,
+            Flex(
+              direction: Axis.vertical,
+              children: [Flexible(
+                child: BookingCalendar(
+                bookingService: mockBookingService,
+                convertStreamResultToDateTimeRanges: convertStreamResultMock,
+                getBookingStream: getBookingStreamMock,
+                uploadBooking: uploadBookingMock,
+                bookedSlotColor: Color(0xffBE3050),
+                availableSlotColor: Color(0xff38B69A),
+                selectedSlotColor: Color(0xffDDFFF8),
+                pauseSlots: generatePauseSlots(),
+                pauseSlotText: 'Break',
+                hideBreakTime: false,
+                loadingWidget: const Text("Getting doctor's schedule..."),
+                uploadingWidget: const Center(child: CircularProgressIndicator()),
+                locale: 'en_US',
+                startingDayOfWeek: StartingDayOfWeek.monday,
         ),
+              ),]
             ),
       ),
     );
