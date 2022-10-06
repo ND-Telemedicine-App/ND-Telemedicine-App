@@ -16,12 +16,11 @@ class DoctorAppointmentScreen extends StatefulWidget {
 }
 
 class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
-  Future<List> getUsers() async {
+  Future<List> getDoctors() async {
     Response res = await get(Uri.parse("http://localhost:8080/user/doctors"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
-
       return obj;
     } else {
       throw "Unable to retrieve users data.";
@@ -30,9 +29,8 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getUsers();
+    getDoctors();
   }
 
   @override
@@ -82,7 +80,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             ),
 
             FutureBuilder<List>(
-              future: getUsers(),
+              future: getDoctors(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -112,7 +110,8 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
                               doctorImagePath: snapshot.data?[index]['avatar'],
                               doctorName: snapshot.data?[index]["fullName"],
                               doctorSpeciality: snapshot.data?[index]
-                                  ["speciality"]),
+                                  ["speciality"],
+                              doctorId: snapshot.data?[index]["id"],),
                         );
                       }
                       // },

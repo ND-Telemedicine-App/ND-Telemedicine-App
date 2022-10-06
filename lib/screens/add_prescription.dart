@@ -1,25 +1,28 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/screens/list_patient.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/global/globals.dart' as globals;
+
 // Converts the text fields into JSON and Posts to /createPrescription
 Future<http.Response> createPrescription(
-  String patientName,
+  String patientId,
   String medicineName,
   String dosageInstructions,
   String dispenseAmount,
   String medicineRefill,
 ) {
   return http.post(
-    Uri.parse('http://localhost:8080/createPrescription'),
+    Uri.parse('http://localhost:8082/createPrescription'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
     body: jsonEncode(<String, String>{
-      'patientId': patientName,
-      'doctorId': '1234',
+      'patientId': patientId,
+      'doctorId': globals.currentUserId.toString(),
       'medicineName': medicineName,
       'prescriptionDosage': dosageInstructions,
       'prescriptionDispense': dispenseAmount,
@@ -29,7 +32,9 @@ Future<http.Response> createPrescription(
 }
 
 class AddPrescriptionScreen extends StatefulWidget {
-  const AddPrescriptionScreen({Key? key}) : super(key: key);
+  const AddPrescriptionScreen({Key? key, required this.patientId}) : super(key: key);
+
+  final int patientId;
 
   @override
   State<AddPrescriptionScreen> createState() => _AddPrescriptionScreenState();
@@ -37,7 +42,6 @@ class AddPrescriptionScreen extends StatefulWidget {
 
 class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
   // Input from text fields
-  final patientNameController = TextEditingController();
   final medicineNameController = TextEditingController();
   final dosageInstructionsController = TextEditingController();
   final dispenseAmountController = TextEditingController();
@@ -46,7 +50,6 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
   // Clean up the controllers when the widget is disposed.
   @override
   void dispose() {
-    patientNameController.dispose();
     medicineNameController.dispose();
     dosageInstructionsController.dispose();
     dispenseAmountController.dispose();
@@ -68,7 +71,30 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              PageTitle(title: "Prescription"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 40),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              // if (user['role'] == "PATIENT")
+                                builder: (context) => ALlPatientsScreen()),
+                          );
+                        },
+                        child: Icon(Icons.arrow_back, color: Colors.black, size: 25,)),
+                  ),
+                  PageTitle(title: "Prescription"),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 40),
+                    child: Icon(Icons.settings_outlined, color: Colors.black,),
+                  )
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 25),
                 child: Text(
@@ -77,29 +103,6 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                     color: Color(0xff38B69A),
                   ),
                 ),
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    borderSide: BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
-                    ),
-                  ),
-                  labelText: 'Patient name',
-                  hintStyle: TextStyle(
-                    color: Color(0xff6B6C6C),
-                  ),
-                  fillColor: Color(0xffEFF0F0),
-                  filled: true,
-                ),
-                controller: patientNameController,
-              ),
-              SizedBox(
-                height: 30,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -122,7 +125,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: medicineNameController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 maxLines: null,
@@ -149,7 +152,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: dosageInstructionsController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -172,7 +175,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: dispenseAmountController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               TextFormField(
                 decoration: const InputDecoration(
@@ -195,7 +198,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                 controller: medicineRefillController,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               InkWell(
                   // Makes container tappable
@@ -218,7 +221,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                   ),
                   onTap: () {
                     createPrescription(
-                        patientNameController.text,
+                        widget.patientId.toString(),
                         medicineNameController.text,
                         dosageInstructionsController.text,
                         dispenseAmountController.text,

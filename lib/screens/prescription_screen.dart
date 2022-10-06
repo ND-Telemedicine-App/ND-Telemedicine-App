@@ -7,10 +7,10 @@ import 'package:nd_telemedicine_app/widgets/features/prescription/Prescription_C
 import 'package:http/http.dart' as http;
 
 import '../models/prescription.dart';
+import '../widgets/global/globals.dart' as globals;
 
 Future<List<Prescription>> fetchPrescriptions(http.Client client) async {
-  final response = await client
-      .get(Uri.parse('http://localhost:8080/prescription/patient/1111'));
+  final response = await client.get(Uri.parse('http://localhost:8082/prescription/patient/${globals.currentUserId}'));
 
   return compute(parsePrescriptions, response.body);
 }

@@ -38,6 +38,9 @@ dependencies:
 
   booking_calendar: ^1.1.5
   intl: ^0.17.0
+  syncfusion_flutter_calendar: ^20.2.50
+  duration_picker: ^1.0.1
+  readmore: ^2.2.0
 
 
 dev_dependencies:
@@ -108,6 +111,10 @@ flutter:
     - family: PoppinsItalic
       fonts:
           - asset: assets/fonts/Poppins-Italic.ttf
+
+    - family: Clock
+      fonts:
+          - asset: assets/fonts/digital-7.ttf
 
 
 
