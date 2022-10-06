@@ -82,7 +82,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<List> getAppointments() async {
-    var api = 'http://localhost:8081/appointment/doctor/${widget.doctorId}';
+    var api = 'http://localhost:8090/appointment/doctor/${widget.doctorId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -120,7 +120,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<AppointmentModel> insertAppointment(String body) async {
-    const api = 'http://localhost:8081/createAppointment';
+    const api = 'http://localhost:8090/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {

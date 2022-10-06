@@ -1,9 +1,5 @@
-import 'dart:ffi';
-
 class User {
   int? id;
-  int? patientId;
-  int? doctorId;
   String? role;
   String? email;
   String? password;
@@ -22,8 +18,6 @@ class User {
 
   User(
       {this.id,
-        this.patientId,
-        this.doctorId,
         this.role,
         this.email,
         this.password,
@@ -42,8 +36,6 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    patientId = json['patientId'];
-    doctorId = json['doctorId'];
     role = json['role'];
     email = json['email'];
     password = json['password'];
@@ -64,8 +56,6 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['patientId'] = this.patientId;
-    data['doctorId'] = this.doctorId;
     data['role'] = this.role;
     data['email'] = this.email;
     data['password'] = this.password;
@@ -84,6 +74,6 @@ class User {
     return data;
   }
 
-  int? getPatientId() => patientId;
+  int? getId() => id;
   String? getFullname() => fullName;
 }
