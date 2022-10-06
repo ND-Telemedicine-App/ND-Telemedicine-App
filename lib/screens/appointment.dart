@@ -119,7 +119,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     insertAppointment(body);
   }
 
-  Future<Appointment> insertAppointment(String body) async {
+  Future<AppointmentModel> insertAppointment(String body) async {
     const api = 'http://localhost:8081/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
