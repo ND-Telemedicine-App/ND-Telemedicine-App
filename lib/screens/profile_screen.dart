@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:nd_telemedicine_app/screens/sign_in.dart';
 import 'package:nd_telemedicine_app/widgets/features/profile/shadow_container.dart';
 
@@ -24,10 +25,32 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   User? currentUser;
   bool isLogOut = false;
+  String userStatus = '';
+
+  //variables used for editing the user status
+  bool buttonClick = true;
+  IconData iconData = Icons.edit;
+
+  //text editor that can be activated on the press of the button, allowing the user to change their status
+  TextEditingController statusEditController =
+      TextEditingController(text: "No Status Set");
+  bool buttonEnabled = false;
+
+  //put requests update userStatus API from user-service
+  Future<http.Response> updateUserStatus(String userStatus) {
+    return http.put(
+      Uri.parse(
+          "http://10.0.2.2:8080/user/update-status/${globals.currentUserId}"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: userStatus,
+    );
+  }
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("http://10.0.2.2:8080/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -47,6 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         medication: obj['medication'],
         bio: obj['bio'],
         speciality: obj['speciality'],
+        status: obj['userStatus'],
       );
       setState(() {
         currentUser = thisUser;
@@ -104,14 +128,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      currentUser?.role == "PATIENT"
-                                          ? MyStatefulWidget()
-                                          : DoctorNavBar()
-                                ),
+                                    builder: (context) =>
+                                        currentUser?.role == "PATIENT"
+                                            ? MyStatefulWidget()
+                                            : DoctorNavBar()),
                               );
                             },
-                            child: Icon(Icons.arrow_back, size: 30,)),
+                            child: Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                            )),
                       ),
                       PageTitle(title: "Profile"),
                       Padding(
@@ -134,12 +160,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-                  Text("No status",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff031011),
-                      )),
-                  // Info section
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 200,
+                        child: TextField(
+                          controller: statusEditController,
+                          enabled: buttonEnabled,
+                          //keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 20,
+                          maxLength: 50,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          decoration: InputDecoration(
+                              //makes a border around the textfield box
+                              // border: OutlineInputBorder(),
+
+                              //changes padding of text in field
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 9)),
+                        ),
+                      ),
+                      Align(
+                        alignment: FractionalOffset.bottomCenter,
+                      ),
+                      IconButton(
+                          icon: Icon(iconData),
+                          alignment: Alignment.topCenter,
+                          onPressed: () {
+                            buttonClick = !buttonClick;
+                            setState(() {
+                              if (iconData == Icons.save) {
+                                //updateUserStatus("its worrkkinngg22");
+                                buttonEnabled = false;
+                                iconData = Icons.edit;
+                                currentUser?.status = statusEditController.text;
+                                userStatus = statusEditController.text;
+                                updateUserStatus(userStatus);
+                              } else {
+                                buttonEnabled = true;
+                                iconData = Icons.save;
+
+                                //updateUserStatus("its worrkkinngg");
+                              }
+                            });
+                          }),
+                    ],
+                  ),
                   Container(
                     margin: EdgeInsets.only(top: 40),
                     padding: EdgeInsets.all(20),
