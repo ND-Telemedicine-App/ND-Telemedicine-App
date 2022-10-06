@@ -112,6 +112,10 @@ flutter:
       fonts:
           - asset: assets/fonts/Poppins-Italic.ttf
 
+    - family: Clock
+      fonts:
+          - asset: assets/fonts/digital-7.ttf
+
 
 
   #   - family: Trajan Pro

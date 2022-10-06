@@ -48,7 +48,7 @@ class TimeslotDataSource extends CalendarDataSource {
 //fetch busy time data from database using API
 Future<List<BusyTime>> getBusyTimes(http.Client client, int doctorId) async {
   final response =
-      await client.get(Uri.parse("http://10.0.2.2:8080/busyTime/$doctorId"));
+      await client.get(Uri.parse("http://localhost:8080/busyTime/$doctorId"));
 
   return compute(parseBusyTime, response.body);
 }
@@ -60,14 +60,16 @@ List<BusyTime> parseBusyTime(String response) {
 }
 
 //fetch appointment with a doctor data from database using API
-Future<List<AppointmentModel>> getAppointmentModel(http.Client client, int doctorId)async{
-  final response = await client.get(Uri.parse("http://10.0.2.2:8090/appointment/doctor/$doctorId"));
+Future<List<AppointmentModel>> getAppointmentModel(
+    http.Client client, int doctorId) async {
+  final response = await client
+      .get(Uri.parse("http://localhost:8090/appointment/doctor/$doctorId"));
 
   return compute(parseAppointmentModel, response.body);
 }
 
 //parse appointment data from json to list
-List<AppointmentModel> parseAppointmentModel(String response){
+List<AppointmentModel> parseAppointmentModel(String response) {
   final parsed = jsonDecode(response).cast<Map<String, dynamic>>();
 
   return parsed
@@ -76,25 +78,24 @@ List<AppointmentModel> parseAppointmentModel(String response){
 }
 
 //fetch userinfo data from database using API
-Future<List<User>> getUser(http.Client client)async{
-  final response = await client.get(Uri.parse("http://10.0.2.2:8080/user/patients"));
+Future<List<User>> getUser(http.Client client) async {
+  final response =
+      await client.get(Uri.parse("http://localhost:8080/user/patients"));
 
   return compute(parseUser, response.body);
 }
 
 //parse user data from json to list
-List<User> parseUser(String response){
+List<User> parseUser(String response) {
   final parsed = jsonDecode(response).cast<Map<String, dynamic>>();
 
-  return parsed
-      .map<User>((json) => User.fromJson(json))
-      .toList();
+  return parsed.map<User>((json) => User.fromJson(json)).toList();
 }
 
 //find the patient by patientId
-User findPatient(int patientId, List<User> patients){
-  for(int i=0; i<patients.length; i++){
-    if(patients[i].getPatientId() == patientId){
+User findPatient(int patientId, List<User> patients) {
+  for (int i = 0; i < patients.length; i++) {
+    if (patients[i].getPatientId() == patientId) {
       return patients[i];
     }
   }
@@ -121,15 +122,13 @@ Future<TimeslotDataSource> _getDataSource() async {
         const Color(0xFFEFCCD4)));
   }
 
-  for(var i=0; i<appointments.length; i++){
+  for (var i = 0; i < appointments.length; i++) {
     int? patientId = appointments[i].getPatientId();
     User patient = findPatient(patientId!, patients);
     DateTime startTime = dateFormat.parse(appointments[i].getStartTime()!);
     DateTime endTime = dateFormat.parse(appointments[i].getEndTime()!);
-    slots.add(TimeSlot(patient.getFullname()!,
-        startTime,
-        endTime,
-        const Color(0xFF78CEBB)));
+    slots.add(TimeSlot(
+        patient.getFullname()!, startTime, endTime, const Color(0xFF78CEBB)));
   }
 
   // final DateTime start3 =
@@ -147,18 +146,20 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
   TimeOfDay _time =
       TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   String _dateSelected = "";
+  Duration _duration = Duration(hours: 0, minutes: 0);
 
   void _selectTime() async {
-      // display time picker
-      final TimeOfDay? newTime = await showTimePicker(
-        context: context,
-        initialTime: _time,
-        helpText: "CHOOSE YOUR BUSY TIME",
-      );
-      if (newTime != null) {
-        setState(() {
-          _time = newTime;
-        });
+    // display time picker
+    final TimeOfDay? newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+      helpText: "CHOOSE YOUR BUSY TIME",
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+        print(_time.format(context));
+      });
     }
   }
 
@@ -167,11 +168,16 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
       context: context,
       initialTime: Duration(minutes: 30),
     );
+    if (resultingDuration != null) {
+      setState(() {
+        _duration = resultingDuration;
+      });
+    }
   }
 
   void selectionChanged(CalendarSelectionDetails details) {
-      _dateSelected = DateFormat('dd-MM-yyyy').format(details.date!).toString();
-      print(_dateSelected);
+    _dateSelected = DateFormat('dd-MM-yyyy').format(details.date!).toString();
+    // print(_dateSelected);
   }
 
   _showAddDialog() async {
@@ -182,81 +188,130 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("No date selected", style: TextStyle(fontFamily: "PoppinsSemiBold"),),
-              content: Text("You haven't selected your busy day yet. Please press on your desired date on the calendar to choose a day."),
+              title: Text(
+                "No date selected",
+                style: TextStyle(fontFamily: "PoppinsSemiBold"),
+              ),
+              content: Text(
+                  "You haven't selected your busy day yet. Please press on your desired date on the calendar to choose a day."),
               actions: <Widget>[
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('OK', style: TextStyle(fontFamily: "PoppinsSemiBold", fontSize: 16),))
+                    child: Text(
+                      'OK',
+                      style: TextStyle(
+                          fontFamily: "PoppinsSemiBold", fontSize: 16),
+                    ))
               ],
             );
           });
       // display alert where user can choose a time
     } else {
       showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          double screenWidth = MediaQuery.of(context).size.width;
+          context: context,
+          builder: (BuildContext context) {
+            double screenWidth = MediaQuery.of(context).size.width;
 
-          return AlertDialog(
-            title: const Text('Add Busy Time', style: TextStyle(
-              fontFamily: "PoppinsSemiBold",
-            ),),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // button to go to timepicker
-                SizedBox(
-                  width: screenWidth,
-                  child: ElevatedButton(
-                    onPressed: _selectTime,
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        textStyle: TextStyle(
-                            fontSize: 18, fontFamily: "PoppinsMedium")),
-                    child: Text('SELECT TIME'),
+            return AlertDialog(
+              title: const Text(
+                'Add Busy Time',
+                style: TextStyle(
+                  fontFamily: "PoppinsSemiBold",
+                ),
+              ),
+              content:
+                  StatefulBuilder(// You need this, notice the parameters below:
+                      builder: (BuildContext context, StateSetter setState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // button to go to timepicker
+                    SizedBox(
+                      width: screenWidth,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // display time picker
+                          final TimeOfDay? newTime = await showTimePicker(
+                            context: context,
+                            initialTime: _time,
+                            helpText: "CHOOSE YOUR BUSY TIME",
+                          );
+                          if (newTime != null) {
+                            setState(() {
+                              _time = newTime;
+                              print(_time.format(context));
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            textStyle: TextStyle(
+                                fontSize: 18, fontFamily: "PoppinsMedium")),
+                        child: Text('SELECT TIME'),
+                      ),
+                    ),
+                    // duration picker for choosing duration
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(_time.format(context).toString(), style: TextStyle(fontFamily: "Clock", fontSize: 40),),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: screenWidth,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          var resultingDuration = await showDurationPicker(
+                            context: context,
+                            initialTime: Duration(minutes: 30),
+                          );
+                          if (resultingDuration != null) {
+                            setState(() {
+                              _duration = resultingDuration;
+                            });
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            textStyle: TextStyle(
+                                fontSize: 18, fontFamily: "PoppinsMedium")),
+                        child: Text('SELECT DURATION'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text("${_duration.inHours}:${_duration.inMinutes%60}", style: TextStyle(fontFamily: "Clock", fontSize: 40),),
+                  ],
+                );
+              }),
+              actions: <Widget>[
+                // Cancel btn
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(fontFamily: "PoppinsMedium", fontSize: 16),
                   ),
                 ),
-                // duration picker for choosing duration
-                SizedBox(height: 20,),
-                SizedBox(
-                  width: screenWidth,
-                  child: ElevatedButton(
-                    onPressed: _selectDuration,
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        textStyle: TextStyle(
-                            fontSize: 18, fontFamily: "PoppinsMedium")),
-                    child: Text('SELECT DURATION'),
+                // Save btn
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Save'),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(fontFamily: "PoppinsMedium", fontSize: 16),
                   ),
                 ),
               ],
-            ),
-            actions: <Widget>[
-              // Cancel btn
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: Text('Cancel', style: TextStyle(
-                    fontFamily: "PoppinsMedium",
-                    fontSize: 16),),
-              ),
-              // Save btn
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Save'),
-                child: const Text('Save', style: TextStyle(
-                    fontFamily: "PoppinsMedium",
-                    fontSize: 16),),
-              ),
-            ],
-          );
-        }
-      );
+            );
+          });
     }
   }
 
@@ -312,17 +367,19 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
                           showNavigationArrow: true,
                           showDatePickerButton: true,
                           //cellBorderColor:  Color(0xff38b69a),
-                          appointmentTextStyle: TextStyle(fontFamily: "PoppinsRegular"),
+                          appointmentTextStyle:
+                              TextStyle(fontFamily: "PoppinsRegular"),
                           headerStyle: CalendarHeaderStyle(
                               textStyle: TextStyle(
-                                color: Color(0xff2B8D78),
-                                fontSize: 18,
-                                fontFamily: "PoppinsSemiBold",
-                              )),
+                            color: Color(0xff2B8D78),
+                            fontSize: 18,
+                            fontFamily: "PoppinsSemiBold",
+                          )),
                           viewHeaderStyle: ViewHeaderStyle(
                             backgroundColor: Color(0xffddfff8),
                             dayTextStyle: TextStyle(
-                                color: Color(0xff031011), fontFamily: "PoppinsMedium"),
+                                color: Color(0xff031011),
+                                fontFamily: "PoppinsMedium"),
                           ),
                           monthViewSettings: MonthViewSettings(
                             showAgenda: true,
@@ -358,5 +415,4 @@ class _DoctorScheduleState extends State<DoctorSchedule> {
       ),
     ));
   }
-
 }
