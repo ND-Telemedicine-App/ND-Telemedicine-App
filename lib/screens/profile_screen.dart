@@ -31,16 +31,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool buttonClick = true;
   IconData iconData = Icons.edit;
 
-  //text editor that can be activated on the press of the button, allowing the user to change their status
-  TextEditingController statusEditController =
-      TextEditingController(text: "No Status Set");
   bool buttonEnabled = false;
 
   //put requests update userStatus API from user-service
   Future<http.Response> updateUserStatus(String userStatus) {
     return http.put(
       Uri.parse(
-          "http://10.0.2.2:8080/user/update-status/${globals.currentUserId}"),
+          "http://localhost:8080/user/update-status/${globals.currentUserId}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -50,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://10.0.2.2:8080/user/${globals.currentUserId}"));
+        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -83,9 +80,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUser();
+
   }
 
   void signOut() async {
@@ -166,13 +163,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: <Widget>[
                       Container(
                         width: 200,
-                        child: TextField(
-                          controller: statusEditController,
+                        child: TextFormField(
                           enabled: buttonEnabled,
-                          //keyboardType: TextInputType.multiline,
+                          onChanged: (value) => {
+                            if (value == "") {
+                              userStatus = "No Status"
+                            } else {
+                              userStatus=value}
+                            },
                           minLines: 1,
                           maxLines: 20,
                           maxLength: 50,
+                          initialValue: currentUser?.status ?? "No Status",
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.bottom,
                           decoration: InputDecoration(
@@ -194,17 +196,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             buttonClick = !buttonClick;
                             setState(() {
                               if (iconData == Icons.save) {
-                                //updateUserStatus("its worrkkinngg22");
                                 buttonEnabled = false;
                                 iconData = Icons.edit;
-                                currentUser?.status = statusEditController.text;
-                                userStatus = statusEditController.text;
                                 updateUserStatus(userStatus);
                               } else {
                                 buttonEnabled = true;
                                 iconData = Icons.save;
-
-                                //updateUserStatus("its worrkkinngg");
                               }
                             });
                           }),
