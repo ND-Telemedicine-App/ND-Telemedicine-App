@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:duration_picker/duration_picker.dart';
 
 import '../models/busyTime.dart';
+import '../widgets/global/globals.dart' as globals;
 
 class DoctorSchedule extends StatefulWidget {
   const DoctorSchedule({Key? key}) : super(key: key);
@@ -95,7 +96,7 @@ List<User> parseUser(String response) {
 //find the patient by patientId
 User findPatient(int patientId, List<User> patients) {
   for (int i = 0; i < patients.length; i++) {
-    if (patients[i].getPatientId() == patientId) {
+    if (patients[i].getId() == patientId) {
       return patients[i];
     }
   }
@@ -105,10 +106,9 @@ User findPatient(int patientId, List<User> patients) {
 //convert to Timeslot data source
 Future<TimeslotDataSource> _getDataSource() async {
   final List<TimeSlot> slots = <TimeSlot>[];
-  final DateTime today = DateTime.now();
 
-  var busyTimes = await getBusyTimes(http.Client(), 1);
-  var appointments = await getAppointmentModel(http.Client(), 1);
+  var busyTimes = await getBusyTimes(http.Client(), globals.currentUserId);
+  var appointments = await getAppointmentModel(http.Client(), globals.currentUserId);
   var patients = await getUser(http.Client());
 
   final dateFormat = DateFormat("dd-MM-yy HH:mm");
@@ -125,10 +125,10 @@ Future<TimeslotDataSource> _getDataSource() async {
   for (var i = 0; i < appointments.length; i++) {
     int? patientId = appointments[i].getPatientId();
     User patient = findPatient(patientId!, patients);
-    DateTime startTime = dateFormat.parse(appointments[i].getStartTime()!);
-    DateTime endTime = dateFormat.parse(appointments[i].getEndTime()!);
+    DateTime startTime = DateTime.parse(appointments[i].getStartTime()!);
+    DateTime endTime = DateTime.parse(appointments[i].getEndTime()!);
     slots.add(TimeSlot(
-        patient.getFullname()!, startTime, endTime, const Color(0xFF78CEBB)));
+        "Appointment with ${patient.getFullname()!}", startTime, endTime, const Color(0xFF78CEBB)));
   }
 
   // final DateTime start3 =
