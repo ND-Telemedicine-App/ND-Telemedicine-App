@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: DashboardScreen(),
+      home: SignInPage(),
     );
   }
 }
@@ -150,7 +150,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     DoctorHomeScreen(),
     DoctorSchedule(),
-    ALlPatientsScreen(),
+    AllPatientsScreen(),
     ChatMenu(),
     ProfileScreen(),
   ];
