@@ -45,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DataScreen(users: snapshot.data!,
+                            builder: (context) => DoctorDataScreen(data: snapshot.data!,
                             ),
                           ));
                     },
