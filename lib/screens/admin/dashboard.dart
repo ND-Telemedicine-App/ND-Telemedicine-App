@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
@@ -17,26 +14,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String doctorUri = "http://localhost:8080/user/doctors";
   String patientUri = "http://localhost:8080/user/patients";
   String appointmentUri = 'http://localhost:8090/appointment/all';
-
-  late List doctors = [];
-  late List patients = [];
-  late List appointments = [];
-
-  @override
-  void initState() {
-    super.initState();
-    convertFutureListToList(doctorUri, doctors);
-    convertFutureListToList(patientUri, patients);
-    convertFutureListToList(appointmentUri, appointments);
-  }
-
-  void convertFutureListToList(String uri, List list) async {
-    Future<List> futureOfList = getData(uri);
-    list = await futureOfList ;
-  }
-
+  
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -44,19 +26,130 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               PageTitle(title: "Dashboard"),
               Text("View the clinic's data here"),
-              Container(
 
+              FutureBuilder<List>(
+                future: getData(doctorUri),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Material(
+                          borderRadius: BorderRadius.circular(20),
+                          elevation: 10,
+                          child: Container(
+                            width: screenWidth * 0.7,
+                            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                            //margin: EdgeInsets.only(bottom: 40),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Color(0xffFDFFFE),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 40,
+                                  offset: Offset(0.5, 1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Text(snapshot.data!.length.toString()),
+                                Text("doctors")
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30,)
+                      ],
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
               ),
-              // FutureBuilder<List>(
-              //   future: getData("http://localhost:8080/user/doctors"),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       return Text(snapshot.data!.length.toString());
-              //     } else {
-              //       return CircularProgressIndicator();
-              //     }
-              //   },
-              // )
+              FutureBuilder<List>(
+                future: getData(patientUri),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Material(
+                          borderRadius: BorderRadius.circular(20),
+                          elevation: 10,
+                          child: Container(
+                            width: screenWidth * 0.7,
+                            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                            //margin: EdgeInsets.only(bottom: 40),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Color(0xffFDFFFE),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 40,
+                                  offset: Offset(0.5, 1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Text(snapshot.data!.length.toString()),
+                                Text("patients")
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30,)
+                      ],
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
+              FutureBuilder<List>(
+                future: getData(appointmentUri),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Material(
+                          borderRadius: BorderRadius.circular(20),
+                          elevation: 10,
+                          child: Container(
+                            width: screenWidth * 0.7,
+                            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                            //margin: EdgeInsets.only(bottom: 40),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Color(0xffFDFFFE),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 40,
+                                  offset: Offset(0.5, 1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Text(snapshot.data!.length.toString()),
+                                Text("appointments")
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30,)
+                      ],
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
             ],
           ),
         ),
