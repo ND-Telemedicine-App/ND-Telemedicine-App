@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: SignInPage(),
+      home: DashboardScreen(),
     );
   }
 }
