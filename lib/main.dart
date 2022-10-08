@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nd_telemedicine_app/screens/admin/dashboard.dart';
 
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/doctor_schedule.dart';
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
-      home: DashboardScreen(),
+      home: SignInPage(),
     );
   }
 }

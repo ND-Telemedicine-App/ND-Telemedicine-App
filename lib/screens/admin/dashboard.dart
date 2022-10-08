@@ -1,9 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/screens/admin/appointments_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/data_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/patients_screen.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
+
+import '../../services/models/user_model.dart';
+import '../profile_screen.dart';
+
+import '../../widgets/global/globals.dart' as globals;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -17,6 +25,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String patientUri = "http://localhost:8080/user/patients";
   String appointmentUri = 'http://localhost:8090/appointment/all';
 
+  User? currentUser;
+  bool isLoadingData = true;
+
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+      );
+      setState(() {
+        currentUser = thisUser;
+        isLoadingData = false;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -27,6 +77,70 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Center(
           child: Column(
             children: [
+          //  App Bar
+          Padding(
+          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(),),
+                      );
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(right: 12),
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage:
+                          AssetImage(currentUser?.avatar??""),
+                        )),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Welcome,",
+                        style: TextStyle(
+                            fontFamily: "PoppinsItalic", fontSize: 14),
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        currentUser?.fullName??"",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: "PoppinsSemiBold",
+                            color: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,MaterialPageRoute(builder: (context) => ProfileScreen()),);
+                      },
+                      child: Icon(Icons.person_outline_rounded,
+                          color: Colors.black))
+                ],
+              )
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 25,
+        ),
               PageTitle(title: "Dashboard"),
               Text(
                 "You can view the clinic's data here",
