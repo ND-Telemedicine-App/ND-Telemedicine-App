@@ -36,7 +36,13 @@ class _DoctorDataScreenState extends State<DoctorDataScreen> {
             child: Center(
               child: Column(
                 children: [
-                  DataTable(columns: const [
+                  DataTable(
+                      dataRowHeight: 80,
+                      border: TableBorder.all(
+                        width: 2,
+                        color: Color(0xffeff0f0),
+                      ),
+                      columns: const [
                     // table header
                     DataColumn(
                       label: Expanded(
@@ -207,12 +213,12 @@ class _DoctorDataScreenState extends State<DoctorDataScreen> {
                           ),
                         ),
                         DataCell(
-                          SizedBox(
-                            width: 100,
+                          Container(
+                            width: 200,
                             child: Text(
-                              info["bio"],
-                              style: TextStyle(fontFamily: "PoppinsRegular"),
-                            ),
+                                  info["bio"],
+                                  style: TextStyle(fontFamily: "PoppinsRegular",),
+                                ),
                           ),
                         ),
                         DataCell(
@@ -221,7 +227,7 @@ class _DoctorDataScreenState extends State<DoctorDataScreen> {
                             style: TextStyle(fontFamily: "PoppinsRegular"),
                           ),
                         ),
-                      ]),
+                      ],),
                     )
                   ]
                       ),
