@@ -29,98 +29,205 @@ class _DoctorDataScreenState extends State<DoctorDataScreen> {
             style: const TextStyle(fontFamily: "PoppinsBold"),
           ),
         ),
-        body: SafeArea(
-          child: Center(
-            child: DataTable(columns: const [
-              DataColumn(
-                label: Text(
-                  'Email',
-                  style: TextStyle(
-                    color: Color(0xff2b8d78),
-                    fontSize: 18.0,
-                  ),
-                ),
-                numeric: false,
-              ),
-              DataColumn(
-                label: Text(
-                  'Full Name',
-                  style: TextStyle(
-                    color: Color(0xff2b8d78),
-                    fontSize: 18.0,
-                  ),
-                ),
-                numeric: false,
-              ),
-              DataColumn(
-                label: Text(
-                  'Address',
-                  style: TextStyle(
-                    color: Color(0xff2b8d78),
-                    fontSize: 18.0,
-                  ),
-                ),
-                numeric: false,
-              ),
-            ], rows: <DataRow>[
-              ...widget.data.map(
-                (info) => DataRow(cells: [
-                  DataCell(
-                    Container(
-                      width: 100,
-                      child: Text(
-                        info["email"],
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                  DataCell(
-                    Container(
-                      width: 60.0,
-                      child: Center(
-                        child: Text(
-                          info["fullName"],
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Center(
+              child: Column(
+                children: [
+                  DataTable(columns: const [
+                    // table header
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                                'Full Name',
+                                style: TextStyle(
+                                  color: Color(0xff2b8d78),
+                                  fontFamily: "PoppinsMedium",
+                                  fontSize: 16,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                         ),
                       ),
+                      numeric: false,
                     ),
-                  ),
-                  DataCell(
-                    Container(
-                      width: 60.0,
-                      child: Center(
-                        child: Text(
-                          info["address"],
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Email',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
+                      numeric: false,
                     ),
-                  ),
-                ]),
-              )
-            ]
-                //             rows: widget.data
-                //             .map((info) => DataRow(
-                //               cells: [
-                //               DataCell(
-                //               Container(
-                //               width: 100,
-                //               child: Text(
-                //                 info["email"],
-                //                 softWrap: true,
-                //                 overflow: TextOverflow.ellipsis,
-                //                 style: TextStyle(fontWeight: FontWeight.w600),
-                //               ),
-                //             ),
-                //             ),
-                //       ]
-                // )
-                //             )
-                ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Address',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Phone Number',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Gender',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'DOB',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Bio',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      numeric: false,
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Speciality',
+                            style: TextStyle(
+                              color: Color(0xff2b8d78),
+                              fontFamily: "PoppinsMedium",
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      numeric: false,
+                    ),
+                  ], rows: <DataRow>[
+                    ...widget.data.map(
+                      (info) => DataRow(cells: [
+                        DataCell(
+                          Text(
+                              info["fullName"],
+                              style: TextStyle(fontFamily: "PoppinsMedium"),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            info["email"],
+                            softWrap: true,
+                            style: TextStyle(fontFamily: "PoppinsRegular", fontSize: 14),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            info["address"],
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            info["phoneNumber"],
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            info["gender"],
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            info["dateOfBirth"],
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                        DataCell(
+                          SizedBox(
+                            width: 100,
+                            child: Text(
+                              info["bio"],
+                              style: TextStyle(fontFamily: "PoppinsRegular"),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            info["speciality"],
+                            style: TextStyle(fontFamily: "PoppinsRegular"),
+                          ),
+                        ),
+                      ]),
+                    )
+                  ]
+                      ),
+                ],
+              ),
+            ),
           ),
         ));
   }
