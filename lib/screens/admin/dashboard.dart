@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
+import 'package:nd_telemedicine_app/screens/admin/admin_profile.dart';
 import 'package:nd_telemedicine_app/screens/admin/appointments_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/data_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/patients_screen.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
 import '../../services/models/user_model.dart';
-import '../profile_screen.dart';
 
 import '../../widgets/global/globals.dart' as globals;
 
@@ -90,7 +90,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),),
+                          builder: (context) => AdminProfile(),),
                       );
                     },
                     child: Container(
@@ -116,9 +116,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Text(
                         currentUser?.fullName??"",
                         style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: "PoppinsSemiBold",
-                            color: Theme.of(context).primaryColor),
+                            fontSize: 18,
+                            fontFamily: "PoppinsSemiBold",),
                       ),
                     ],
                   ),
@@ -129,7 +128,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   GestureDetector(
                       onTap: () {
                         Navigator.pushReplacement(
-                          context,MaterialPageRoute(builder: (context) => ProfileScreen()),);
+                          context,MaterialPageRoute(builder: (context) => AdminProfile()),);
                       },
                       child: Icon(Icons.person_outline_rounded,
                           color: Colors.black))
