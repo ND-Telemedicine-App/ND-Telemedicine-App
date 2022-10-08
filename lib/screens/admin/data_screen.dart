@@ -25,7 +25,7 @@ class _DoctorDataScreenState extends State<DoctorDataScreen> {
           ),
           centerTitle: true,
           title: Text(
-            "Patients",
+            "Doctors",
             style: const TextStyle(fontFamily: "PoppinsBold"),
           ),
         ),

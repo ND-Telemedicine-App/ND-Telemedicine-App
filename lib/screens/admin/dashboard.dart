@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
+import 'package:nd_telemedicine_app/screens/admin/appointments_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/data_screen.dart';
+import 'package:nd_telemedicine_app/screens/admin/patients_screen.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -121,7 +123,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DoctorDataScreen(data: snapshot.data!,
+                                builder: (context) => PatientDataScreen(data: snapshot.data!,
                                 ),
                               ));
                         },
@@ -199,7 +201,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DoctorDataScreen(data: snapshot.data!,
+                                builder: (context) => AppointmentDataScreen(data: snapshot.data!,
                                 ),
                               ));
                         },
