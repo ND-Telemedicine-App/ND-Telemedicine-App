@@ -77,70 +77,92 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Center(
           child: Column(
             children: [
-          //  App Bar
-          Padding(
-          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AdminProfile(),),
-                      );
-                    },
-                    child: Container(
-                        margin: EdgeInsets.only(right: 12),
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage:
-                          AssetImage(currentUser?.avatar??""),
-                        )),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Welcome,",
-                        style: TextStyle(
-                            fontFamily: "PoppinsItalic", fontSize: 14),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        currentUser?.fullName??"",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: "PoppinsSemiBold",),
-                      ),
-                    ],
-                  ),
-                ],
+              //  App Bar
+              Padding(
+                padding: EdgeInsets.only(left: 25, right: 25, top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AdminProfile(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(right: 12),
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: AssetImage(
+                                    currentUser?.avatar ??
+                                        "assets/images/mock_avatar.png"),
+                              )),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Welcome,",
+                              style: TextStyle(
+                                  fontFamily: "PoppinsItalic", fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              currentUser?.fullName ?? "",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: "PoppinsSemiBold",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Ink(
+                          decoration: ShapeDecoration(
+                            color: Colors.grey.shade300,
+                            shape: CircleBorder(),
+                          ),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AdminProfile()),
+                                );
+                              },
+                              icon: Icon(Icons.person_outline_rounded,
+                                  color: Colors.black),
+                          splashRadius: 21,),
+                          ),
+
+                      ],
+                    )
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,MaterialPageRoute(builder: (context) => AdminProfile()),);
-                      },
-                      child: Icon(Icons.person_outline_rounded,
-                          color: Colors.black))
-                ],
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 25,
-        ),
-              PageTitle(title: "Dashboard"),
+              Divider(color: Colors.grey),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                "DASHBOARD",
+                style: TextStyle(
+                  color: Color(0xff38b69a),
+                  fontFamily: "PoppinsBold",
+                  fontSize: 25,
+                ),
+              ),
               Text(
                 "You can view the clinic's data here",
                 style: TextStyle(
@@ -157,71 +179,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorDataScreen(data: snapshot.data!,
-                              ),
-                            ));
-                      },
-                      child: Column(
-                        children: [
-                          Material(
-                            borderRadius: BorderRadius.circular(20),
-                            elevation: 10,
-                            child: Container(
-                              width: screenWidth * 0.7,
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                              //margin: EdgeInsets.only(bottom: 40),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Color(0xffddfff8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 40,
-                                    offset: Offset(
-                                        0.5, 1), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Color(0xff2b8d78),
-                                        width: 10,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DoctorDataScreen(
+                                  data: snapshot.data!,
+                                ),
+                              ));
+                        },
+                        child: Column(
+                          children: [
+                            Material(
+                              borderRadius: BorderRadius.circular(20),
+                              elevation: 10,
+                              child: Container(
+                                width: screenWidth * 0.7,
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                //margin: EdgeInsets.only(bottom: 40),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Color(0xffddfff8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 40,
+                                      offset: Offset(
+                                          0.5, 1), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Color(0xff2b8d78),
+                                          width: 10,
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 25),
+                                      child: Text(
+                                        snapshot.data!.length.toString(),
+                                        style: TextStyle(
+                                            fontFamily: "PoppinsBold",
+                                            fontSize: 40),
                                       ),
                                     ),
-                                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 25),
-                                    child: Text(
-                                      snapshot.data!.length.toString(),
+                                    Text(
+                                      "Doctors",
                                       style: TextStyle(
-                                          fontFamily: "PoppinsBold", fontSize: 40),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Doctors",
-                                    style: TextStyle(
-                                      fontFamily: "PoppinsMedium",
-                                      fontSize: 25,
-                                    ),
-                                  )
-                                ],
+                                        fontFamily: "PoppinsMedium",
+                                        fontSize: 25,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          )
-                        ],
-                      )
-                    );
+                            SizedBox(
+                              height: 30,
+                            )
+                          ],
+                        ));
                   } else {
                     return CircularProgressIndicator();
                   }
@@ -236,7 +261,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PatientDataScreen(data: snapshot.data!,
+                                builder: (context) => PatientDataScreen(
+                                  data: snapshot.data!,
                                 ),
                               ));
                         },
@@ -262,7 +288,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ],
                                 ),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
@@ -273,13 +300,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           width: 10,
                                         ),
                                       ),
-                                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 25),
                                       child: Text(
                                         snapshot.data!.length.toString(),
                                         style: TextStyle(
-                                            fontFamily: "PoppinsBold",
-                                            fontSize: 40,
-                                            color: Color(0xfffdfffe),),
+                                          fontFamily: "PoppinsBold",
+                                          fontSize: 40,
+                                          color: Color(0xfffdfffe),
+                                        ),
                                       ),
                                     ),
                                     Text(
@@ -298,8 +327,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               height: 30,
                             )
                           ],
-                        )
-                    );
+                        ));
                   } else {
                     return CircularProgressIndicator();
                   }
@@ -314,7 +342,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AppointmentDataScreen(data: snapshot.data!,
+                                builder: (context) => AppointmentDataScreen(
+                                  data: snapshot.data!,
                                 ),
                               ));
                         },
@@ -340,7 +369,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ],
                                 ),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
@@ -351,13 +381,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           width: 10,
                                         ),
                                       ),
-                                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 25),
                                       child: Text(
                                         snapshot.data!.length.toString(),
                                         style: TextStyle(
                                           fontFamily: "PoppinsBold",
                                           fontSize: 40,
-                                          color: Color(0xfffdfffe),),
+                                          color: Color(0xfffdfffe),
+                                        ),
                                       ),
                                     ),
                                     Text(
@@ -376,8 +408,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               height: 30,
                             )
                           ],
-                        )
-                    );
+                        ));
                   } else {
                     return CircularProgressIndicator();
                   }

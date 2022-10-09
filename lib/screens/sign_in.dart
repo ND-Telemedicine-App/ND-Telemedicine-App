@@ -36,7 +36,6 @@ class _SignInPageState extends State<SignInPage> {
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
-
       return obj;
     } else {
       throw "Unable to retrieve users data.";
