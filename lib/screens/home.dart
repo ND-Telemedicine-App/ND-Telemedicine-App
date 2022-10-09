@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/screens/chat.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/notification_board.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';

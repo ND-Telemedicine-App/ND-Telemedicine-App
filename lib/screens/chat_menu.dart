@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/main.dart';
 import 'package:nd_telemedicine_app/screens/chat.dart';
+import '../widgets/global/globals.dart' as globals;
+
 
 import '../models/messages_model.dart';
 
@@ -12,6 +17,28 @@ class ChatMenu extends StatefulWidget {
 }
 
 class _ChatMenuState extends State<ChatMenu> {
+
+  Future<List> getReceiver() async {
+    var api =
+        'http://localhost:9090/chat/sender/${globals.currentUserId}';
+    Response res = await get(Uri.parse(api));
+
+    if (res.statusCode == 200) {
+      final json = jsonDecode(res.body);
+      print(json);
+      return json;
+    } else {
+      throw "Cannot get appointment data";
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getReceiver();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +64,10 @@ class _ChatMenuState extends State<ChatMenu> {
                       icon: Icon(Icons.arrow_back_ios_new),
                       onPressed: () {
                         Navigator.pushReplacement(
-                          context,MaterialPageRoute(builder: (context) => MyStatefulWidget()),);
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyStatefulWidget()),
+                        );
                       },
                       iconSize: 25,
                       highlightColor: Theme.of(context).primaryColor,
@@ -50,8 +80,7 @@ class _ChatMenuState extends State<ChatMenu> {
                             fontFamily: 'PoppinsBold')),
                     IconButton(
                       icon: Icon(Icons.more_horiz_rounded),
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       iconSize: 25,
                       highlightColor: Theme.of(context).primaryColor,
                       splashRadius: 20,
@@ -91,11 +120,7 @@ class _ChatMenuState extends State<ChatMenu> {
                 final Message chat = chats[index];
                 return GestureDetector(
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ChatScreen(
-                                user: chat.sender,
-                              ))),
+                      context, MaterialPageRoute(builder: (_) => ChatScreen())),
                   child: Column(
                     children: <Widget>[
                       Column(
@@ -110,7 +135,8 @@ class _ChatMenuState extends State<ChatMenu> {
                                 Container(
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                          Radius.circular(40),),
+                                        Radius.circular(40),
+                                      ),
                                       border: Border.all(
                                           width: 2,
                                           color:

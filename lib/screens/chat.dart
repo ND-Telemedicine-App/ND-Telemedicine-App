@@ -1,11 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:nd_telemedicine_app/models/messages_model.dart';
+import 'dart:convert';
 
-import '../models/chatuser_model.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+import '../services/models/chat_model.dart';
+import '../services/models/user_model.dart';
+import '../widgets/global/globals.dart' as globals;
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key, required this.user}) : super(key: key);
-  final User user;
+  const ChatScreen({Key? key}) : super(key: key);
+
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -13,8 +17,103 @@ class ChatScreen extends StatefulWidget {
 
 
 class _ChatScreenState extends State<ChatScreen> {
+  List chatListSender = [];
+  List chatListReceiver = [];
 
-  _chatBubble(Message message, bool isMe){
+  List messagesList = [];
+
+  User? currentUser;
+
+  Future<List> getChatsFromSender() async {
+    var api =
+        'http://localhost:9090/chat/${globals.currentUserId}/1';
+    Response res = await get(Uri.parse(api));
+
+    if (res.statusCode == 200) {
+      final json = jsonDecode(res.body);
+      return json;
+    } else {
+      throw "Cannot get appointment data";
+    }
+  }
+
+  Future<List> getChatsFromReceiver() async {
+    var api =
+        'http://localhost:9090/chat/1/${globals.currentUserId}';
+    Response res = await get(Uri.parse(api));
+
+    if (res.statusCode == 200) {
+      final json = jsonDecode(res.body);
+      return json;
+    } else {
+      throw "Cannot get appointment data";
+    }
+  }
+
+  void convertFutureListToList() async {
+    Future<List> futureOfSender = getChatsFromReceiver();
+    chatListSender = await futureOfSender;
+    for (dynamic chat in chatListSender) {
+      ChatModel newChat = ChatModel(id: chat['id'], senderId: chat['senderId'], receiverId: chat['receiverId'], time: chat['time'], text: chat['text']);
+      setState(() {
+        messagesList.add(newChat);
+      });
+    }
+    Future<List> futureOfReceiver = getChatsFromSender();
+    chatListReceiver = await futureOfReceiver;
+    for (dynamic chat in chatListReceiver) {
+      ChatModel newChat = ChatModel(id: chat['id'], senderId: chat['senderId'], receiverId: chat['receiverId'], time: chat['time'], text: chat['text']);
+      setState(() {
+        messagesList.add(newChat);
+      });
+    }
+
+    messagesList.sort((a, b) => b.id.compareTo(a.id));
+  }
+
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+        status: obj['userStatus'],
+      );
+      setState(() {
+        currentUser = thisUser;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    convertFutureListToList();
+    getCurrentUser();
+  }
+
+
+  _chatBubble(messagesList, bool isMe){
     if(!isMe){
       return Column(
         children: <Widget>[
@@ -31,46 +130,42 @@ class _ChatScreenState extends State<ChatScreen> {
                         spreadRadius: 2,
                         blurRadius: 10,
                       )
-                    ]),
+                    ],),
                     child: CircleAvatar(
                       radius: 15,
                       backgroundImage:
-                      AssetImage(message.sender.imageUrl),
+                      AssetImage("assets/images/mock_avatar.png"),
                     ),
                   ),
                   Container(
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.5,
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: const Color(0xffEFF0F0),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                            bottomLeft: Radius.zero,
-                            bottomRight: Radius.circular(20.0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
-                            )
-                          ]),
-                      child: Text(message.text, style: TextStyle(fontSize: 15),),
+                    alignment: Alignment.topLeft,
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
                     ),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: const Color(0xffEFF0F0),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                          bottomLeft: Radius.zero,
+                          bottomRight: Radius.circular(20.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
+                          )
+                        ]),
+                    child: Text(messagesList.text, style: TextStyle(fontSize: 15),),
                   ),
-                  Container(
-                    child: Text(
-                      message.time,
-                      style: TextStyle(fontSize: 11, color: Colors.black54),
-                    ),
+                  Text(
+                    messagesList.time,
+                    style: TextStyle(fontSize: 11, color: Colors.black54),
                   )
                 ],
               ),
@@ -99,7 +194,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: CircleAvatar(
                       radius: 15,
                       backgroundImage:
-                      AssetImage(message.sender.imageUrl),
+                      AssetImage(currentUser?.avatar??"assets/images/mock_avatar.png"),
                     ),
                   ),
                   Container(
@@ -126,10 +221,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             offset: Offset(0, 3),
                           )
                         ]),
-                    child: Text(message.text, style: const TextStyle(color: Colors.white, fontSize: 15),),
+                    child: Text(messagesList.text, style: const TextStyle(color: Colors.white, fontSize: 15),),
                   ),
                    Text(
-                    message.time,
+                     messagesList.time,
                     style: TextStyle(fontSize: 11, color: Colors.black54),
                   )
                 ],
@@ -169,7 +264,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          widget.user.name,
+          "User",
           style: const TextStyle(fontFamily: "PoppinsBold"),
         ),
       ),
@@ -180,11 +275,10 @@ class _ChatScreenState extends State<ChatScreen> {
               ListView.builder(
                 reverse: true,
                 padding: EdgeInsets.all(20),
-                itemCount: messages.length,
+                itemCount: messagesList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final Message message = messages[index];
-                  final bool isMe = message.sender.id == currentUser.id;
-                  return _chatBubble(message, isMe);
+                  final bool isMe = messagesList[index].senderId == globals.currentUserId;
+                  return _chatBubble(messagesList[index], isMe);
                 },
               ),),
           _sendMessageArea(),
