@@ -3,6 +3,7 @@ import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 
 import '../services/models/appointment_model.dart';
@@ -81,20 +82,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     return Stream.value([]);
   }
 
-  Future<List> getAppointments() async {
-    var api = 'http://localhost:8090/appointment/doctor/${widget.doctorId}';
-    Response res = await get(Uri.parse(api));
-
-    if (res.statusCode == 200) {
-      final json = jsonDecode(res.body);
-      return json;
-    } else {
-      throw "Cannot get appointment data";
-    }
-  }
-
   void convertFutureListToList() async {
-    Future<List> futureOfList = getAppointments();
+    String appointmentUri = 'http://localhost:8090/appointment/doctor/${widget.doctorId}';
+    Future<List> futureOfList = getData(appointmentUri);
     appointments= await futureOfList ;
     for (dynamic appointment in appointments) {
       setState(() {

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/main.dart';
+import 'package:nd_telemedicine_app/screens/admin/dashboard.dart';
 import 'package:nd_telemedicine_app/screens/forgot_password.dart';
 import 'package:nd_telemedicine_app/screens/sign_up.dart';
 import 'package:nd_telemedicine_app/services/models/user_model.dart';
@@ -20,6 +21,7 @@ class _SignInPageState extends State<SignInPage> {
   late List users;
   List patients = [];
   List doctors = [];
+  List admins = [];
   late User currentUser;
   String userEmail = "";
   String userPassword = "";
@@ -34,7 +36,6 @@ class _SignInPageState extends State<SignInPage> {
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
-
       return obj;
     } else {
       throw "Unable to retrieve users data.";
@@ -89,6 +90,29 @@ class _SignInPageState extends State<SignInPage> {
           doctors.add(newDoctor);
         });
       }
+
+      else if(user['role'] == "ADMIN"){
+        User admin = User(
+            id: user['id'],
+            role: user['role'],
+            email: user['email'],
+            password: user['password'],
+            fullName: user['fullName'],
+            avatar: user['avatar'],
+            address: user['address'],
+            phoneNumber: user['phoneNumber'],
+            gender: user['gender'],
+            dateOfBirth: user['dateOfBirth'],
+            allergies: user['allergies'],
+            diseases: user['diseases'],
+            medication: user['medication'],
+            bio: user['bio'],
+            speciality: user['speciality']);
+
+        setState(() {
+          admins.add(admin);
+        });
+      }
     }
   }
 
@@ -109,6 +133,15 @@ class _SignInPageState extends State<SignInPage> {
       if (doctor.email == userEmail && doctor.password == userPassword) {
         setState(() {
           currentUser = doctor;
+          globals.currentUserId = currentUser.id!;
+        });
+        return true;
+      }
+    }
+    for (dynamic admin in admins) {
+      if (admin.email == userEmail && admin.password == userPassword) {
+        setState(() {
+          currentUser = admin;
           globals.currentUserId = currentUser.id!;
         });
         return true;
@@ -281,6 +314,14 @@ class _SignInPageState extends State<SignInPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => DoctorNavBar(),
+                                  ),
+                                );
+                              } else if(currentUser.role == "ADMIN"){
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DashboardScreen(),
                                   ),
                                 );
                               }

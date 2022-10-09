@@ -83,7 +83,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                             context,
                             MaterialPageRoute(
                               // if (user['role'] == "PATIENT")
-                                builder: (context) => ALlPatientsScreen()),
+                                builder: (context) => AllPatientsScreen()),
                           );
                         },
                         child: Icon(Icons.arrow_back, color: Colors.black, size: 25,)),
