@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/main.dart';
 import 'package:nd_telemedicine_app/screens/chat.dart';
 
 import '../models/messages_model.dart';
@@ -24,15 +25,39 @@ class _ChatMenuState extends State<ChatMenu> {
             padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 SizedBox(
                   height: 20,
                 ),
-                Text("Chat",
-                    style: TextStyle(
-                        color: Color(0xff2B8D78),
-                        fontSize: 25,
-                        fontFamily: 'PoppinsBold')),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios_new),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,MaterialPageRoute(builder: (context) => MyStatefulWidget()),);
+                      },
+                      iconSize: 25,
+                      highlightColor: Theme.of(context).primaryColor,
+                      splashRadius: 20,
+                    ),
+                    Text("Chat",
+                        style: TextStyle(
+                            color: Color(0xff2B8D78),
+                            fontSize: 25,
+                            fontFamily: 'PoppinsBold')),
+                    IconButton(
+                      icon: Icon(Icons.more_horiz_rounded),
+                      onPressed: () {
+                      },
+                      iconSize: 25,
+                      highlightColor: Theme.of(context).primaryColor,
+                      splashRadius: 20,
+                    )
+                  ],
+                ),
               ],
             ),
           ),
