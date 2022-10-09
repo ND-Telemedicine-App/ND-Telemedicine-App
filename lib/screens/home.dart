@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
+import 'package:nd_telemedicine_app/screens/notification_board.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/utils/category_field.dart';
 import '../widgets/features/doctor/doctor_booking_card.dart';
@@ -133,21 +134,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Icon(
-                            Icons.notifications,
-                            color: Colors.black,
-                            size: 28,
-                          ),
+                        IconButton(
+                          icon: Icon(Icons.notifications),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,MaterialPageRoute(builder: (context) => NotificationBoard()),);
+                          },
+                          iconSize: 25,
+                          highlightColor: Theme.of(context).primaryColor,
+                          splashRadius: 20,
                         ),
-                        GestureDetector(
-                          onTap: () {
+                        IconButton(
+                          icon: Icon(Icons.message_rounded),
+                          onPressed: () {
                             Navigator.pushReplacement(
                               context,MaterialPageRoute(builder: (context) => ChatMenu()),);
                           },
-                            child: Icon(Icons.message_rounded,
-                                color: Colors.black))
+                          iconSize: 25,
+                          highlightColor: Theme.of(context).primaryColor,
+                          splashRadius: 20,
+                        )
                       ],
                     )
                   ],
