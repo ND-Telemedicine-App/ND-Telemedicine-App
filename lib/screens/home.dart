@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
 import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
@@ -80,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const ProfileScreen(),
+      transitionDuration: Duration(milliseconds: 1000),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
@@ -93,6 +95,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: child,
         );
       },
+    );
+  }
+
+  Route fadeTransition() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const ProfileScreen(),
+      transitionDuration: Duration(milliseconds: 245),
+      transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
     );
   }
 
@@ -120,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
-                                    bottomToTopTransition(),
+                                    fadeTransition(),
                                     // MaterialPageRoute(
                                     //   builder: (context) => ProfileScreen(),
                                     // ),
