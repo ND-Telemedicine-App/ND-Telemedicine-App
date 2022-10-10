@@ -75,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     getCurrentUser();
     getDoctors();
+    //fadeTransition();
   }
 
   Route bottomToTopTransition() {
@@ -102,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const ProfileScreen(),
-      transitionDuration: Duration(milliseconds: 245),
+      transitionDuration: Duration(milliseconds: 280),
       transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
     );
   }
