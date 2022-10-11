@@ -188,7 +188,7 @@ class _ChatMenuState extends State<ChatMenu> {
                   final ChatModel chat = latestChat[index];
                   return GestureDetector(
                     onTap: () => Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => ChatScreen())),
+                        context, MaterialPageRoute(builder: (_) => ChatScreen(receiverId: user.id ?? 0,))),
                     child: Column(
                       children: <Widget>[
                         Column(
