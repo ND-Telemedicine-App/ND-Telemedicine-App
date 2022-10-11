@@ -9,7 +9,6 @@ import '../services/models/user_model.dart';
 import '../widgets/global/globals.dart' as globals;
 
 
-import '../models/messages_model.dart';
 
 class ChatMenu extends StatefulWidget {
   const ChatMenu({Key? key}) : super(key: key);
@@ -78,7 +77,6 @@ class _ChatMenuState extends State<ChatMenu> {
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
-      print(json);
       return json;
     } else {
       throw "Cannot get appointment data";
