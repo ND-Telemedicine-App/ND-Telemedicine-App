@@ -27,6 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   List messagesList = [];
 
   User? currentUser;
+  User? receiver;
 
   String sendMessage = "";
 
@@ -50,9 +51,9 @@ class _ChatScreenState extends State<ChatScreen> {
     );
 
     if (response.statusCode == 200 && response.body.isNotEmpty) {
-        return ChatModel.fromJson(jsonDecode(response.body));
+      return ChatModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to create chat.');
+      throw Exception("");
     }
   }
 
@@ -83,6 +84,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void convertFutureListToList() async {
     Future<List> futureOfSender = getChatsFromReceiver();
     chatListSender = await futureOfSender;
+    messagesList = [];
     for (dynamic chat in chatListSender) {
       ChatModel newChat = ChatModel(
           id: chat['id'],
@@ -144,6 +146,39 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<Map<String, dynamic>> getReceiver() async {
+    Response res =
+        await get(Uri.parse("http://localhost:8080/user/${widget.receiverId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+        status: obj['userStatus'],
+      );
+      setState(() {
+        receiver = thisUser;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
   final _controller = TextEditingController();
 
   @override
@@ -152,6 +187,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     convertFutureListToList();
     getCurrentUser();
+    getReceiver();
   }
 
   _chatBubble(messagesList, bool isMe) {
@@ -176,37 +212,39 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     child: CircleAvatar(
                       radius: 15,
-                      backgroundImage:
-                          AssetImage("assets/images/mock_avatar.png"),
+                      backgroundImage: AssetImage(
+                          receiver?.avatar ?? "assets/images/mock_avatar.png"),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.5,
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: const Color(0xffEFF0F0),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.circular(20.0),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          )
-                        ]),
-                    child: Text(
-                      messagesList.text,
-                      style: TextStyle(fontSize: 15),
+                  IntrinsicWidth(
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      padding: EdgeInsets.all(10),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Color(0xffEFF0F0),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.zero,
+                            bottomRight: Radius.circular(20.0),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              offset: Offset(0, 3),
+                            )
+                          ]),
+                      child: Text(
+                        messagesList.text,
+                        style: TextStyle(fontSize: 15),
+                      ),
                     ),
                   ),
                   Text(
@@ -243,33 +281,36 @@ class _ChatScreenState extends State<ChatScreen> {
                           "assets/images/mock_avatar.png"),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.5,
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: const Color(0xff38B69A),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomRight: Radius.zero,
-                          bottomLeft: Radius.circular(20.0),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          )
-                        ]),
-                    child: Text(
-                      messagesList.text,
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                  IntrinsicWidth(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: const Color(0xff38B69A),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomRight: Radius.zero,
+                            bottomLeft: Radius.circular(20.0),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              offset: Offset(0, 3),
+                            )
+                          ]),
+                      child: Text(
+                        messagesList.text,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 15),
+                      ),
                     ),
                   ),
                   Text(
@@ -312,8 +353,12 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           IconButton(
             onPressed: () {
-              createChat(globals.currentUserId, widget.receiverId, sendMessage, DateFormat.jm().format(DateTime.now()) );
+              createChat(globals.currentUserId, widget.receiverId, sendMessage,
+                  DateFormat.jm().format(DateTime.now()));
               _controller.clear();
+              setState(() {
+                convertFutureListToList();
+              });
             },
             icon: Icon(Icons.send),
             iconSize: 25,
@@ -330,7 +375,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "User",
+          receiver?.fullName ?? "",
           style: const TextStyle(fontFamily: "PoppinsBold"),
         ),
       ),
