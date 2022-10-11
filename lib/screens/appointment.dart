@@ -3,9 +3,11 @@ import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 
+import '../models/busyTime.dart';
 import '../services/models/appointment_model.dart';
 import '../services/models/user_model.dart';
 
@@ -24,6 +26,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   final now = DateTime.now();
   late BookingService mockBookingService;
   late List appointments;
+  late List busyTimes;
+  List<DateTimeRange> convertedBusyTime = [];
+  final dateFormat = DateFormat("dd-MM-yy HH:mm");
 
   User? currentUser;
   bool isLoadingData = true;
@@ -75,11 +80,22 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
 
     convertFutureListToList();
+    convertFutureBusyTimeList();
   }
 
-  Stream<dynamic>? getBookingStreamMock(
-      {required DateTime end, required DateTime start}) {
-    return Stream.value([]);
+  void convertFutureBusyTimeList() async {
+    String busyTimeUri = 'http://localhost:8080/busyTime/${widget.doctorId}';
+    Future<List> futureOfList = getData(busyTimeUri);
+    busyTimes= await futureOfList;
+
+    for (dynamic busyTime in busyTimes) {
+      DateTime startTime = dateFormat.parse(busyTime["busyTime"]);
+      DateTime endTime = startTime.add(Duration(hours:busyTime["duration"]));
+      setState(() {
+        convertedBusyTime.add(DateTimeRange(start: startTime, end: endTime));
+      });
+
+    }
   }
 
   void convertFutureListToList() async {
@@ -88,10 +104,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     appointments= await futureOfList ;
     for (dynamic appointment in appointments) {
       setState(() {
-        converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
+        converted.add(DateTimeRange(start: dateFormat.parse(appointment["startTime"]), end: dateFormat.parse(appointment["endTime"])));
       });
 
     }
+  }
+
+  Stream<dynamic>? getBookingStreamMock(
+      {required DateTime end, required DateTime start}) {
+    return Stream.value([]);
   }
 
   Future<dynamic> uploadBookingMock(
@@ -132,11 +153,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   List<DateTimeRange> generatePauseSlots() {
-    return [
-      DateTimeRange(
-          start: DateTime(now.year, now.month, now.day, 12, 0),
-          end: DateTime(now.year, now.month, now.day, 13, 0))
-    ];
+    return convertedBusyTime;
   }
 
   @override
