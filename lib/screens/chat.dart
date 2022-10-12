@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -31,6 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
   User? receiver;
 
   String sendMessage = "";
+
 
   Future<ChatModel> createChat(
     int senderId,
@@ -182,11 +184,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final _controller = TextEditingController();
 
+  late Timer timer;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    convertFutureListToList();
+
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => convertFutureListToList());
     getCurrentUser();
     getReceiver();
   }
