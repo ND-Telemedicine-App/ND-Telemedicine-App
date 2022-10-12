@@ -7,11 +7,11 @@ import 'package:nd_telemedicine_app/widgets/features/prescription/Prescription_C
 import 'package:http/http.dart' as http;
 
 import '../models/prescription.dart';
-import '../widgets/global/globals.dart' as globals;
 
 Future<List<Prescription>> fetchPrescriptions(http.Client client) async {
-  final response = await client.get(Uri.parse('http://localhost:8082/prescription/patient/${globals.currentUserId}'));
-
+  final response = await client.get(Uri.parse(
+      'https://nd-telemedicine-prescriptions.herokuapp.com/prescription/patient/2222'));
+  client.close();
   return compute(parsePrescriptions, response.body);
 }
 
@@ -54,7 +54,7 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
                     return PrescriptionContainer(prescriptions: snapshot.data!);
                   } else if (snapshot.hasError) {
                     return const Center(
-                      child: Text('An error has occurred!'),
+                      child: Text('No prescriptions'),
                     );
                   }
                   return const Center(child: CircularProgressIndicator());
