@@ -9,8 +9,7 @@ import 'package:http/http.dart' as http;
 import '../models/prescription.dart';
 
 Future<List<Prescription>> fetchPrescriptions(http.Client client) async {
-  final response = await client.get(Uri.parse(
-      'https://nd-telemedicine-prescriptions.herokuapp.com/prescription/patient/2222'));
+  final response = await client.get(Uri.parse('https://tele-prescription-service.herokuapp.com/prescription/patient/${globals.currentUserId}'));
   client.close();
   return compute(parsePrescriptions, response.body);
 }
@@ -32,6 +31,12 @@ class PrescriptionScreen extends StatefulWidget {
 
 class _PrescriptionScreenState extends State<PrescriptionScreen> {
   late Future<Prescription> futurePrescription;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPrescriptions(http.Client());
+  }
 
   @override
   Widget build(BuildContext context) {

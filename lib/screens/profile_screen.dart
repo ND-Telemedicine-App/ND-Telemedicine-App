@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<http.Response> updateUserStatus(String userStatus) {
     return http.put(
       Uri.parse(
-          "http://localhost:8080/user/update-status/${globals.currentUserId}"),
+          "https://telemedicine-user-service.herokuapp.com/user/update-status/${globals.currentUserId}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);

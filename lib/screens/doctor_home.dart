@@ -23,11 +23,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
 
   User? currentUser;
   bool isLoadingData = true;
-  String patientUri = "http://localhost:8080/user/patients";
+  String patientUri = "https://telemedicine-user-service.herokuapp.com/user/patients";
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);

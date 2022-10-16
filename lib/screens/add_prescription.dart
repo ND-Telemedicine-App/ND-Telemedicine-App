@@ -16,7 +16,7 @@ Future<http.Response> createPrescription(
   String medicineRefill,
 ) {
   return http.post(
-    Uri.parse('http://localhost:8082/createPrescription'),
+    Uri.parse('https://tele-prescription-service.herokuapp.com/createPrescription'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },

@@ -7,7 +7,6 @@ import 'package:nd_telemedicine_app/screens/admin/admin_profile.dart';
 import 'package:nd_telemedicine_app/screens/admin/appointments_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/data_screen.dart';
 import 'package:nd_telemedicine_app/screens/admin/patients_screen.dart';
-import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
 import '../../services/models/user_model.dart';
 
@@ -21,16 +20,16 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String doctorUri = "http://localhost:8080/user/doctors";
-  String patientUri = "http://localhost:8080/user/patients";
-  String appointmentUri = 'http://localhost:8090/appointment/all';
+  String doctorUri = "https://telemedicine-user-service.herokuapp.com/user/doctors";
+  String patientUri = "https://telemedicine-user-service.herokuapp.com/user/patients";
+  String appointmentUri = "https://tele-appointment-service.herokuapp.com/appointment/all";
 
   User? currentUser;
   bool isLoadingData = true;
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -65,6 +64,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     getCurrentUser();
+    getData(doctorUri);
+    getData(patientUri);
+    getData(appointmentUri);
   }
 
   @override

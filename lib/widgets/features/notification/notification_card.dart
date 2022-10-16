@@ -23,7 +23,7 @@ class _NotificationCardState extends State<NotificationCard> {
 
   Future<Map<String, dynamic>> getDoctor() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${widget.doctorId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${widget.doctorId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
