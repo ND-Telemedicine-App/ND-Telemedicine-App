@@ -41,6 +41,7 @@ dependencies:
   syncfusion_flutter_calendar: ^20.2.50
   duration_picker: ^1.0.1
   readmore: ^2.2.0
+  animations: ^2.0.7
 
 
 dev_dependencies:

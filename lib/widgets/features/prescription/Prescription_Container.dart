@@ -11,7 +11,7 @@ import '../../../models/prescription.dart';
 Future<User> fetchDoctor(http.Client client, int doctorId) async {
   print('Doctor ID: $doctorId');
   final response =
-      await client.get(Uri.parse('http://localhost:8080/user/$doctorId'));
+      await client.get(Uri.parse('https://telemedicine-user-service.herokuapp.com/user/$doctorId'));
 
   // Use the compute function to run parseDoctor in a separate isolate.
   client.close();

@@ -6,6 +6,7 @@ import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:nd_telemedicine_app/widgets/features/prescription/Prescription_Container.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/global/globals.dart' as globals;
 import '../models/prescription.dart';
 
 Future<List<Prescription>> fetchPrescriptions(http.Client client) async {
