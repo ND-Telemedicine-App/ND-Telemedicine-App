@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/screens/list_doctor.dart';
 
-import '../models/busyTime.dart';
 import '../services/models/appointment_model.dart';
 import '../services/models/user_model.dart';
 
@@ -104,7 +103,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     appointments= await futureOfList ;
     for (dynamic appointment in appointments) {
       setState(() {
-        converted.add(DateTimeRange(start: dateFormat.parse(appointment["startTime"]), end: dateFormat.parse(appointment["endTime"])));
+        converted.add(DateTimeRange(start: DateTime.parse(appointment["startTime"]), end: DateTime.parse(appointment["endTime"])));
       });
 
     }

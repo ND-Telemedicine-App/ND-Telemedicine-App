@@ -34,6 +34,12 @@ class _PrescriptionScreenState extends State<PrescriptionScreen> {
   late Future<Prescription> futurePrescription;
 
   @override
+  void initState() {
+    super.initState();
+    fetchPrescriptions(http.Client());
+  }
+
+  @override
   Widget build(BuildContext context) {
     double heightWidth = MediaQuery.of(context).size.height;
 

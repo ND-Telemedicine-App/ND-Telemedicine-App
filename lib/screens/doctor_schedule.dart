@@ -125,8 +125,8 @@ Future<TimeslotDataSource> _getDataSource() async {
   for (var i = 0; i < appointments.length; i++) {
     int? patientId = appointments[i].getPatientId();
     User patient = findPatient(patientId!, patients);
-    DateTime startTime = dateFormat.parse(appointments[i].getStartTime()!);
-    DateTime endTime = dateFormat.parse(appointments[i].getEndTime()!);
+    DateTime startTime = DateTime.parse(appointments[i].getStartTime()!);
+    DateTime endTime = DateTime.parse(appointments[i].getEndTime()!);
     slots.add(TimeSlot(
         "Appointment with ${patient.getFullname()!}", startTime, endTime, const Color(0xFF78CEBB)));
   }
