@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 
 import '../services/models/chat_model.dart';
 import '../services/models/user_model.dart';
@@ -31,6 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   String sendMessage = "";
 
+
   Future<ChatModel> createChat(
     int senderId,
     int receiverId,
@@ -58,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<List> getChatsFromSender() async {
-    var api = 'http://localhost:9090/chat/${globals.currentUserId}/1';
+    var api = 'http://localhost:9090/chat/${globals.currentUserId}/${widget.receiverId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -70,7 +73,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<List> getChatsFromReceiver() async {
-    var api = 'http://localhost:9090/chat/1/${globals.currentUserId}';
+    var api = 'http://localhost:9090/chat/${widget.receiverId}/${globals.currentUserId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -181,11 +184,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final _controller = TextEditingController();
 
+  late Timer timer;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    convertFutureListToList();
+
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => convertFutureListToList());
     getCurrentUser();
     getReceiver();
   }
@@ -373,6 +379,16 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => {
+          Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+          builder: (context) => ChatMenu()),
+          )
+          },
+        ),
         centerTitle: true,
         title: Text(
           receiver?.fullName ?? "",

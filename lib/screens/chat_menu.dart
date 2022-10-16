@@ -8,8 +8,6 @@ import 'package:nd_telemedicine_app/services/models/chat_model.dart';
 import '../services/models/user_model.dart';
 import '../widgets/global/globals.dart' as globals;
 
-
-
 class ChatMenu extends StatefulWidget {
   const ChatMenu({Key? key}) : super(key: key);
 
@@ -23,10 +21,10 @@ class _ChatMenuState extends State<ChatMenu> {
   List receiverList = [];
   List latestChat = [];
 
-
   Future<User> getUser(int id) async {
     var api =
         'https://telemedicine-user-service.herokuapp.com/user/$id';
+
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -54,8 +52,7 @@ class _ChatMenuState extends State<ChatMenu> {
   }
 
   Future<ChatModel> getLatestChat(int id) async {
-    var api =
-        'http://localhost:9090/chat/latest/${globals.currentUserId}/$id';
+    var api = 'http://localhost:9090/chat/latest/${globals.currentUserId}/$id';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
@@ -72,8 +69,7 @@ class _ChatMenuState extends State<ChatMenu> {
   }
 
   Future<List> getReceiver() async {
-    var api =
-        'http://localhost:9090/chat/sender/${globals.currentUserId}';
+    var api = 'http://localhost:9090/chat/sender/${globals.currentUserId}';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
@@ -87,14 +83,14 @@ class _ChatMenuState extends State<ChatMenu> {
     Future<List> futureOfSender = getReceiver();
     receiverIdList = await futureOfSender;
     for (dynamic id in receiverIdList) {
-        User user = await getUser(id);
-        ChatModel chat = await getLatestChat(id);
-        setState(() {
-          receiverList.add(user);
-          latestChat.add(chat);
-        });
+      User user = await getUser(id);
+      ChatModel chat = await getLatestChat(id);
+      setState(() {
+        receiverList.add(user);
+        latestChat.add(chat);
+      });
     }
-    }
+  }
 
   @override
   void initState() {
@@ -188,7 +184,11 @@ class _ChatMenuState extends State<ChatMenu> {
                   final ChatModel chat = latestChat[index];
                   return GestureDetector(
                     onTap: () => Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => ChatScreen(receiverId: user.id ?? 0,))),
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ChatScreen(
+                                  receiverId: user.id ?? 0,
+                                ))),
                     child: Column(
                       children: <Widget>[
                         Column(
@@ -218,13 +218,13 @@ class _ChatMenuState extends State<ChatMenu> {
                                         ]),
                                     child: CircleAvatar(
                                       radius: 35,
-                                      backgroundImage:
-                                          AssetImage(user.avatar??"assets/images/mock_avatar.png"),
+                                      backgroundImage: AssetImage(user.avatar ??
+                                          "assets/images/mock_avatar.png"),
                                     ),
                                   ),
                                   Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.65,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.65,
                                     padding: const EdgeInsets.only(left: 20),
                                     child: Column(
                                       children: [
@@ -233,13 +233,14 @@ class _ChatMenuState extends State<ChatMenu> {
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Text(
-                                              user.fullName??"",
+                                              user.fullName ?? "",
                                               style: const TextStyle(
                                                   fontSize: 15,
-                                                  fontFamily: "PoppinsSemiBold"),
+                                                  fontFamily:
+                                                      "PoppinsSemiBold"),
                                             ),
                                             Text(
-                                              chat.time??"",
+                                              chat.time ?? "",
                                               style: const TextStyle(
                                                   fontSize: 11,
                                                   color: Colors.black54),
@@ -252,7 +253,10 @@ class _ChatMenuState extends State<ChatMenu> {
                                         Container(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            chat.senderId == globals.currentUserId ? "You: ${chat.text}"??"" : chat.text??"",
+                                            chat.senderId ==
+                                                    globals.currentUserId
+                                                ? "You: ${chat.text}" ?? ""
+                                                : chat.text ?? "",
                                             style: const TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.black87),
