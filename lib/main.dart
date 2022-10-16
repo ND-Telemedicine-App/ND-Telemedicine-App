@@ -186,7 +186,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     DoctorHomeScreen(),
     DoctorSchedule(),
-    ALlPatientsScreen(),
+    AllPatientsScreen(),
     ChatMenu(),
     ProfileScreen(),
   ];

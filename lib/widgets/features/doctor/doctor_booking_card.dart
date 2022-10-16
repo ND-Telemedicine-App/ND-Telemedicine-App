@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nd_telemedicine_app/screens/appointment.dart';
+import 'package:nd_telemedicine_app/screens/chat.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 
 class DoctorBookingCard extends StatelessWidget {
@@ -106,7 +107,7 @@ class DoctorBookingCard extends StatelessWidget {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatMenu()),
+                                  builder: (context) => ChatScreen(receiverId: doctorId,)),
                             );
                           },
                           child: Text('CHAT',

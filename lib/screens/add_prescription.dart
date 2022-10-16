@@ -16,7 +16,7 @@ Future<http.Response> createPrescription(
   String medicineRefill,
 ) {
   return http.post(
-    Uri.parse('http://localhost:8082/createPrescription'),
+    Uri.parse('https://tele-prescription-service.herokuapp.com/createPrescription'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8'
     },
@@ -83,7 +83,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                             context,
                             MaterialPageRoute(
                               // if (user['role'] == "PATIENT")
-                                builder: (context) => ALlPatientsScreen()),
+                                builder: (context) => AllPatientsScreen()),
                           );
                         },
                         child: Icon(Icons.arrow_back, color: Colors.black, size: 25,)),

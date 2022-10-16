@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
+import 'package:nd_telemedicine_app/screens/notification_board.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:nd_telemedicine_app/utils/category_field.dart';
+import '../api/get_api.dart';
 import '../widgets/features/doctor/doctor_booking_card.dart';
 import '../widgets/global/globals.dart' as globals;
 import '../services/models/user_model.dart';
@@ -24,10 +26,11 @@ var curveTween = CurveTween(curve: curve);
 class _HomeScreenState extends State<HomeScreen> {
   User? currentUser;
   bool isLoadingData = true;
+  String getDoctorUri = "https://telemedicine-user-service.herokuapp.com/user/doctors";
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://10.0.2.2:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -58,23 +61,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<List> getDoctors() async {
-    Response res = await get(Uri.parse("http://10.0.2.2:8080/user/doctors"));
-
-    if (res.statusCode == 200) {
-      final obj = jsonDecode(res.body);
-      return obj;
-    } else {
-      throw "Unable to retrieve users data.";
-    }
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUser();
-    getDoctors();
+    getData(getDoctorUri);
     //fadeTransition();
   }
 
@@ -199,21 +190,49 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 25,
                     ),
 
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(12),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.notifications),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,MaterialPageRoute(builder: (context) => NotificationBoard()),);
+                          },
+                          iconSize: 25,
+                          highlightColor: Theme.of(context).primaryColor,
+                          splashRadius: 20,
                         ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            border: InputBorder.none,
-                            hintText: "How can we help you?",
-                          ),
-                        ),
-                      ),
+                        IconButton(
+                          icon: Icon(Icons.message_rounded),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,MaterialPageRoute(builder: (context) => ChatMenu()),);
+                          },
+                          iconSize: 25,
+                          highlightColor: Theme.of(context).primaryColor,
+                          splashRadius: 20,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      border: InputBorder.none,
+                      hintText: "How can we help you?",
                     ),
 
                     SizedBox(
@@ -442,7 +461,58 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-            ),
+              SizedBox(height: 20,),
+
+              FutureBuilder<List>(
+                future: getData(getDoctorUri),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DoctorProfile(
+                                      avatar: snapshot.data?[index]['avatar'],
+                                      fullName: snapshot.data?[index]['fullName'],
+                                      speciality: snapshot.data?[index]
+                                      ['speciality'],
+                                      email: snapshot.data?[index]['email'],
+                                      address: snapshot.data?[index]['address'],
+                                      phoneNumber: snapshot.data?[index]
+                                      ['phoneNumber'],
+                                      bio: snapshot.data?[index]['bio'],
+                                    ),
+                                  ));
+                            },
+                            child: DoctorBookingCard(
+                                doctorImagePath: snapshot.data?[index]['avatar'],
+                                doctorName: snapshot.data?[index]["fullName"],
+                                doctorSpeciality: snapshot.data?[index]
+                                ["speciality"],
+                                doctorId: snapshot.data?[index]["id"],
+                            ),
+                          );
+                        }
+                      // },
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
+              SizedBox(
+                height: 40,
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

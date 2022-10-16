@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/widgets/features/doctor/doctor_booking_card.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 
@@ -16,21 +14,12 @@ class DoctorAppointmentScreen extends StatefulWidget {
 }
 
 class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
-  Future<List> getDoctors() async {
-    Response res = await get(Uri.parse("http://localhost:8080/user/doctors"));
-
-    if (res.statusCode == 200) {
-      final obj = jsonDecode(res.body);
-      return obj;
-    } else {
-      throw "Unable to retrieve users data.";
-    }
-  }
+  String doctorUri = "https://telemedicine-user-service.herokuapp.com/user/doctors";
 
   @override
   void initState() {
     super.initState();
-    getDoctors();
+    getData(doctorUri);
   }
 
   @override
@@ -80,7 +69,7 @@ class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
             ),
 
             FutureBuilder<List>(
-              future: getDoctors(),
+              future: getData(doctorUri),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:nd_telemedicine_app/api/get_api.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/doctor_profile.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
@@ -22,10 +23,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
 
   User? currentUser;
   bool isLoadingData = true;
+  String patientUri = "https://telemedicine-user-service.herokuapp.com/user/patients";
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -56,22 +58,11 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     }
   }
 
-  Future<List> getPatients() async {
-    Response res = await get(Uri.parse("http://localhost:8080/user/patients"));
-
-    if (res.statusCode == 200) {
-      final obj = jsonDecode(res.body);
-      return obj;
-    } else {
-      throw "Unable to retrieve users data.";
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     getCurrentUser();
-    getPatients();
+    getData(patientUri);
   }
 
   @override
@@ -295,7 +286,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 SizedBox(height: 20,),
 
                 FutureBuilder<List>(
-                  future: getPatients(),
+                  future: getData(patientUri),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
