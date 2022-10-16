@@ -26,7 +26,7 @@ class _ChatMenuState extends State<ChatMenu> {
 
   Future<User> getUser(int id) async {
     var api =
-        'http://localhost:8080/user/$id';
+        'https://telemedicine-user-service.herokuapp.com/user/$id';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);

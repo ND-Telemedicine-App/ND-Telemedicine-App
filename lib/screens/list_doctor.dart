@@ -14,7 +14,7 @@ class DoctorAppointmentScreen extends StatefulWidget {
 }
 
 class _DoctorAppointmentScreenState extends State<DoctorAppointmentScreen> {
-  String doctorUri = "http://localhost:8080/user/doctors";
+  String doctorUri = "https://telemedicine-user-service.herokuapp.com/user/doctors";
 
   @override
   void initState() {

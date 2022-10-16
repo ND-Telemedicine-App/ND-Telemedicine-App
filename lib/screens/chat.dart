@@ -115,7 +115,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -148,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<Map<String, dynamic>> getReceiver() async {
     Response res =
-        await get(Uri.parse("http://localhost:8080/user/${widget.receiverId}"));
+        await get(Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${widget.receiverId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);

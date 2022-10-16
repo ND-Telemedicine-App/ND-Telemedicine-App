@@ -14,7 +14,7 @@ class AllPatientsScreen extends StatefulWidget {
 }
 
 class _AllPatientsScreenState extends State<AllPatientsScreen> {
-  String patientUri = "http://localhost:8080/user/patients";
+  String patientUri = "https://telemedicine-user-service.herokuapp.com/user/patients";
 
   @override
   void initState() {
@@ -69,7 +69,7 @@ class _AllPatientsScreenState extends State<AllPatientsScreen> {
                 ),
 
                 FutureBuilder<List>(
-                  future: getData("http://localhost:8080/user/patients"),
+                  future: getData("https://telemedicine-user-service.herokuapp.com/user/patients"),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(

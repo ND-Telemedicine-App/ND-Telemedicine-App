@@ -19,7 +19,7 @@ class NotificationBoard extends StatefulWidget {
 class _NotificationBoardState extends State<NotificationBoard> {
   Future<List> getAppointmentsOfCurrentUser() async {
     var api =
-        'http://localhost:8090/appointment/patient/${globals.currentUserId}';
+        'https://tele-appointment-service.herokuapp.com/appointment/patient/${globals.currentUserId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -32,7 +32,6 @@ class _NotificationBoardState extends State<NotificationBoard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAppointmentsOfCurrentUser();
   }

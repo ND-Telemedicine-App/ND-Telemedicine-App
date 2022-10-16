@@ -49,7 +49,7 @@ class TimeslotDataSource extends CalendarDataSource {
 //fetch busy time data from database using API
 Future<List<BusyTime>> getBusyTimes(http.Client client, int doctorId) async {
   final response =
-      await client.get(Uri.parse("http://localhost:8080/busyTime/$doctorId"));
+      await client.get(Uri.parse("https://telemedicine-user-service.herokuapp.com/busyTime/$doctorId"));
 
   return compute(parseBusyTime, response.body);
 }
@@ -64,7 +64,7 @@ List<BusyTime> parseBusyTime(String response) {
 Future<List<AppointmentModel>> getAppointmentModel(
     http.Client client, int doctorId) async {
   final response = await client
-      .get(Uri.parse("http://localhost:8090/appointment/doctor/$doctorId"));
+      .get(Uri.parse("https://tele-appointment-service.herokuapp.com/appointment/doctor/$doctorId"));
 
   return compute(parseAppointmentModel, response.body);
 }
@@ -81,7 +81,7 @@ List<AppointmentModel> parseAppointmentModel(String response) {
 //fetch userinfo data from database using API
 Future<List<User>> getUser(http.Client client) async {
   final response =
-      await client.get(Uri.parse("http://localhost:8080/user/patients"));
+      await client.get(Uri.parse("https://telemedicine-user-service.herokuapp.com/user/patients"));
 
   return compute(parseUser, response.body);
 }

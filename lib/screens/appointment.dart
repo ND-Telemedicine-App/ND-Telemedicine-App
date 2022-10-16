@@ -35,7 +35,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -84,7 +84,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   void convertFutureBusyTimeList() async {
-    String busyTimeUri = 'http://localhost:8080/busyTime/${widget.doctorId}';
+    String busyTimeUri = 'https://telemedicine-user-service.herokuapp.com/busyTime/${widget.doctorId}';
     Future<List> futureOfList = getData(busyTimeUri);
     busyTimes= await futureOfList;
 
@@ -99,7 +99,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   void convertFutureListToList() async {
-    String appointmentUri = 'http://localhost:8090/appointment/doctor/${widget.doctorId}';
+    String appointmentUri = 'https://tele-appointment-service.herokuapp.com/appointment/doctor/${widget.doctorId}';
     Future<List> futureOfList = getData(appointmentUri);
     appointments= await futureOfList ;
     for (dynamic appointment in appointments) {
@@ -131,7 +131,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<AppointmentModel> insertAppointment(String body) async {
-    const api = 'http://localhost:8090/createAppointment';
+    const api = 'https://tele-appointment-service.herokuapp.com/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {

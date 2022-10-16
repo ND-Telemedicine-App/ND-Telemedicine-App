@@ -26,7 +26,6 @@ class PatientCard extends StatelessWidget {
           child: Container(
             width: screenWidth * 0.9,
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            //margin: EdgeInsets.only(bottom: 40),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: Color(0xffFDFFFE),
