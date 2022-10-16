@@ -22,7 +22,9 @@ class _ChatMenuState extends State<ChatMenu> {
   List latestChat = [];
 
   Future<User> getUser(int id) async {
-    var api = 'http://localhost:8080/user/$id';
+    var api =
+        'https://telemedicine-user-service.herokuapp.com/user/$id';
+
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);

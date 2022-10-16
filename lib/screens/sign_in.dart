@@ -32,7 +32,7 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController passwordController = TextEditingController();
 
   Future<List> getUsers() async {
-    Response res = await get(Uri.parse("http://localhost:8080/users"));
+    Response res = await get(Uri.parse("https://telemedicine-user-service.herokuapp.com/users"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -152,7 +152,6 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     convertFutureListToList();
   }

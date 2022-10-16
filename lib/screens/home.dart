@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:nd_telemedicine_app/screens/chat.dart';
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
 import 'package:nd_telemedicine_app/screens/notification_board.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
@@ -24,11 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   User? currentUser;
   bool isLoadingData = true;
-  String getDoctorUri = "http://localhost:8080/user/doctors";
+  String getDoctorUri = "https://telemedicine-user-service.herokuapp.com/user/doctors";
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
