@@ -46,12 +46,42 @@ class _ChatMenuState extends State<ChatMenu> {
         bio: obj['bio'],
         speciality: obj['speciality'],
       );
-      setState(() {
-        currentUser = newUser;
-      });
       return newUser;
     } else {
       throw "Cannot get appointment data";
+    }
+  }
+
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+        status: obj['userStatus'],
+      );
+      setState(() {
+        currentUser = thisUser;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
     }
   }
 
@@ -101,6 +131,7 @@ class _ChatMenuState extends State<ChatMenu> {
     // TODO: implement initState
     super.initState();
     convertFutureListToList();
+    getCurrentUser();
   }
 
   @override
