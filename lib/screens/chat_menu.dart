@@ -52,7 +52,7 @@ class _ChatMenuState extends State<ChatMenu> {
   }
 
   Future<ChatModel> getLatestChat(int id) async {
-    var api = 'http://localhost:9090/chat/latest/${globals.currentUserId}/$id';
+    var api = 'https://tele-chat-service.herokuapp.com/chat/latest/${globals.currentUserId}/$id';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
@@ -69,7 +69,7 @@ class _ChatMenuState extends State<ChatMenu> {
   }
 
   Future<List> getReceiver() async {
-    var api = 'http://localhost:9090/chat/sender/${globals.currentUserId}';
+    var api = 'https://tele-chat-service.herokuapp.com/chat/sender/${globals.currentUserId}';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
