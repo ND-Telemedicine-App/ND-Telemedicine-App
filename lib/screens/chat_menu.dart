@@ -17,6 +17,7 @@ class ChatMenu extends StatefulWidget {
 
 class _ChatMenuState extends State<ChatMenu> {
   List receiverIdList = [];
+  User? currentUser;
 
   List receiverList = [];
   List latestChat = [];
@@ -45,6 +46,9 @@ class _ChatMenuState extends State<ChatMenu> {
         bio: obj['bio'],
         speciality: obj['speciality'],
       );
+      setState(() {
+        currentUser = newUser;
+      });
       return newUser;
     } else {
       throw "Cannot get appointment data";
@@ -126,7 +130,9 @@ class _ChatMenuState extends State<ChatMenu> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyStatefulWidget()),
+                              builder: (context) => currentUser?.role == "PATIENT"
+                                  ? MyStatefulWidget()
+                                  : DoctorNavBar()),
                         );
                       },
                       iconSize: 25,
