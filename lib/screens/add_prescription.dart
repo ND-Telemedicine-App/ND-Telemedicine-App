@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/main.dart';
 import 'package:nd_telemedicine_app/screens/list_patient.dart';
 import 'package:nd_telemedicine_app/widgets/features/page_title.dart';
 import 'package:http/http.dart' as http;
@@ -46,6 +47,32 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
   final dosageInstructionsController = TextEditingController();
   final dispenseAmountController = TextEditingController();
   final medicineRefillController = TextEditingController();
+
+  _showAddDialog() async {
+    showDialog(context: context, builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Prescription Created", style: TextStyle(
+            fontFamily: "PoppinsSemiBold",
+            color: Color(0xff38B69A),),),
+        content: Text("You have successfully prescribed medication for your patient!"),
+        actions: <Widget>[
+          TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DoctorNavBar()),
+                );
+              },
+              child: Text(
+                'OK',
+                style: TextStyle(
+                    fontFamily: "PoppinsSemiBold", fontSize: 16),
+              ))
+        ],
+      );
+    });
+  }
 
   // Clean up the controllers when the widget is disposed.
   @override
@@ -226,6 +253,7 @@ class _AddPrescriptionScreenState extends State<AddPrescriptionScreen> {
                         dosageInstructionsController.text,
                         dispenseAmountController.text,
                         medicineRefillController.text);
+                    _showAddDialog();
                   }),
               InkWell(
                 // Makes container tappable

@@ -17,6 +17,7 @@ class ChatMenu extends StatefulWidget {
 
 class _ChatMenuState extends State<ChatMenu> {
   List receiverIdList = [];
+  User? currentUser;
 
   List receiverList = [];
   List latestChat = [];
@@ -51,8 +52,41 @@ class _ChatMenuState extends State<ChatMenu> {
     }
   }
 
+  Future<Map<String, dynamic>> getCurrentUser() async {
+    Response res = await get(
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
+
+    if (res.statusCode == 200) {
+      final obj = jsonDecode(res.body);
+      User thisUser = User(
+        id: obj['id'],
+        role: obj['role'],
+        email: obj['email'],
+        password: obj['password'],
+        fullName: obj['fullName'],
+        avatar: obj['avatar'],
+        address: obj['address'],
+        phoneNumber: obj['phoneNumber'],
+        gender: obj['gender'],
+        dateOfBirth: obj['dateOfBirth'],
+        allergies: obj['allergies'],
+        diseases: obj['diseases'],
+        medication: obj['medication'],
+        bio: obj['bio'],
+        speciality: obj['speciality'],
+        status: obj['userStatus'],
+      );
+      setState(() {
+        currentUser = thisUser;
+      });
+      return obj;
+    } else {
+      throw "Unable to retrieve users data.";
+    }
+  }
+
   Future<ChatModel> getLatestChat(int id) async {
-    var api = 'http://localhost:9090/chat/latest/${globals.currentUserId}/$id';
+    var api = 'https://tele-chat-service.herokuapp.com/chat/latest/${globals.currentUserId}/$id';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
@@ -69,7 +103,7 @@ class _ChatMenuState extends State<ChatMenu> {
   }
 
   Future<List> getReceiver() async {
-    var api = 'http://localhost:9090/chat/sender/${globals.currentUserId}';
+    var api = 'https://tele-chat-service.herokuapp.com/chat/sender/${globals.currentUserId}';
     Response res = await get(Uri.parse(api));
     if (res.statusCode == 200) {
       final json = jsonDecode(res.body);
@@ -97,6 +131,7 @@ class _ChatMenuState extends State<ChatMenu> {
     // TODO: implement initState
     super.initState();
     convertFutureListToList();
+    getCurrentUser();
   }
 
   @override
@@ -126,7 +161,9 @@ class _ChatMenuState extends State<ChatMenu> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyStatefulWidget()),
+                              builder: (context) => currentUser?.role == "PATIENT"
+                                  ? MyStatefulWidget()
+                                  : DoctorNavBar()),
                         );
                       },
                       iconSize: 25,

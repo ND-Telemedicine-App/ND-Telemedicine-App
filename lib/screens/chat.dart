@@ -41,7 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
     String time,
   ) async {
     final response = await http.post(
-      Uri.parse('http://localhost:9090/send'),
+      Uri.parse('https://tele-chat-service.herokuapp.com/send'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -61,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<List> getChatsFromSender() async {
-    var api = 'http://localhost:9090/chat/${globals.currentUserId}/${widget.receiverId}';
+    var api = 'https://tele-chat-service.herokuapp.com/chat/${globals.currentUserId}/${widget.receiverId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {
@@ -73,7 +73,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<List> getChatsFromReceiver() async {
-    var api = 'http://localhost:9090/chat/${widget.receiverId}/${globals.currentUserId}';
+    var api = 'https://tele-chat-service.herokuapp.com/chat/${widget.receiverId}/${globals.currentUserId}';
     Response res = await get(Uri.parse(api));
 
     if (res.statusCode == 200) {

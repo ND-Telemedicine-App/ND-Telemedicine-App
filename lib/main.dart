@@ -14,15 +14,9 @@ import 'package:nd_telemedicine_app/screens/prescription_screen.dart';
 import 'package:nd_telemedicine_app/screens/profile_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-//import 'package:bottom_bar_page_transition/bottom_bar_page_transition.dart';
-
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
-
-// void main() {
-//   runApp(const MyApp());
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -69,10 +63,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xffFDFFFE),
       ),
       home: SignInPage(),
-      // routes: {
-      //   '/homepage' : (context) => fadeTransitionHomeScreen(),
-      //
-      // },
     );
   }
 }
@@ -96,7 +86,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     DoctorAppointmentScreen(),
     PrescriptionScreen(),

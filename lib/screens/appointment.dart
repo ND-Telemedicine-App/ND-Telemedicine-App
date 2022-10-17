@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:nd_telemedicine_app/api/get_api.dart';
-import 'package:nd_telemedicine_app/screens/list_doctor.dart';
+import 'package:nd_telemedicine_app/main.dart';
 
 import '../services/models/appointment_model.dart';
 import '../services/models/user_model.dart';
@@ -165,7 +165,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DoctorAppointmentScreen()));
+                    builder: (context) => MyStatefulWidget()));
           },
         ),
       centerTitle: true,

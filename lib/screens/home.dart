@@ -163,24 +163,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Row(
                             children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Icon(
-                                  Icons.notifications,
-                                  color: Colors.black,
-                                  size: 28,
-                                ),
+                              IconButton(
+                                icon: Icon(Icons.notifications),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,MaterialPageRoute(builder: (context) => NotificationBoard()),);
+                                },
+                                iconSize: 25,
+                                highlightColor: Theme.of(context).primaryColor,
+                                splashRadius: 20,
                               ),
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ChatMenu()),
-                                    );
-                                  },
-                                  child: Icon(Icons.message_rounded,
-                                      color: Colors.black))
+                              IconButton(
+                                icon: Icon(Icons.message_rounded),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,MaterialPageRoute(builder: (context) => ChatMenu()),);
+                                },
+                                iconSize: 25,
+                                highlightColor: Theme.of(context).primaryColor,
+                                splashRadius: 20,
+                              )
                             ],
                           )
                         ],
@@ -189,330 +191,237 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 25,
                     ),
-
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.notifications),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,MaterialPageRoute(builder: (context) => NotificationBoard()),);
-                          },
-                          iconSize: 25,
-                          highlightColor: Theme.of(context).primaryColor,
-                          splashRadius: 20,
+                    // search bar
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        IconButton(
-                          icon: Icon(Icons.message_rounded),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,MaterialPageRoute(builder: (context) => ChatMenu()),);
-                          },
-                          iconSize: 25,
-                          highlightColor: Theme.of(context).primaryColor,
-                          splashRadius: 20,
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      border: InputBorder.none,
-                      hintText: "How can we help you?",
-                    ),
-
+                        child: TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            border: InputBorder.none,
+                            hintText: "How can we help you?",
+                          ),),),),
                     SizedBox(
                       height: 5,
                     ),
-
+                    // Green home card
                     Padding(
-                      padding: const EdgeInsets.all(25.0),
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3),
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Image.asset(
-                                "assets/images/home_med.png",
+                            padding: const EdgeInsets.all(25.0),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3),
+                                  )
+                                ],
                               ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
                                 children: [
-                                  Text(
-                                    "How do you feel today?",
-                                    style: TextStyle(
-                                        fontFamily: "PoppinsSemiBold",
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text("Fill out your medical form!",
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.white)),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(12),
+                                  Expanded(
+                                    child: Image.asset(
+                                      "assets/images/home_med.png",
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        "Get started",
-                                        style: TextStyle(
-                                            fontFamily: "PoppinsMedium",
-                                            fontSize: 15,
-                                            color: Colors.white),
-                                      ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "How do you feel today?",
+                                          style: TextStyle(
+                                              fontFamily: "PoppinsSemiBold",
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text("Fill out your medical form!",
+                                            style: TextStyle(
+                                                fontSize: 14, color: Colors.white)),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              "Get started",
+                                              style: TextStyle(
+                                                  fontFamily: "PoppinsMedium",
+                                                  fontSize: 15,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Doctor Speciality",
-                            style: TextStyle(
-                                fontFamily: "PoppinsBold", fontSize: 20),
-                          ),
-                          TextButton(
-                            onPressed: () => {},
-                            child: Text(
-                              "See more",
-                              style: TextStyle(
-                                  fontFamily: "PoppinsMedium",
-                                  fontSize: 13,
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CategoryField(
-                                  iconImagePath: "assets/icons/general.png",
-                                  categoryName: "General"),
-                              CategoryField(
-                                  iconImagePath: "assets/icons/tooth.png",
-                                  categoryName: "Dentist"),
-                              CategoryField(
-                                  iconImagePath: "assets/icons/view.png",
-                                  categoryName: "Ophthalmology"),
-                              CategoryField(
-                                  iconImagePath: "assets/icons/surgery.png",
-                                  categoryName: "Surgery"),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CategoryField(
-                                  iconImagePath: "assets/icons/brain.png",
-                                  categoryName: "Neurology"),
-                              CategoryField(
-                                  iconImagePath: "assets/icons/children.png",
-                                  categoryName: "Pediatric"),
-                              CategoryField(
-                                  iconImagePath: "assets/icons/cardio.png",
-                                  categoryName: "Cardiology"),
-                              CategoryField(
-                                  iconImagePath: "assets/icons/diet.png",
-                                  categoryName: "Nutrition"),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Text(
-                              "Doctors",
-                              style: TextStyle(
-                                  fontFamily: "PoppinsBold", fontSize: 20),
                             ),
                           ),
-                          Container(
-                            child: TextButton(
-                              onPressed: () => {},
-                              child: Text(
-                                "See more",
-                                style: TextStyle(
-                                    fontFamily: "PoppinsMedium",
-                                    fontSize: 13,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-
-                    FutureBuilder<List>(
-                      future: getDoctors(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DoctorProfile(
-                                            avatar: snapshot.data?[index]
-                                                ['avatar'],
-                                            fullName: snapshot.data?[index]
-                                                ['fullName'],
-                                            speciality: snapshot.data?[index]
-                                                ['speciality'],
-                                            email: snapshot.data?[index]
-                                                ['email'],
-                                            address: snapshot.data?[index]
-                                                ['address'],
-                                            phoneNumber: snapshot.data?[index]
-                                                ['phoneNumber'],
-                                            bio: snapshot.data?[index]['bio'],
-                                          ),
-                                        ));
-                                  },
-                                  child: DoctorBookingCard(
-                                    doctorImagePath: snapshot.data?[index]
-                                        ['avatar'],
-                                    doctorName: snapshot.data?[index]
-                                        ["fullName"],
-                                    doctorSpeciality: snapshot.data?[index]
-                                        ["speciality"],
-                                    doctorId: snapshot.data?[index]["id"],
+                    // doctor speciality header
+                    Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Doctor Speciality",
+                                  style: TextStyle(
+                                      fontFamily: "PoppinsBold", fontSize: 20),
+                                ),
+                                TextButton(
+                                  onPressed: () => {},
+                                  child: Text(
+                                    "See more",
+                                    style: TextStyle(
+                                        fontFamily: "PoppinsMedium",
+                                        fontSize: 13,
+                                        color: Theme.of(context).primaryColor),
                                   ),
-                                );
-                              }
-                              // },
-                              );
-                        } else {
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 40,
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 20,),
-
-              FutureBuilder<List>(
-                future: getData(getDoctorUri),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DoctorProfile(
-                                      avatar: snapshot.data?[index]['avatar'],
-                                      fullName: snapshot.data?[index]['fullName'],
-                                      speciality: snapshot.data?[index]
-                                      ['speciality'],
-                                      email: snapshot.data?[index]['email'],
-                                      address: snapshot.data?[index]['address'],
-                                      phoneNumber: snapshot.data?[index]
-                                      ['phoneNumber'],
-                                      bio: snapshot.data?[index]['bio'],
-                                    ),
-                                  ));
-                            },
-                            child: DoctorBookingCard(
-                                doctorImagePath: snapshot.data?[index]['avatar'],
-                                doctorName: snapshot.data?[index]["fullName"],
-                                doctorSpeciality: snapshot.data?[index]
-                                ["speciality"],
-                                doctorId: snapshot.data?[index]["id"],
+                                )
+                              ],
                             ),
-                          );
-                        }
-                      // },
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                },
-              ),
-              SizedBox(
-                height: 40,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                          ),
+                    // doctor specality categories
+                    Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/general.png",
+                                        categoryName: "General"),
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/tooth.png",
+                                        categoryName: "Dentist"),
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/view.png",
+                                        categoryName: "Ophthalmology"),
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/surgery.png",
+                                        categoryName: "Surgery"),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/brain.png",
+                                        categoryName: "Neurology"),
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/children.png",
+                                        categoryName: "Pediatric"),
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/cardio.png",
+                                        categoryName: "Cardiology"),
+                                    CategoryField(
+                                        iconImagePath: "assets/icons/diet.png",
+                                        categoryName: "Nutrition"),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                    // list of doctors
+                    Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "Doctors",
+                                    style: TextStyle(
+                                        fontFamily: "PoppinsBold", fontSize: 20),
+                                  ),
+                                ),
+                                Container(
+                                  child: TextButton(
+                                    onPressed: () => {},
+                                    child: Text(
+                                      "See more",
+                                      style: TextStyle(
+                                          fontFamily: "PoppinsMedium",
+                                          fontSize: 13,
+                                          color: Theme.of(context).primaryColor),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                    SizedBox(height: 20,),
+                    FutureBuilder<List>(
+                        future: getData(getDoctorUri),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DoctorProfile(
+                                              avatar: snapshot.data?[index]['avatar'],
+                                              fullName: snapshot.data?[index]['fullName'],
+                                              speciality: snapshot.data?[index]
+                                              ['speciality'],
+                                              email: snapshot.data?[index]['email'],
+                                              address: snapshot.data?[index]['address'],
+                                              phoneNumber: snapshot.data?[index]
+                                              ['phoneNumber'],
+                                              bio: snapshot.data?[index]['bio'],
+                                            ),
+                                          ));
+                                    },
+                                    child: DoctorBookingCard(
+                                      doctorImagePath: snapshot.data?[index]['avatar'],
+                                      doctorName: snapshot.data?[index]["fullName"],
+                                      doctorSpeciality: snapshot.data?[index]
+                                      ["speciality"],
+                                      doctorId: snapshot.data?[index]["id"],
+                                    ),
+                                  );
+                                }
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 40,
+                      )
+                      ],
+                    ),
+                      ),
+                  ),
+                );
   }
 }
