@@ -2,48 +2,32 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
-import 'package:nd_telemedicine_app/screens/sign_in.dart';
-import 'package:nd_telemedicine_app/widgets/features/profile/shadow_container.dart';
+import 'package:nd_telemedicine_app/screens/admin/dashboard.dart';
 
-import '../main.dart';
-import '../widgets/features/profile/info_row.dart';
-import '../widgets/features/page_title.dart';
+import '../../services/models/user_model.dart';
+import '../../widgets/features/page_title.dart';
+import '../../widgets/features/profile/info_row.dart';
+import '../../widgets/global/globals.dart' as globals;
+import '../sign_in.dart';
 
-import '../widgets/global/globals.dart' as globals;
-import '../services/models/user_model.dart';
-
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({
+class AdminProfile extends StatefulWidget {
+  const AdminProfile({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<AdminProfile> createState() => _AdminProfileState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _AdminProfileState extends State<AdminProfile> {
   User? currentUser;
   bool isLogOut = false;
-  String userStatus = '';
 
   //variables used for editing the user status
   bool buttonClick = true;
   IconData iconData = Icons.edit;
 
   bool buttonEnabled = false;
-
-  //put requests update userStatus API from user-service
-  Future<http.Response> updateUserStatus(String userStatus) {
-    return http.put(
-      Uri.parse(
-          "https://telemedicine-user-service.herokuapp.com/user/update-status/${globals.currentUserId}"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: userStatus,
-    );
-  }
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
@@ -93,9 +77,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.pop(context);
     await Future.delayed(Duration(seconds: 2))
         .then((value) => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SignInPage()),
-            ));
+      context,
+      MaterialPageRoute(builder: (context) => SignInPage()),
+    ));
   }
 
   @override
@@ -125,10 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        currentUser?.role == "PATIENT"
-                                            ? MyStatefulWidget()
-                                            : DoctorNavBar()),
+                                    builder: (context) => DashboardScreen()),
                               );
                             },
                             child: Icon(
@@ -156,64 +137,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Color(0xff78CEBB),
                           fontWeight: FontWeight.bold,
                         )),
-                  ),
-                  Stack(
-
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: TextFormField(
-                              enabled: buttonEnabled,
-                              onChanged: (value) => {
-                                if (value == "") {
-                                  userStatus = "No Status"
-                                } else {
-                                  userStatus=value}
-                                },
-                              minLines: 1,
-                              maxLines: 20,
-                              maxLength: 50,
-                              key: Key(currentUser?.status??"No Status"),
-                              initialValue: currentUser?.status ?? "No Status",
-                              textAlign: TextAlign.center,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              decoration: InputDecoration(
-                                  //makes a border around the textfield box
-                                  // border: OutlineInputBorder(),
-
-                                  //changes padding of text in field
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 9)),
-                            ),
-                          ),
-                          // Align(
-                          //   alignment: FractionalOffset.bottomCenter,
-                          // ),
-                          Container(
-                            child: IconButton(
-                                icon: Icon(iconData),
-                                alignment: Alignment.topCenter,
-                                onPressed: () {
-                                  buttonClick = !buttonClick;
-                                  setState(() {
-                                    if (iconData == Icons.save) {
-                                      buttonEnabled = false;
-                                      iconData = Icons.edit;
-                                      updateUserStatus(userStatus);
-                                    } else {
-                                      buttonEnabled = true;
-                                      iconData = Icons.save;
-                                    }
-                                  });
-                                }),
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 40),
@@ -252,18 +175,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  ProfileContainer(
-                    title: "Allergies",
-                    content: (currentUser?.allergies ?? "").split(','),
-                  ),
-                  ProfileContainer(
-                    title: "Diseases",
-                    content: (currentUser?.diseases ?? "").split(','),
-                  ),
-                  ProfileContainer(
-                    title: "Medication",
-                    content: (currentUser?.medication ?? "").split(','),
-                  ),
                   // sign out btn
                   InkWell(
                     onTap: () {
@@ -278,14 +189,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    Container(
-                                      child: Text(
-                                        'Logout',
-                                        style: TextStyle(
-                                            color: Color(0xffBE3050),
-                                            fontFamily: "PoppinsBold",
-                                            fontSize: 25),
-                                      ),
+                                    Text(
+                                      'Logout',
+                                      style: TextStyle(
+                                          color: Color(0xffBE3050),
+                                          fontFamily: "PoppinsBold",
+                                          fontSize: 25),
                                     ),
                                     Divider(
                                       indent: 60,
@@ -304,17 +213,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: 200,
                                       child: Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          CrossAxisAlignment.center,
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors.white,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          20), // <-- Radius
+                                                  BorderRadius.circular(
+                                                      20), // <-- Radius
                                                 ),
                                               ),
                                               onPressed: () =>
@@ -324,15 +233,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 style: TextStyle(
                                                     color: Color(0xff2B8D78),
                                                     fontFamily:
-                                                        "PoppinsSemiBold"),
+                                                    "PoppinsSemiBold"),
                                               ),
                                             ),
                                             ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            20), // <-- Radius
+                                                    BorderRadius.circular(
+                                                        20), // <-- Radius
                                                   ),
                                                 ),
                                                 onPressed: signOut,
@@ -340,7 +249,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontFamily:
-                                                            "PoppinsSemiBold"))),
+                                                        "PoppinsSemiBold"))),
                                           ]),
                                     ),
                                   ],
@@ -352,7 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Container(
                       margin: EdgeInsets.only(top: 30),
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Color(0xffBE3050),
@@ -395,12 +304,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (isLogOut)
           Center(
               child: SizedBox(
-            width: 40,
-            height: 40,
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xff2B8D78)),
-            ),
-          ))
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff2B8D78)),
+                ),
+              ))
       ],
     );
   }

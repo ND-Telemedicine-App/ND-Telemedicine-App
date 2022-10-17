@@ -1,7 +1,31 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nd_telemedicine_app/services/models/user_model.dart';
 import 'package:nd_telemedicine_app/widgets/features/prescription/prescription_info.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../models/prescription.dart';
+
+Future<User> fetchDoctor(http.Client client, int doctorId) async {
+  print('Doctor ID: $doctorId');
+  final response =
+      await client.get(Uri.parse('https://telemedicine-user-service.herokuapp.com/user/$doctorId'));
+
+  // Use the compute function to run parseDoctor in a separate isolate.
+  client.close();
+  return compute(parseDoctor, response.body);
+}
+
+// A function that converts a response body into a User.
+User parseDoctor(String responseBody) {
+  if (responseBody.isNotEmpty) {
+    return User.fromJson(jsonDecode(responseBody));
+  } else {
+    throw Exception('Failed to load doctor');
+  }
+}
 
 class PrescriptionContainer extends StatelessWidget {
   const PrescriptionContainer({Key? key, required this.prescriptions})
@@ -78,8 +102,18 @@ class PrescriptionContainer extends StatelessWidget {
                           )),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 6),
-                        child: Text("Alicia Nguyen",
-                            style: TextStyle(fontSize: 26)),
+                        child: FutureBuilder<User>(
+                            future: fetchDoctor(
+                                http.Client(), prescriptions[index].doctorId),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data?.fullName ?? "",
+                                    style: TextStyle(fontSize: 26));
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              return const CircularProgressIndicator();
+                            }),
                       ),
                       Text(
                           "Date: ${prescriptions[index].prescriptionDate.split("-").reversed.join("-")}",

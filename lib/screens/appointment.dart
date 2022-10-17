@@ -3,7 +3,9 @@ import 'package:booking_calendar/booking_calendar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:nd_telemedicine_app/screens/list_doctor.dart';
+import 'package:intl/intl.dart';
+import 'package:nd_telemedicine_app/api/get_api.dart';
+import 'package:nd_telemedicine_app/main.dart';
 
 import '../services/models/appointment_model.dart';
 import '../services/models/user_model.dart';
@@ -23,13 +25,16 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   final now = DateTime.now();
   late BookingService mockBookingService;
   late List appointments;
+  late List busyTimes;
+  List<DateTimeRange> convertedBusyTime = [];
+  final dateFormat = DateFormat("dd-MM-yy HH:mm");
 
   User? currentUser;
   bool isLoadingData = true;
 
   Future<Map<String, dynamic>> getCurrentUser() async {
     Response res = await get(
-        Uri.parse("http://localhost:8080/user/${globals.currentUserId}"));
+        Uri.parse("https://telemedicine-user-service.herokuapp.com/user/${globals.currentUserId}"));
 
     if (res.statusCode == 200) {
       final obj = jsonDecode(res.body);
@@ -74,27 +79,27 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
 
     convertFutureListToList();
+    convertFutureBusyTimeList();
   }
 
-  Stream<dynamic>? getBookingStreamMock(
-      {required DateTime end, required DateTime start}) {
-    return Stream.value([]);
-  }
+  void convertFutureBusyTimeList() async {
+    String busyTimeUri = 'https://telemedicine-user-service.herokuapp.com/busyTime/${widget.doctorId}';
+    Future<List> futureOfList = getData(busyTimeUri);
+    busyTimes= await futureOfList;
 
-  Future<List> getAppointments() async {
-    var api = 'http://localhost:8090/appointment/doctor/${widget.doctorId}';
-    Response res = await get(Uri.parse(api));
+    for (dynamic busyTime in busyTimes) {
+      DateTime startTime = dateFormat.parse(busyTime["busyTime"]);
+      DateTime endTime = startTime.add(Duration(hours:busyTime["duration"]));
+      setState(() {
+        convertedBusyTime.add(DateTimeRange(start: startTime, end: endTime));
+      });
 
-    if (res.statusCode == 200) {
-      final json = jsonDecode(res.body);
-      return json;
-    } else {
-      throw "Cannot get appointment data";
     }
   }
 
   void convertFutureListToList() async {
-    Future<List> futureOfList = getAppointments();
+    String appointmentUri = 'https://tele-appointment-service.herokuapp.com/appointment/doctor/${widget.doctorId}';
+    Future<List> futureOfList = getData(appointmentUri);
     appointments= await futureOfList ;
     for (dynamic appointment in appointments) {
       setState(() {
@@ -102,6 +107,11 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       });
 
     }
+  }
+
+  Stream<dynamic>? getBookingStreamMock(
+      {required DateTime end, required DateTime start}) {
+    return Stream.value([]);
   }
 
   Future<dynamic> uploadBookingMock(
@@ -120,7 +130,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   Future<AppointmentModel> insertAppointment(String body) async {
-    const api = 'http://localhost:8090/createAppointment';
+    const api = 'https://tele-appointment-service.herokuapp.com/createAppointment';
     var response = await http.post(Uri.parse(api),
         body: body, headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
@@ -142,11 +152,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   }
 
   List<DateTimeRange> generatePauseSlots() {
-    return [
-      DateTimeRange(
-          start: DateTime(now.year, now.month, now.day, 12, 0),
-          end: DateTime(now.year, now.month, now.day, 13, 0))
-    ];
+    return convertedBusyTime;
   }
 
   @override
@@ -159,7 +165,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DoctorAppointmentScreen()));
+                    builder: (context) => MyStatefulWidget()));
           },
         ),
       centerTitle: true,

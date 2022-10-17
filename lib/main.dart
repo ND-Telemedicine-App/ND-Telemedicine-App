@@ -1,3 +1,6 @@
+//import 'dart:js';
+
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:nd_telemedicine_app/screens/chat_menu.dart';
@@ -14,10 +17,6 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
-
-// void main() {
-//   runApp(const MyApp());
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -42,6 +41,12 @@ class MyApp extends StatelessWidget {
     return MaterialColor(color.value, swatch);
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _pageController = PageController();
+  // }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -62,12 +67,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
+Route fadeTransitionHomeScreen() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const HomeScreen(),
+    transitionDuration: Duration(milliseconds: 2450),
+    transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
+  );
+}
+
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({super.key});
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-
 }
 
 // Bottom Nav for Patients
@@ -91,14 +103,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      //body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
+      body: PageTransitionSwitcher(
+        transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
+            FadeThroughTransition(
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation,
+                child: child),
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, size: 27,),
+            icon: Icon(
+              Icons.home_outlined,
+              size: 27,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -106,11 +127,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Booking',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.note_add_outlined, size: 26,),
+            icon: Icon(
+              Icons.note_add_outlined,
+              size: 26,
+            ),
             label: 'Medicine',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline_rounded, size: 26,),
+            icon: Icon(
+              Icons.chat_bubble_outline_rounded,
+              size: 26,
+            ),
             label: 'Chat',
           ),
           BottomNavigationBarItem(
@@ -120,15 +147,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         ],
         currentIndex: _selectedIndex,
         unselectedItemColor: Color(0xff031011),
-        unselectedLabelStyle: const TextStyle(color: Color(0xff031011), fontSize: 12),
-        selectedLabelStyle: const TextStyle(color: Color(0xff78CEBB), fontSize: 14),
+        unselectedLabelStyle:
+            const TextStyle(color: Color(0xff031011), fontSize: 12),
+        selectedLabelStyle:
+            const TextStyle(color: Color(0xff78CEBB), fontSize: 14),
         showUnselectedLabels: true,
         selectedIconTheme: IconThemeData(
           size: 30,
         ),
         selectedItemColor: Color(0xff78CEBB),
         onTap: _onItemTapped,
-
       ),
     );
   }
@@ -140,7 +168,6 @@ class DoctorNavBar extends StatefulWidget {
 
   @override
   State<DoctorNavBar> createState() => _DoctorNavBarState();
-
 }
 
 class _DoctorNavBarState extends State<DoctorNavBar> {
@@ -149,7 +176,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     DoctorHomeScreen(),
     DoctorSchedule(),
-    ALlPatientsScreen(),
+    AllPatientsScreen(),
     ChatMenu(),
     ProfileScreen(),
   ];
@@ -170,7 +197,10 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, size: 27,),
+            icon: Icon(
+              Icons.home_outlined,
+              size: 27,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -178,11 +208,17 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
             label: 'Booking',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.note_add_outlined, size: 26,),
+            icon: Icon(
+              Icons.note_add_outlined,
+              size: 26,
+            ),
             label: 'Medicine',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline_rounded, size: 26,),
+            icon: Icon(
+              Icons.chat_bubble_outline_rounded,
+              size: 26,
+            ),
             label: 'Chat',
           ),
           BottomNavigationBarItem(
@@ -192,17 +228,17 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
         ],
         currentIndex: _selectedIndex,
         unselectedItemColor: Color(0xff031011),
-        unselectedLabelStyle: const TextStyle(color: Color(0xff031011), fontSize: 12),
-        selectedLabelStyle: const TextStyle(color: Color(0xff78CEBB), fontSize: 14),
+        unselectedLabelStyle:
+            const TextStyle(color: Color(0xff031011), fontSize: 12),
+        selectedLabelStyle:
+            const TextStyle(color: Color(0xff78CEBB), fontSize: 14),
         showUnselectedLabels: true,
         selectedIconTheme: IconThemeData(
           size: 30,
         ),
         selectedItemColor: Color(0xff78CEBB),
         onTap: _onItemTapped,
-
       ),
     );
   }
 }
-

@@ -1,36 +1,25 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:nd_telemedicine_app/screens/doctor_profile.dart';
 import 'package:nd_telemedicine_app/widgets/features/patient/patient_card.dart';
 
+import '../api/get_api.dart';
 import '../widgets/features/page_title.dart';
 
-class ALlPatientsScreen extends StatefulWidget {
-  const ALlPatientsScreen({Key? key}) : super(key: key);
+class AllPatientsScreen extends StatefulWidget {
+  const AllPatientsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ALlPatientsScreen> createState() =>
+  State<AllPatientsScreen> createState() =>
       _AllPatientsScreenState();
 }
 
-class _AllPatientsScreenState extends State<ALlPatientsScreen> {
-  Future<List> getPatients() async {
-    Response res = await get(Uri.parse("http://localhost:8080/user/patients"));
-
-    if (res.statusCode == 200) {
-      final obj = jsonDecode(res.body);
-      return obj;
-    } else {
-      throw "Unable to retrieve patients data.";
-    }
-  }
+class _AllPatientsScreenState extends State<AllPatientsScreen> {
+  String patientUri = "https://telemedicine-user-service.herokuapp.com/user/patients";
 
   @override
   void initState() {
     super.initState();
-    getPatients();
+    getData(patientUri);
   }
 
   @override
@@ -80,7 +69,7 @@ class _AllPatientsScreenState extends State<ALlPatientsScreen> {
                 ),
 
                 FutureBuilder<List>(
-                  future: getPatients(),
+                  future: getData("https://telemedicine-user-service.herokuapp.com/user/patients"),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(

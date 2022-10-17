@@ -22,7 +22,7 @@ Future<User> createUser(
     String diseases,
     String medication) async {
   final response = await http.post(
-    Uri.parse('http://localhost:8080/createUser'),
+    Uri.parse('https://telemedicine-user-service.herokuapp.com/createUser'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
